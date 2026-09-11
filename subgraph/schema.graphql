@@ -1,0 +1,244 @@
+# BOLT subgraph schema.
+#
+# Every figure the public page renders comes from here, and everything here comes
+# from a BoltRegistry event or a USDC balance/Transfer on Arc (CLAUDE.md invariant 8).
+# `owed` is event-derived (ObligationAccrued − ObligationSettled). `held` is
+# balance-derived (USDC.balanceOf, read on chain at the block of the change).
+#
+# Field types and directives per graphprotocol/subgraphs-skills
+# skills/subgraph-dev/references/schema-types.md.
+
+enum AccountClass {
+  OPERATING
+  CLIENT_MONEY
+  OBLIGATION_RESERVE
+}
+
+type Business @entity(immutable: false) {
+  "businessId (bytes32) from BusinessRegistered"
+  id: Bytes!
+  slug: String!
+  admin: Bytes!
+  registeredAtBlock: BigInt!
+  registeredAtTimestamp: BigInt!
+  registeredTx: Bytes!
+
+  "Latest MandatePublished version. 0 until one is published."
+  mandateVersion: BigInt!
+  depositCount: BigInt!
+  totalDeposited: BigInt!
+
+  accounts: [Account!]! @derivedFrom(field: "business")
+  mandates: [Mandate!]! @derivedFrom(field: "business")
+  deposits: [Deposit!]! @derivedFrom(field: "business")
+  obligations: [Obligation!]! @derivedFrom(field: "business")
+  unlocks: [Unlock!]! @derivedFrom(field: "business")
+  positions: [ClassPosition!]! @derivedFrom(field: "business")
+  snapshots: [CoverageSnapshot!]! @derivedFrom(field: "business")
+}
+
+type Account @entity(immutable: false) {
+  "The account's Arc address"
+  id: Bytes!
+  business: Business!
+  class: AccountClass!
+  label: String!
+  policyHash: Bytes!
+  registeredAtBlock: BigInt!
+  registeredAtTimestamp: BigInt!
+  registeredTx: Bytes!
+
+  "USDC.balanceOf(this), read on chain at heldAtBlock. Never a reported figure."
+  held: BigInt!
+  heldAtBlock: BigInt!
+  "Outstanding obligations booked against this account (accrued − settled)."
+  owed: BigInt!
+
+  "Chain-derived cumulative flow from indexed USDC Transfer logs."
+  totalIn: BigInt!
+  totalOut: BigInt!
+
+  policyRotations: [PolicyRotation!]! @derivedFrom(field: "account")
+  splits: [Split!]! @derivedFrom(field: "account")
+  obligations: [Obligation!]! @derivedFrom(field: "account")
+  transfers: [UsdcTransfer!]! @derivedFrom(field: "account")
+}
+
+type PolicyRotation @entity(immutable: true) {
+  id: Bytes!
+  business: Business!
+  account: Account!
+  oldPolicyHash: Bytes!
+  newPolicyHash: Bytes!
+  "Key quorum that authorised the change (FR-2.6/FR-2.7). No quorum, no rotation."
+  quorumRef: Bytes!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  txHash: Bytes!
+}
+
+type Mandate @entity(immutable: true) {
+  id: Bytes!
+  business: Business!
+  version: BigInt!
+  rulesHash: Bytes!
+  quorumRef: Bytes!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  txHash: Bytes!
+}
+
+type Deposit @entity(immutable: false) {
+  "depositId (bytes32) from DepositObserved"
+  id: Bytes!
+  business: Business!
+  amount: BigInt!
+  "Mandate version in force at receipt (FR-3.4)"
+  mandateVersion: BigInt!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  txHash: Bytes!
+
+  splitTotal: BigInt!
+  splits: [Split!]! @derivedFrom(field: "deposit")
+}
+
+type Split @entity(immutable: true) {
+  id: Bytes!
+  deposit: Deposit!
+  account: Account!
+  amount: BigInt!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  txHash: Bytes!
+}
+
+type Obligation @entity(immutable: false) {
+  "obligationId (bytes32) from ObligationAccrued"
+  id: Bytes!
+  business: Business!
+  account: Account!
+  beneficiaryRef: Bytes!
+  accrued: BigInt!
+  settled: BigInt!
+  outstanding: BigInt!
+  accruedAtBlock: BigInt!
+  accruedAtTimestamp: BigInt!
+  accruedTx: Bytes!
+  settlements: [ObligationSettlement!]! @derivedFrom(field: "obligation")
+}
+
+type ObligationSettlement @entity(immutable: true) {
+  id: Bytes!
+  obligation: Obligation!
+  amount: BigInt!
+  txRef: Bytes!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  txHash: Bytes!
+}
+
+type Unlock @entity(immutable: false) {
+  "unlockId (bytes32) from UnlockRequested"
+  id: Bytes!
+  business: Business!
+  account: Account!
+  amount: BigInt!
+  destination: Bytes!
+  "keccak of the free-text reason (FR-5.1). The text itself never goes on chain."
+  reasonHash: Bytes!
+  executableAt: BigInt!
+  status: UnlockStatus!
+  approvalCount: Int!
+  executedAmount: BigInt
+  cancelReasonHash: Bytes
+  requestedAtBlock: BigInt!
+  requestedAtTimestamp: BigInt!
+  requestedTx: Bytes!
+  executedAtBlock: BigInt
+  executedAtTimestamp: BigInt
+  executedTx: Bytes
+  cancelledAtBlock: BigInt
+  cancelledAtTimestamp: BigInt
+  cancelledTx: Bytes
+  approvals: [Approval!]! @derivedFrom(field: "unlock")
+}
+
+enum UnlockStatus {
+  REQUESTED
+  EXECUTED
+  CANCELLED
+}
+
+type Approval @entity(immutable: true) {
+  id: Bytes!
+  unlock: Unlock!
+  approver: Bytes!
+  "World Selfie Check proof reference (FR-5.3). Shown publicly."
+  humanProofRef: Bytes!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  txHash: Bytes!
+}
+
+type RecorderChange @entity(immutable: true) {
+  id: Bytes!
+  oldRecorder: Bytes!
+  newRecorder: Bytes!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  txHash: Bytes!
+}
+
+"A USDC ERC-20 Transfer log with a registered BOLT account on one side."
+type UsdcTransfer @entity(immutable: true) {
+  id: Bytes!
+  account: Account!
+  counterparty: Bytes!
+  amount: BigInt!
+  "true when the registered account received"
+  incoming: Boolean!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  txHash: Bytes!
+}
+
+"""
+Running held/owed totals per (business, class). The accumulator CoverageSnapshot
+is cut from — kept O(1) so a snapshot never has to walk every account.
+"""
+type ClassPosition @entity(immutable: false) {
+  "businessId + class"
+  id: Bytes!
+  business: Business!
+  class: AccountClass!
+  held: BigInt!
+  owed: BigInt!
+  accountCount: Int!
+  updatedAtBlock: BigInt!
+}
+
+"""
+Coverage through time — the entity FR-6.4's line and the Phase 7 Monitor read.
+Written on every block where held or owed moved for a (business, class), so
+`coverage at block N` is the latest snapshot with blockNumber <= N.
+Immutable: history is the point.
+"""
+type CoverageSnapshot @entity(immutable: true) {
+  "businessId + class + blockNumber + sequence"
+  id: Bytes!
+  business: Business!
+  class: AccountClass!
+  held: BigInt!
+  owed: BigInt!
+  "held ÷ owed in basis points (10000 = 100%). 10000 when nothing is owed."
+  ratioBps: BigInt!
+  shortfall: Boolean!
+  "held − owed. Negative is the size of the hole."
+  surplus: BigInt!
+  "What moved: the event name that triggered this snapshot."
+  trigger: String!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  txHash: Bytes!
+}
