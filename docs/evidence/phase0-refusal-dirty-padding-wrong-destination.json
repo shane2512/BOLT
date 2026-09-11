@@ -1,0 +1,25 @@
+{
+  "expect": "REFUSE",
+  "outcome": "REFUSED",
+  "broadcast_mode": "self",
+  "request": {
+    "wallet": "0x03929eB4825eCf791eFb17852B5e5C7A8556a871",
+    "caip2": "eip155:5042002",
+    "transaction": {
+      "to": "0x3600000000000000000000000000000000000000",
+      "value": "0x0",
+      "data": "0xa9059cbbdeadbeefcafebabefeedfacecfeae9dfadaeb08dacce9a9c959a75f5fbebf6830000000000000000000000000000000000000000000000000000000000002710"
+    }
+  },
+  "error": {
+    "__type": "BadRequestError",
+    "stack": "Error: 400 {\"error\":\"RPC request denied due to policy violation\",\"code\":\"policy_violation\"}\n    at Function.generate (D:\\BOLT\\docs\\evidence\\phase0-spike\\node_modules\\@privy-io\\node\\src\\core\\error.ts:60:14)\n    at PrivyAPI.makeStatusError (D:\\BOLT\\docs\\evidence\\phase0-spike\\node_modules\\@privy-io\\node\\src\\client.ts:381:28)\n    at PrivyAPI.makeRequest (D:\\BOLT\\docs\\evidence\\phase0-spike\\node_modules\\@privy-io\\node\\src\\client.ts:600:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async PrivyWalletsService.rpc (D:\\BOLT\\docs\\evidence\\phase0-spike\\node_modules\\@privy-io\\node\\src\\public-api\\services\\wallets.ts:68:12)\n    at async PrivyEthereumService.signTransaction (D:\\BOLT\\docs\\evidence\\phase0-spike\\node_modules\\@privy-io\\node\\src\\public-api\\services\\ethereum.ts:67:22)\n    at async send (D:\\BOLT\\docs\\evidence\\phase0-spike\\spike.ts:479:19)\n    at async <anonymous> (D:\\BOLT\\docs\\evidence\\phase0-spike\\spike.ts:540:17)",
+    "message": "400 {\"error\":\"RPC request denied due to policy violation\",\"code\":\"policy_violation\"}",
+    "status": 400,
+    "headers": {},
+    "error": {
+      "error": "RPC request denied due to policy violation",
+      "code": "policy_violation"
+    }
+  }
+}

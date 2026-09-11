@@ -1,0 +1,448 @@
+{
+  "id": "c5sp0lfcxusc1day0zpc15ah",
+  "name": "BOLT phase-0 locked account",
+  "chain_type": "ethereum",
+  "rules": [
+    {
+      "id": "ulp9shba2c3o8udc3yvdqscs",
+      "name": "USDC transfer to permitted payee (send)",
+      "method": "eth_sendTransaction",
+      "conditions": [
+        {
+          "field_source": "ethereum_transaction",
+          "field": "to",
+          "operator": "in",
+          "value": [
+            "0x3600000000000000000000000000000000000000",
+            "0x3600000000000000000000000000000000000000"
+          ]
+        },
+        {
+          "field_source": "ethereum_transaction",
+          "field": "chain_id",
+          "operator": "in",
+          "value": [
+            "5042002",
+            "0x4cef52"
+          ]
+        },
+        {
+          "field_source": "ethereum_transaction",
+          "field": "value",
+          "operator": "eq",
+          "value": "0"
+        },
+        {
+          "field_source": "ethereum_calldata",
+          "field": "function_name",
+          "abi": [
+            {
+              "type": "function",
+              "name": "transfer",
+              "inputs": [
+                {
+                  "name": "_to",
+                  "type": "address"
+                },
+                {
+                  "name": "_value",
+                  "type": "uint256"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "nonpayable"
+            },
+            {
+              "type": "function",
+              "name": "approve",
+              "inputs": [
+                {
+                  "name": "_spender",
+                  "type": "address"
+                },
+                {
+                  "name": "_value",
+                  "type": "uint256"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "nonpayable"
+            },
+            {
+              "type": "function",
+              "name": "transferFrom",
+              "inputs": [
+                {
+                  "name": "_from",
+                  "type": "address"
+                },
+                {
+                  "name": "_to",
+                  "type": "address"
+                },
+                {
+                  "name": "_value",
+                  "type": "uint256"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "nonpayable"
+            },
+            {
+              "type": "function",
+              "name": "balanceOf",
+              "inputs": [
+                {
+                  "name": "_owner",
+                  "type": "address"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view"
+            }
+          ],
+          "operator": "eq",
+          "value": "transfer"
+        },
+        {
+          "field_source": "ethereum_calldata",
+          "field": "transfer._to",
+          "abi": [
+            {
+              "type": "function",
+              "name": "transfer",
+              "inputs": [
+                {
+                  "name": "_to",
+                  "type": "address"
+                },
+                {
+                  "name": "_value",
+                  "type": "uint256"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "nonpayable"
+            },
+            {
+              "type": "function",
+              "name": "approve",
+              "inputs": [
+                {
+                  "name": "_spender",
+                  "type": "address"
+                },
+                {
+                  "name": "_value",
+                  "type": "uint256"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "nonpayable"
+            },
+            {
+              "type": "function",
+              "name": "transferFrom",
+              "inputs": [
+                {
+                  "name": "_from",
+                  "type": "address"
+                },
+                {
+                  "name": "_to",
+                  "type": "address"
+                },
+                {
+                  "name": "_value",
+                  "type": "uint256"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "nonpayable"
+            },
+            {
+              "type": "function",
+              "name": "balanceOf",
+              "inputs": [
+                {
+                  "name": "_owner",
+                  "type": "address"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view"
+            }
+          ],
+          "operator": "in",
+          "value": [
+            "0x634186595D6E038094A8b0E25b38AA2f498D5407",
+            "0x634186595D6E038094A8b0E25b38AA2f498D5407"
+          ]
+        }
+      ],
+      "action": "ALLOW"
+    },
+    {
+      "id": "wyxl699cohi2m8ut7fqc7hxa",
+      "name": "USDC transfer to permitted payee (sign)",
+      "method": "eth_signTransaction",
+      "conditions": [
+        {
+          "field_source": "ethereum_transaction",
+          "field": "to",
+          "operator": "in",
+          "value": [
+            "0x3600000000000000000000000000000000000000",
+            "0x3600000000000000000000000000000000000000"
+          ]
+        },
+        {
+          "field_source": "ethereum_transaction",
+          "field": "chain_id",
+          "operator": "in",
+          "value": [
+            "5042002",
+            "0x4cef52"
+          ]
+        },
+        {
+          "field_source": "ethereum_transaction",
+          "field": "value",
+          "operator": "eq",
+          "value": "0"
+        },
+        {
+          "field_source": "ethereum_calldata",
+          "field": "function_name",
+          "abi": [
+            {
+              "type": "function",
+              "name": "transfer",
+              "inputs": [
+                {
+                  "name": "_to",
+                  "type": "address"
+                },
+                {
+                  "name": "_value",
+                  "type": "uint256"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "nonpayable"
+            },
+            {
+              "type": "function",
+              "name": "approve",
+              "inputs": [
+                {
+                  "name": "_spender",
+                  "type": "address"
+                },
+                {
+                  "name": "_value",
+                  "type": "uint256"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "nonpayable"
+            },
+            {
+              "type": "function",
+              "name": "transferFrom",
+              "inputs": [
+                {
+                  "name": "_from",
+                  "type": "address"
+                },
+                {
+                  "name": "_to",
+                  "type": "address"
+                },
+                {
+                  "name": "_value",
+                  "type": "uint256"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "nonpayable"
+            },
+            {
+              "type": "function",
+              "name": "balanceOf",
+              "inputs": [
+                {
+                  "name": "_owner",
+                  "type": "address"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view"
+            }
+          ],
+          "operator": "eq",
+          "value": "transfer"
+        },
+        {
+          "field_source": "ethereum_calldata",
+          "field": "transfer._to",
+          "abi": [
+            {
+              "type": "function",
+              "name": "transfer",
+              "inputs": [
+                {
+                  "name": "_to",
+                  "type": "address"
+                },
+                {
+                  "name": "_value",
+                  "type": "uint256"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "nonpayable"
+            },
+            {
+              "type": "function",
+              "name": "approve",
+              "inputs": [
+                {
+                  "name": "_spender",
+                  "type": "address"
+                },
+                {
+                  "name": "_value",
+                  "type": "uint256"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "nonpayable"
+            },
+            {
+              "type": "function",
+              "name": "transferFrom",
+              "inputs": [
+                {
+                  "name": "_from",
+                  "type": "address"
+                },
+                {
+                  "name": "_to",
+                  "type": "address"
+                },
+                {
+                  "name": "_value",
+                  "type": "uint256"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "nonpayable"
+            },
+            {
+              "type": "function",
+              "name": "balanceOf",
+              "inputs": [
+                {
+                  "name": "_owner",
+                  "type": "address"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view"
+            }
+          ],
+          "operator": "in",
+          "value": [
+            "0x634186595D6E038094A8b0E25b38AA2f498D5407",
+            "0x634186595D6E038094A8b0E25b38AA2f498D5407"
+          ]
+        }
+      ],
+      "action": "ALLOW"
+    }
+  ],
+  "version": "1.0",
+  "created_at": 1788771767020,
+  "owner_id": "zygjbl2k4dbghdfqanf2ymo6"
+}
