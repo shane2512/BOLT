@@ -1,0 +1,30 @@
+{
+  "note": "FR-3.5, write-time assertion. The first mandate below sums to 9999 bps and was refused before any row was written; the second sums to exactly 10000 and was published as version 1. Postgres here is PGlite (in-memory WASM Postgres) on the identical Drizzle schema — direct Postgres is unreachable from this environment. Production targets DATABASE_URL.",
+  "rejected": {
+    "bps": [
+      8800,
+      400,
+      799
+    ],
+    "sum": 9999,
+    "error": "bps: ratios sum to 9999, must sum to exactly 10000"
+  },
+  "published": {
+    "version": 1,
+    "rules": [
+      {
+        "description": "88% to the seller (client money)",
+        "bps": 8800
+      },
+      {
+        "description": "4% sales tax (obligation reserve)",
+        "bps": 400
+      },
+      {
+        "description": "8% retained (operating)",
+        "bps": 800
+      }
+    ],
+    "sum": 10000
+  }
+}

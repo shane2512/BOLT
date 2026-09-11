@@ -1,0 +1,33 @@
+{
+  "note": "The real Next route at apps/web/src/app/api/webhooks/privy/route.ts, running under `pnpm dev` on http://localhost:3000, POSTed by hand. SIMULATED: the delivery \u2014 this environment has no public URL, so Privy itself cannot call the endpoint, and the webhook signing key is a locally generated svix key rather than one issued by a registered Privy endpoint. REAL: the routing, the raw-body handling, and `privy.webhooks().verify` \u2014 the tampered signature is rejected with 401 before the body is parsed or the database touched. The correctly signed request passes verification and proceeds to Postgres, which is unreachable from this sandbox, so it fails there (see the body). The full split against this same handler, with PGlite standing in for Postgres, is in phase3-split.json.",
+  "endpoint": "http://127.0.0.1:3000/api/webhooks/privy",
+  "payload": {
+    "type": "wallet.funds_deposited",
+    "wallet_id": "tqaesz2thqtffoaehh8ziwrg",
+    "idempotency_key": "evt_route_probe",
+    "caip2": "eip155:5042002",
+    "asset": {
+      "type": "erc20",
+      "address": "0x3600000000000000000000000000000000000000  # Circle \u2014 Arc testnet USDC (also Arc's native gas token)"
+    },
+    "amount": "10000000",
+    "transaction_hash": "0x0a91a288de6f7c33302fc9cf6f212e7d47b2163d87390ca5424b121598685ca2",
+    "sender": "0x7ff410E96827EFA8f24854a8aEfe4E5532274484",
+    "recipient": "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+    "block": {
+      "number": 1,
+      "timestamp": 1
+    }
+  },
+  "results": {
+    "tampered": {
+      "status": 401,
+      "body": "{\"error\":\"invalid webhook signature\",\"detail\":\"Error: Webhook verification failed: No matching signature found\"}"
+    },
+    "valid": {
+      "status": 500,
+      "body": "",
+      "server_error": "AggregateError { code: 'ETIMEDOUT' } at resolveTarget -> db.select() (apps/web/src/app/api/webhooks/privy/route.ts:73). The signature verified and the handler proceeded; the failure is the Postgres connection, which is unreachable from this sandbox (ports 5432/6543 time out to any host). DATABASE_URL is correct and the schema is live on Supabase."
+    }
+  }
+}

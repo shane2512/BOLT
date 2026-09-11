@@ -1,0 +1,134 @@
+{
+  "note": "Live split-on-receipt. REAL: the deposit transaction on Arc, the Privy session signer and its override policy, the enclave signatures, the self-broadcast transfers, the BoltRegistry events, and the svix signature verification through privy.webhooks().verify. SIMULATED: webhook DELIVERY (no public URL exists for Privy to call, so the correctly-signed payload was POSTed over loopback to the same handler the Next route calls) and the Postgres DRIVER (PGlite, in-memory WASM Postgres, identical Drizzle schema including the deposits_tx_log_idx unique index — direct Postgres is unreachable from this environment).",
+  "deposit": {
+    "tx": "0x8ddc1f6d542c6fca5f7fe19afa7620744560437a6295654fddb133e8b3def3c2",
+    "explorer": "https://testnet.arcscan.app/tx/0x8ddc1f6d542c6fca5f7fe19afa7620744560437a6295654fddb133e8b3def3c2",
+    "from": "0x7ff410E96827EFA8f24854a8aEfe4E5532274484",
+    "to": "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+    "amount_base_units": "10000000"
+  },
+  "webhook": {
+    "endpoint_under_test": "apps/web/src/app/api/webhooks/privy/route.ts (via handleDepositWebhook)",
+    "signing_scheme": "svix v1 HMAC-SHA256, verified by privy.webhooks().verify",
+    "tampered_signature": {
+      "status": 401,
+      "body": {
+        "error": "invalid webhook signature",
+        "detail": "Error: Webhook verification failed: No matching signature found"
+      }
+    },
+    "accepted": {
+      "status": 200,
+      "body": {
+        "depositId": "6bebe015-8a2d-4f01-8e78-bb24aea5bb42",
+        "mandateVersion": 1,
+        "splits": [
+          {
+            "address": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+            "amount": "8800000",
+            "txHash": "0x7c973bf0537110e56842a5775e33b034109a4a94c71fb351f1639d085d708cbf",
+            "ok": true
+          },
+          {
+            "address": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+            "amount": "400000",
+            "txHash": "0xa806d61bcacf85a05db4d3a056daaf55951e28833e62c0ce2034f80257f2c1fd",
+            "ok": true
+          },
+          {
+            "address": "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+            "amount": "800000",
+            "txHash": null,
+            "ok": true
+          }
+        ],
+        "unallocated": "0",
+        "registry": [
+          {
+            "event": "DepositObserved",
+            "txHash": "0x7e207418e8875f4abc3929c64f37a8abe3383ef2ee09c32b34d331cc6e8d61f9"
+          },
+          {
+            "event": "ObligationAccrued",
+            "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+            "txHash": "0x3351af08ddca308def74e49409cbbc6f5f5a214bcacfc97c7bf8b415cb675de3"
+          },
+          {
+            "event": "ObligationAccrued",
+            "account": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+            "txHash": "0xc81438b3b47c49a84010989d610efa3ae906b00783319a47c1e3b67ba95773c4"
+          },
+          {
+            "event": "SplitExecuted",
+            "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+            "txHash": "0x005673c808ee7da660202cd6f687c3ec2a00ac91b7e82976e0789a92ccd475db"
+          },
+          {
+            "event": "SplitExecuted",
+            "account": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+            "txHash": "0x08457245c37d3d0b1d3971fc419118d0f4bcb0df1159e4799fc06e6a91bcaecd"
+          },
+          {
+            "event": "SplitExecuted",
+            "account": "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+            "txHash": "0xb6b67db4a7ecd28d48ecee0dcf24251d1ca09b8ef6e79e1ee019e952d7249a82"
+          }
+        ],
+        "durationMs": 13551
+      },
+      "elapsed_ms": 13789
+    },
+    "replay": {
+      "status": 200,
+      "body": {
+        "duplicate": true,
+        "depositId": "6bebe015-8a2d-4f01-8e78-bb24aea5bb42",
+        "splitsExecuted": 0
+      },
+      "split_rows_before": 3,
+      "split_rows_after": 3,
+      "second_split_produced": false
+    }
+  },
+  "deposits": [
+    {
+      "txHash": "0x8ddc1f6d542c6fca5f7fe19afa7620744560437a6295654fddb133e8b3def3c2",
+      "logIndex": 18,
+      "amount": "10000000",
+      "mandateVersion": 1
+    }
+  ],
+  "splits": [
+    {
+      "accountId": "ebd6fd24-5e6f-40c4-98cb-c5885a779691",
+      "amount": "8800000",
+      "txHash": "0x7c973bf0537110e56842a5775e33b034109a4a94c71fb351f1639d085d708cbf",
+      "explorer": "https://testnet.arcscan.app/tx/0x7c973bf0537110e56842a5775e33b034109a4a94c71fb351f1639d085d708cbf"
+    },
+    {
+      "accountId": "c3a5054c-07f5-403d-9568-fd33c1a9bbbc",
+      "amount": "400000",
+      "txHash": "0xa806d61bcacf85a05db4d3a056daaf55951e28833e62c0ce2034f80257f2c1fd",
+      "explorer": "https://testnet.arcscan.app/tx/0xa806d61bcacf85a05db4d3a056daaf55951e28833e62c0ce2034f80257f2c1fd"
+    },
+    {
+      "accountId": "b500e32a-5a05-424b-9ca5-791afc9e5e6a",
+      "amount": "800000",
+      "txHash": null,
+      "explorer": null
+    }
+  ],
+  "balances": {
+    "before": {
+      "operating": "11068871",
+      "client_money": "1752989",
+      "reserve": "1040000"
+    },
+    "after": {
+      "operating": "1866718",
+      "client_money": "10552989",
+      "reserve": "1440000"
+    }
+  },
+  "alerts": []
+}

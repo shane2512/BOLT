@@ -1,0 +1,125 @@
+{
+  "registry": "0x654713c0554cf3286e140C876E49F15B3F9dA0cd",
+  "business_id": "0xe4f80b146a0189b8f5c7e14a4e237f257b5952cb0f16d389ea268123d5a93039",
+  "rpc": "https://rpc.testnet.arc.io",
+  "events": [
+    {
+      "event": "DepositObserved",
+      "txHash": "0x7e207418e8875f4abc3929c64f37a8abe3383ef2ee09c32b34d331cc6e8d61f9",
+      "status": "0x1",
+      "blockNumber": "0x3ac2cdf",
+      "explorer": "https://testnet.arcscan.app/tx/0x7e207418e8875f4abc3929c64f37a8abe3383ef2ee09c32b34d331cc6e8d61f9",
+      "decodedLogs": [
+        {
+          "eventName": "DepositObserved",
+          "args": {
+            "businessId": "0xe4f80b146a0189b8f5c7e14a4e237f257b5952cb0f16d389ea268123d5a93039",
+            "depositId": "0x87d59d89f7c4bef83a033b072cf2955ad693709b9ec80e9a3e1f462f696251a2",
+            "amount": "10000000",
+            "mandateVersion": "1"
+          }
+        }
+      ],
+      "verified": true
+    },
+    {
+      "event": "ObligationAccrued",
+      "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+      "txHash": "0x3351af08ddca308def74e49409cbbc6f5f5a214bcacfc97c7bf8b415cb675de3",
+      "status": "0x1",
+      "blockNumber": "0x3ac2ce7",
+      "explorer": "https://testnet.arcscan.app/tx/0x3351af08ddca308def74e49409cbbc6f5f5a214bcacfc97c7bf8b415cb675de3",
+      "decodedLogs": [
+        {
+          "eventName": "ObligationAccrued",
+          "args": {
+            "businessId": "0xe4f80b146a0189b8f5c7e14a4e237f257b5952cb0f16d389ea268123d5a93039",
+            "obligationId": "0x348ad9abaa4f8872d97761269587ce7e024fd0758bfc4df8e9d7e02b5f3c608c",
+            "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+            "beneficiaryRef": "0x98439b96c70460fae623b11253898753595e32034013980906103700649d25ce",
+            "amount": "8800000"
+          }
+        }
+      ],
+      "verified": true
+    },
+    {
+      "event": "ObligationAccrued",
+      "account": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+      "txHash": "0xc81438b3b47c49a84010989d610efa3ae906b00783319a47c1e3b67ba95773c4",
+      "status": "0x1",
+      "blockNumber": "0x3ac2ce9",
+      "explorer": "https://testnet.arcscan.app/tx/0xc81438b3b47c49a84010989d610efa3ae906b00783319a47c1e3b67ba95773c4",
+      "decodedLogs": [
+        {
+          "eventName": "ObligationAccrued",
+          "args": {
+            "businessId": "0xe4f80b146a0189b8f5c7e14a4e237f257b5952cb0f16d389ea268123d5a93039",
+            "obligationId": "0x5c667df8dbd14a12774603f9b766b384954c3ea54dd26691194a258d885380a5",
+            "account": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+            "beneficiaryRef": "0x559dddacdd03d7194a5ba4f6768ee24e07d077a9555ea3b0e6c13eb97734b789",
+            "amount": "400000"
+          }
+        }
+      ],
+      "verified": true
+    },
+    {
+      "event": "SplitExecuted",
+      "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+      "txHash": "0x005673c808ee7da660202cd6f687c3ec2a00ac91b7e82976e0789a92ccd475db",
+      "status": "0x1",
+      "blockNumber": "0x3ac2cf3",
+      "explorer": "https://testnet.arcscan.app/tx/0x005673c808ee7da660202cd6f687c3ec2a00ac91b7e82976e0789a92ccd475db",
+      "decodedLogs": [
+        {
+          "eventName": "SplitExecuted",
+          "args": {
+            "depositId": "0x87d59d89f7c4bef83a033b072cf2955ad693709b9ec80e9a3e1f462f696251a2",
+            "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+            "amount": "8800000"
+          }
+        }
+      ],
+      "verified": true
+    },
+    {
+      "event": "SplitExecuted",
+      "account": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+      "txHash": "0x08457245c37d3d0b1d3971fc419118d0f4bcb0df1159e4799fc06e6a91bcaecd",
+      "status": "0x1",
+      "blockNumber": "0x3ac2cf5",
+      "explorer": "https://testnet.arcscan.app/tx/0x08457245c37d3d0b1d3971fc419118d0f4bcb0df1159e4799fc06e6a91bcaecd",
+      "decodedLogs": [
+        {
+          "eventName": "SplitExecuted",
+          "args": {
+            "depositId": "0x87d59d89f7c4bef83a033b072cf2955ad693709b9ec80e9a3e1f462f696251a2",
+            "account": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+            "amount": "400000"
+          }
+        }
+      ],
+      "verified": true
+    },
+    {
+      "event": "SplitExecuted",
+      "account": "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+      "txHash": "0xb6b67db4a7ecd28d48ecee0dcf24251d1ca09b8ef6e79e1ee019e952d7249a82",
+      "status": "0x1",
+      "blockNumber": "0x3ac2cf7",
+      "explorer": "https://testnet.arcscan.app/tx/0xb6b67db4a7ecd28d48ecee0dcf24251d1ca09b8ef6e79e1ee019e952d7249a82",
+      "decodedLogs": [
+        {
+          "eventName": "SplitExecuted",
+          "args": {
+            "depositId": "0x87d59d89f7c4bef83a033b072cf2955ad693709b9ec80e9a3e1f462f696251a2",
+            "account": "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+            "amount": "800000"
+          }
+        }
+      ],
+      "verified": true
+    }
+  ]
+}
