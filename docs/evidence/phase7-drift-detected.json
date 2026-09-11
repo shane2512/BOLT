@@ -1,0 +1,543 @@
+{
+  "note": "Phase 7 exit criterion: deliberately misconfigure the splitter, and the Monitor detects the drift. The misconfiguration is real — three live deposits on Arc testnet split by a real Privy session signer, one at the mandate's ratios and two at 8300/400/1300, all three stamped mandateVersion 1. The Privy policy permitted every one of them, correctly: all the destinations are the business's own accounts, and a policy constrains destinations, not ratios. Coverage stayed at 100% throughout, because the obligation accrued on each deposit equals what was actually paid. Only comparing realized ratios against the baseline finds it.",
+  "chain": {
+    "chainId": 5042002,
+    "rpc": "https://rpc.testnet.arc.io",
+    "usdc": "0x3600000000000000000000000000000000000000",
+    "registry": "0x654713c0554cf3286e140C876E49F15B3F9dA0cd"
+  },
+  "mandate": {
+    "version": 1,
+    "correctBps": {
+      "client": 8800,
+      "reserve": 400,
+      "operating": 800
+    },
+    "rulesHash": "0x4a4e3283803f4c01d53104a54ff782e5e09f20e5401cdc440e32e6bbfdd4e91a",
+    "quorumRef": "0x2629a13e80ea4c8bf3eae28cdd2b59eb0e6838b801bcb7df748e7bbdfa87e94f",
+    "keyQuorumId": "pwwre68io5ufavny68fasb6p",
+    "publishedOnChainTx": "0xc486ece04eb1109963d9e2cb7d09410927d3fd28b2c83afa5c21905237198d29",
+    "explorer": "https://testnet.arcscan.app/tx/0xc486ece04eb1109963d9e2cb7d09410927d3fd28b2c83afa5c21905237198d29"
+  },
+  "misconfiguration": {
+    "splitterRatiosUsed": {
+      "client": 8300,
+      "reserve": 400,
+      "operating": 1300
+    },
+    "reportedMandateVersion": 1,
+    "diversionPerDeposit": "5% of every deposit, out of CLIENT_MONEY into OPERATING",
+    "privyPolicyOutcome": "PERMITTED — and correctly so. The splitter's session-signer policy (FR-3.3) allows USDC transfers to this business's own accounts. Both the honest and the skimming splits target those accounts, so the enclave has nothing to refuse. This is the class of failure a policy cannot see, which is why FR-7.3 exists."
+  },
+  "runs": [
+    {
+      "label": "honest-1",
+      "bps": {
+        "client": 8800,
+        "reserve": 400,
+        "operating": 800
+      },
+      "fundingTx": "0xc8eedc8c0586d571b96f428e94cb93c9606732dd74776a31dc136f291f56ca4c",
+      "depositBlock": "61427059",
+      "splits": [
+        {
+          "address": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+          "class": "CLIENT_MONEY",
+          "amount": "1760000",
+          "txHash": "0x0e7b458acbbfd5b266142b574b76829d21f82e8fc6560f657f8536ea585c21fc"
+        },
+        {
+          "address": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+          "class": "OBLIGATION_RESERVE",
+          "amount": "80000",
+          "txHash": "0x9aa58d12f9dd79d354fb0bd8bf1a78267d76134ca0efc2fee97ce43aa1649161"
+        },
+        {
+          "address": "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+          "class": "OPERATING",
+          "amount": "160000",
+          "txHash": null
+        }
+      ],
+      "registryTxs": [
+        {
+          "event": "DepositObserved",
+          "txHash": "0x7832e78af6f84ce07b742f0af8e68e898193730d1e4555ed1e236cb389f301a7"
+        },
+        {
+          "event": "ObligationAccrued",
+          "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+          "txHash": "0x222d203e45a3a2dcf110cbfad1430c284cc54d323c3ae3709e775e88ca61fe6e"
+        },
+        {
+          "event": "ObligationAccrued",
+          "account": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+          "txHash": "0xe8d91a1469602b0b4839939163fe8990f5e7e47c9f5a70472805ae20bfb5a2fe"
+        },
+        {
+          "event": "SplitExecuted",
+          "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+          "txHash": "0x80831cab882084cee4ed43fb5d08facc63ec741196fdf2b4af9e102107a85e42"
+        },
+        {
+          "event": "SplitExecuted",
+          "account": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+          "txHash": "0x6dfc13719ee4df931e10511ef4162938d849bd7eefb8749524e1050a95c9fc48"
+        },
+        {
+          "event": "SplitExecuted",
+          "account": "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+          "txHash": "0xe31d162f4fc10efb59411966a62517e7fdabe20318471f11f935c18eea2d727c"
+        }
+      ]
+    },
+    {
+      "label": "skimming-1",
+      "bps": {
+        "client": 8300,
+        "reserve": 400,
+        "operating": 1300
+      },
+      "fundingTx": "0x28cad7494ec5a49cf27e0af42358cacf5b11815649a809f3fd712c9904a4f856",
+      "depositBlock": "61427104",
+      "splits": [
+        {
+          "address": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+          "class": "CLIENT_MONEY",
+          "amount": "1660000",
+          "txHash": "0x1d4bf204a4be38f785f30013ceba1276861fa3ba4acaa4e227456188f079a292"
+        },
+        {
+          "address": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+          "class": "OBLIGATION_RESERVE",
+          "amount": "80000",
+          "txHash": "0xd9d445e792dee1b33b31dc205570b96eb9fe070162baa92b3dc940748a48e8e9"
+        },
+        {
+          "address": "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+          "class": "OPERATING",
+          "amount": "260000",
+          "txHash": null
+        }
+      ],
+      "registryTxs": [
+        {
+          "event": "DepositObserved",
+          "txHash": "0xcd83bc3c29cbf19c426b82394d047800003b7fcbc2501b2f478ad8a1483e891f"
+        },
+        {
+          "event": "ObligationAccrued",
+          "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+          "txHash": "0xa44767aa238e331f4344fc784c77ab895c170905163f8e7a57c40eee3038c4c3"
+        },
+        {
+          "event": "ObligationAccrued",
+          "account": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+          "txHash": "0xdf9ec98b88f2ff336b4a5845b1182623d921a30ed130f1a5369d2803b87ef868"
+        },
+        {
+          "event": "SplitExecuted",
+          "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+          "txHash": "0x8078b768855e87e074d76c2b18e7705a429bf8dd1c0cfdfb8158e5043db0c3c2"
+        },
+        {
+          "event": "SplitExecuted",
+          "account": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+          "txHash": "0x6c1ceab82efdac66cccabcb2076cec515a73b4ee3556f755fcc9b8ba5c925d68"
+        },
+        {
+          "event": "SplitExecuted",
+          "account": "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+          "txHash": "0x10d2936b4909e5234066df3576a17f4dabf277ea3ebfc8200ed47146020e316d"
+        }
+      ]
+    },
+    {
+      "label": "skimming-2",
+      "bps": {
+        "client": 8300,
+        "reserve": 400,
+        "operating": 1300
+      },
+      "fundingTx": "0x6a3a4e9759de8d6d483f686e941b8bc9bb8078ebf7ab07e741239ff6b10546d8",
+      "depositBlock": "61427134",
+      "splits": [
+        {
+          "address": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+          "class": "CLIENT_MONEY",
+          "amount": "1660000",
+          "txHash": "0xdb7f4811d625633cb0c9e013feb6f26516ff69c5ffc0b0d03b9aec9020142ab1"
+        },
+        {
+          "address": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+          "class": "OBLIGATION_RESERVE",
+          "amount": "80000",
+          "txHash": "0x1ccdef370d23ef6b3a8f4d30681ab0f3df9348035b2a76b6c1aa18e7153bac85"
+        },
+        {
+          "address": "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+          "class": "OPERATING",
+          "amount": "260000",
+          "txHash": null
+        }
+      ],
+      "registryTxs": [
+        {
+          "event": "DepositObserved",
+          "txHash": "0x208f739306e7efe36aec6e679207de2b2e0968925d08f7c49667b63a591d8dea"
+        },
+        {
+          "event": "ObligationAccrued",
+          "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+          "txHash": "0x209c4faf1d257865f36142703fdbfc12f8faa3fd4dbb41559374328be14f3e02"
+        },
+        {
+          "event": "ObligationAccrued",
+          "account": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+          "txHash": "0x67bd64fba954c9a4a6a5094e4dc89e96e0325a36d3faa85652e0dcf673ff8ed3"
+        },
+        {
+          "event": "SplitExecuted",
+          "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+          "txHash": "0xb200f966b4012c35750bb4e741924b12bc1dca51d9e2233e2641a8a474c13c39"
+        },
+        {
+          "event": "SplitExecuted",
+          "account": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+          "txHash": "0xe28f659cfe7ad4f57c791012d8f6aec3bec3a187ad77505df8c83afde0e18aad"
+        },
+        {
+          "event": "SplitExecuted",
+          "account": "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+          "txHash": "0x8d4a5cc5b9583e0a9057e704faceddeacf97b0afe486397b791e4712afe50994"
+        }
+      ]
+    }
+  ],
+  "balances": {
+    "before": {
+      "operating": "796894",
+      "client_money": "8800000",
+      "reserve": "400000"
+    },
+    "after": {
+      "operating": "1470646",
+      "client_money": "13880000",
+      "reserve": "640000"
+    }
+  },
+  "monitor": {
+    "subgraphUrl": "https://api.studio.thegraph.com/query/1758871/bolt/v0.0.1",
+    "indexedAtBlock": "61427163",
+    "depositsIndexed": 4,
+    "driftDetected": true,
+    "driftFinding": {
+      "kind": "MANDATE_DRIFT",
+      "severity": "SEVERE",
+      "title": "Splits diverged from mandate version 1 on 2 deposits",
+      "message": "The first deposit under mandate version 1 (block 60905691, 0x6903df82be26889fcf39932481f16c1a84f5ac049ec3deb349639c5e8008e8d8) split 8800 bps to CLIENT_MONEY, 400 bps to OBLIGATION_RESERVE, 800 bps to OPERATING. 1 later deposit matched it. 2 did not: CLIENT_MONEY (Client money, 0x0eb2a766…) 8800 bps → 8300 bps, −0.200000 USDC; OPERATING (Operating, 0xe0d6fc2f…) 800 bps → 1300 bps, +0.200000 USDC. Across those deposits 0.200000 USDC went somewhere the baseline ratio does not put it, while every one of them still reported mandateVersion 1. The most recent deposit is divergent, so this is ongoing. Coverage never dropped below 100% during this window, because the obligation accrued on each deposit matches what was actually paid — the coverage line cannot see this, only the ratio comparison can. This is the signature of a splitter paying ratios other than the ones its mandate version claims.",
+      "evidence": {
+        "mandateVersion": "1",
+        "mandateRatifiedOnChain": {
+          "block": "61427054",
+          "txHash": "0xc486ece04eb1109963d9e2cb7d09410927d3fd28b2c83afa5c21905237198d29",
+          "rulesHash": "0x4a4e3283803f4c01d53104a54ff782e5e09f20e5401cdc440e32e6bbfdd4e91a"
+        },
+        "baseline": {
+          "txHash": "0x6903df82be26889fcf39932481f16c1a84f5ac049ec3deb349639c5e8008e8d8",
+          "blockNumber": "60905691",
+          "timestamp": "2026-09-07T12:10:48.000Z",
+          "amount": "10000000",
+          "ratios": [
+            {
+              "account": "0x0eb2a7667e56dd07131000ee0d99b6d218592d8b",
+              "class": "CLIENT_MONEY",
+              "label": "Client money",
+              "amount": "8800000",
+              "bps": "8800"
+            },
+            {
+              "account": "0x3b467cdd0949edc45b9d9f163c9dcf7028605d14",
+              "class": "OBLIGATION_RESERVE",
+              "label": "Sales tax reserve",
+              "amount": "400000",
+              "bps": "400"
+            },
+            {
+              "account": "0xe0d6fc2fdb556a26c173c6e5fa90d6b5283ff060",
+              "class": "OPERATING",
+              "label": "Operating",
+              "amount": "800000",
+              "bps": "800"
+            }
+          ]
+        },
+        "conformingDeposits": [
+          {
+            "txHash": "0x7832e78af6f84ce07b742f0af8e68e898193730d1e4555ed1e236cb389f301a7",
+            "blockNumber": "61427068"
+          }
+        ],
+        "divergentDeposits": [
+          {
+            "txHash": "0xcd83bc3c29cbf19c426b82394d047800003b7fcbc2501b2f478ad8a1483e891f",
+            "blockNumber": "61427108",
+            "timestamp": "2026-09-10T16:44:47.000Z",
+            "amount": "2000000",
+            "misallocated": "100000",
+            "destinationSetChanged": false,
+            "perAccount": [
+              {
+                "account": "0x0eb2a7667e56dd07131000ee0d99b6d218592d8b",
+                "class": "CLIENT_MONEY",
+                "label": "Client money",
+                "expected": "1760000",
+                "actual": "1660000",
+                "delta": "-100000",
+                "expectedBps": "8800",
+                "actualBps": "8300"
+              },
+              {
+                "account": "0xe0d6fc2fdb556a26c173c6e5fa90d6b5283ff060",
+                "class": "OPERATING",
+                "label": "Operating",
+                "expected": "160000",
+                "actual": "260000",
+                "delta": "100000",
+                "expectedBps": "800",
+                "actualBps": "1300"
+              }
+            ]
+          },
+          {
+            "txHash": "0x208f739306e7efe36aec6e679207de2b2e0968925d08f7c49667b63a591d8dea",
+            "blockNumber": "61427137",
+            "timestamp": "2026-09-10T16:45:02.000Z",
+            "amount": "2000000",
+            "misallocated": "100000",
+            "destinationSetChanged": false,
+            "perAccount": [
+              {
+                "account": "0x0eb2a7667e56dd07131000ee0d99b6d218592d8b",
+                "class": "CLIENT_MONEY",
+                "label": "Client money",
+                "expected": "1760000",
+                "actual": "1660000",
+                "delta": "-100000",
+                "expectedBps": "8800",
+                "actualBps": "8300"
+              },
+              {
+                "account": "0xe0d6fc2fdb556a26c173c6e5fa90d6b5283ff060",
+                "class": "OPERATING",
+                "label": "Operating",
+                "expected": "160000",
+                "actual": "260000",
+                "delta": "100000",
+                "expectedBps": "800",
+                "actualBps": "1300"
+              }
+            ]
+          }
+        ],
+        "totalMisallocated": "200000",
+        "totalMisallocatedReadable": "0.200000 USDC",
+        "ongoing": true,
+        "coverageStayedAtFullCover": true,
+        "source": "Deposit + Split + Mandate entities (subgraph)"
+      },
+      "fingerprint": "MANDATE_DRIFT:acme-marketplace:1:0xc7029c93,0x22df6fb4"
+    },
+    "allFindings": [
+      {
+        "kind": "MANDATE_DRIFT",
+        "severity": "SEVERE",
+        "title": "Splits diverged from mandate version 1 on 2 deposits",
+        "message": "The first deposit under mandate version 1 (block 60905691, 0x6903df82be26889fcf39932481f16c1a84f5ac049ec3deb349639c5e8008e8d8) split 8800 bps to CLIENT_MONEY, 400 bps to OBLIGATION_RESERVE, 800 bps to OPERATING. 1 later deposit matched it. 2 did not: CLIENT_MONEY (Client money, 0x0eb2a766…) 8800 bps → 8300 bps, −0.200000 USDC; OPERATING (Operating, 0xe0d6fc2f…) 800 bps → 1300 bps, +0.200000 USDC. Across those deposits 0.200000 USDC went somewhere the baseline ratio does not put it, while every one of them still reported mandateVersion 1. The most recent deposit is divergent, so this is ongoing. Coverage never dropped below 100% during this window, because the obligation accrued on each deposit matches what was actually paid — the coverage line cannot see this, only the ratio comparison can. This is the signature of a splitter paying ratios other than the ones its mandate version claims.",
+        "evidence": {
+          "mandateVersion": "1",
+          "mandateRatifiedOnChain": {
+            "block": "61427054",
+            "txHash": "0xc486ece04eb1109963d9e2cb7d09410927d3fd28b2c83afa5c21905237198d29",
+            "rulesHash": "0x4a4e3283803f4c01d53104a54ff782e5e09f20e5401cdc440e32e6bbfdd4e91a"
+          },
+          "baseline": {
+            "txHash": "0x6903df82be26889fcf39932481f16c1a84f5ac049ec3deb349639c5e8008e8d8",
+            "blockNumber": "60905691",
+            "timestamp": "2026-09-07T12:10:48.000Z",
+            "amount": "10000000",
+            "ratios": [
+              {
+                "account": "0x0eb2a7667e56dd07131000ee0d99b6d218592d8b",
+                "class": "CLIENT_MONEY",
+                "label": "Client money",
+                "amount": "8800000",
+                "bps": "8800"
+              },
+              {
+                "account": "0x3b467cdd0949edc45b9d9f163c9dcf7028605d14",
+                "class": "OBLIGATION_RESERVE",
+                "label": "Sales tax reserve",
+                "amount": "400000",
+                "bps": "400"
+              },
+              {
+                "account": "0xe0d6fc2fdb556a26c173c6e5fa90d6b5283ff060",
+                "class": "OPERATING",
+                "label": "Operating",
+                "amount": "800000",
+                "bps": "800"
+              }
+            ]
+          },
+          "conformingDeposits": [
+            {
+              "txHash": "0x7832e78af6f84ce07b742f0af8e68e898193730d1e4555ed1e236cb389f301a7",
+              "blockNumber": "61427068"
+            }
+          ],
+          "divergentDeposits": [
+            {
+              "txHash": "0xcd83bc3c29cbf19c426b82394d047800003b7fcbc2501b2f478ad8a1483e891f",
+              "blockNumber": "61427108",
+              "timestamp": "2026-09-10T16:44:47.000Z",
+              "amount": "2000000",
+              "misallocated": "100000",
+              "destinationSetChanged": false,
+              "perAccount": [
+                {
+                  "account": "0x0eb2a7667e56dd07131000ee0d99b6d218592d8b",
+                  "class": "CLIENT_MONEY",
+                  "label": "Client money",
+                  "expected": "1760000",
+                  "actual": "1660000",
+                  "delta": "-100000",
+                  "expectedBps": "8800",
+                  "actualBps": "8300"
+                },
+                {
+                  "account": "0xe0d6fc2fdb556a26c173c6e5fa90d6b5283ff060",
+                  "class": "OPERATING",
+                  "label": "Operating",
+                  "expected": "160000",
+                  "actual": "260000",
+                  "delta": "100000",
+                  "expectedBps": "800",
+                  "actualBps": "1300"
+                }
+              ]
+            },
+            {
+              "txHash": "0x208f739306e7efe36aec6e679207de2b2e0968925d08f7c49667b63a591d8dea",
+              "blockNumber": "61427137",
+              "timestamp": "2026-09-10T16:45:02.000Z",
+              "amount": "2000000",
+              "misallocated": "100000",
+              "destinationSetChanged": false,
+              "perAccount": [
+                {
+                  "account": "0x0eb2a7667e56dd07131000ee0d99b6d218592d8b",
+                  "class": "CLIENT_MONEY",
+                  "label": "Client money",
+                  "expected": "1760000",
+                  "actual": "1660000",
+                  "delta": "-100000",
+                  "expectedBps": "8800",
+                  "actualBps": "8300"
+                },
+                {
+                  "account": "0xe0d6fc2fdb556a26c173c6e5fa90d6b5283ff060",
+                  "class": "OPERATING",
+                  "label": "Operating",
+                  "expected": "160000",
+                  "actual": "260000",
+                  "delta": "100000",
+                  "expectedBps": "800",
+                  "actualBps": "1300"
+                }
+              ]
+            }
+          ],
+          "totalMisallocated": "200000",
+          "totalMisallocatedReadable": "0.200000 USDC",
+          "ongoing": true,
+          "coverageStayedAtFullCover": true,
+          "source": "Deposit + Split + Mandate entities (subgraph)"
+        },
+        "fingerprint": "MANDATE_DRIFT:acme-marketplace:1:0xc7029c93,0x22df6fb4"
+      },
+      {
+        "kind": "SHORTFALL_FORECAST",
+        "severity": "INFO",
+        "title": "OPERATING: cover stable or growing",
+        "message": "OPERATING's surplus moved up by 457924 base units per day across 3.21 days (blocks 60902161–61427150). It is not depleting, so there is no depletion date to project. Current cover: 1.470646 USDC held against 0.000000 USDC owed.",
+        "evidence": {
+          "class": "OPERATING",
+          "held": "1470646",
+          "owed": "0",
+          "surplus": "1470646",
+          "heldReadable": "1.470646 USDC",
+          "owedReadable": "0.000000 USDC",
+          "snapshotsObserved": 18,
+          "windowFirstBlock": "60902161",
+          "windowLastBlock": "61427150",
+          "windowFirstTimestamp": "2026-09-07T11:40:30.000Z",
+          "windowLastTimestamp": "2026-09-10T16:45:08.000Z",
+          "observationDays": 3.2116,
+          "netSurplusChangePerDayBaseUnits": 457924,
+          "daysOfCover": null,
+          "source": "CoverageSnapshot entities (subgraph)"
+        },
+        "fingerprint": "SHORTFALL_FORECAST:OPERATING:stable"
+      },
+      {
+        "kind": "SHORTFALL_FORECAST",
+        "severity": "INFO",
+        "title": "CLIENT_MONEY: cover stable or growing",
+        "message": "CLIENT_MONEY's surplus moved up by 0 base units per day across 3.21 days (blocks 60902171–61427153). It is not depleting, so there is no depletion date to project. Current cover: 13.880000 USDC held against 13.880000 USDC owed.",
+        "evidence": {
+          "class": "CLIENT_MONEY",
+          "held": "13880000",
+          "owed": "13880000",
+          "surplus": "0",
+          "heldReadable": "13.880000 USDC",
+          "owedReadable": "13.880000 USDC",
+          "snapshotsObserved": 14,
+          "windowFirstBlock": "60902171",
+          "windowLastBlock": "61427153",
+          "windowFirstTimestamp": "2026-09-07T11:40:35.000Z",
+          "windowLastTimestamp": "2026-09-10T16:45:10.000Z",
+          "observationDays": 3.2115,
+          "netSurplusChangePerDayBaseUnits": 0,
+          "daysOfCover": null,
+          "source": "CoverageSnapshot entities (subgraph)"
+        },
+        "fingerprint": "SHORTFALL_FORECAST:CLIENT_MONEY:stable"
+      },
+      {
+        "kind": "SHORTFALL_FORECAST",
+        "severity": "INFO",
+        "title": "OBLIGATION_RESERVE: cover stable or growing",
+        "message": "OBLIGATION_RESERVE's surplus moved up by 0 base units per day across 3.21 days (blocks 60902178–61427155). It is not depleting, so there is no depletion date to project. Current cover: 0.640000 USDC held against 0.640000 USDC owed.",
+        "evidence": {
+          "class": "OBLIGATION_RESERVE",
+          "held": "640000",
+          "owed": "640000",
+          "surplus": "0",
+          "heldReadable": "0.640000 USDC",
+          "owedReadable": "0.640000 USDC",
+          "snapshotsObserved": 14,
+          "windowFirstBlock": "60902178",
+          "windowLastBlock": "61427155",
+          "windowFirstTimestamp": "2026-09-07T11:40:39.000Z",
+          "windowLastTimestamp": "2026-09-10T16:45:11.000Z",
+          "observationDays": 3.2115,
+          "netSurplusChangePerDayBaseUnits": 0,
+          "daysOfCover": null,
+          "source": "CoverageSnapshot entities (subgraph)"
+        },
+        "fingerprint": "SHORTFALL_FORECAST:OBLIGATION_RESERVE:stable"
+      }
+    ]
+  }
+}
