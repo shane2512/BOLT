@@ -1,0 +1,97 @@
+{
+  "requirements": {
+    "FR-8.3": "Payout from a locked account to a beneficiary succeeds inside the policy.",
+    "FR-8.5": "Payout emits ObligationSettled(obligationId, amount, txRef) and reduces outstanding obligations."
+  },
+  "locked_account": {
+    "address": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+    "wallet_id": "fpfl4y3ul8gcil9mbmwrafn0",
+    "policy_id": "ufrjjsolxvvmf4uwiw6yl9h9",
+    "explorer": "https://testnet.arcscan.app/address/0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b"
+  },
+  "obligation": {
+    "id": "0xa11d4a8306304d71777e641dc11361115d2fe04cebfefa82e8a450de96783e52",
+    "amount": "1610000",
+    "source": "deployed subgraph"
+  },
+  "permitted_payout": {
+    "expect": "ALLOW",
+    "outcome": "PAID",
+    "destination": "0xdc785bc6396D9753b1Db44Aa827beCaEa11E6569",
+    "amount": "1610000",
+    "transfer_tx": "0x1d63c344c26ba2bd324606f79a770d164329f02fff86b7f411afd844c51a80b3",
+    "obligation_settled_tx": "0x806fe496b4310143a447c8aed83ec72fe8d9042250320fa3d249baa58db51a10",
+    "receipts_read_from_rpc": {
+      "transfer": {
+        "tx": "0x1d63c344c26ba2bd324606f79a770d164329f02fff86b7f411afd844c51a80b3",
+        "status": "0x1",
+        "blockNumber": "0x3ac2e8e",
+        "explorer": "https://testnet.arcscan.app/tx/0x1d63c344c26ba2bd324606f79a770d164329f02fff86b7f411afd844c51a80b3",
+        "decodedLogs": [
+          {
+            "eventName": "(not a BoltRegistry event)",
+            "topics": [
+              "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+              "0x0000000000000000000000000eb2a7667e56dd07131000ee0d99b6d218592d8b",
+              "0x000000000000000000000000dc785bc6396d9753b1db44aa827becaea11e6569"
+            ]
+          },
+          {
+            "eventName": "(not a BoltRegistry event)",
+            "topics": [
+              "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+              "0x0000000000000000000000000eb2a7667e56dd07131000ee0d99b6d218592d8b",
+              "0x000000000000000000000000dc785bc6396d9753b1db44aa827becaea11e6569"
+            ]
+          }
+        ],
+        "verified": true
+      },
+      "obligation_settled": {
+        "tx": "0x806fe496b4310143a447c8aed83ec72fe8d9042250320fa3d249baa58db51a10",
+        "status": "0x1",
+        "blockNumber": "0x3ac2e92",
+        "explorer": "https://testnet.arcscan.app/tx/0x806fe496b4310143a447c8aed83ec72fe8d9042250320fa3d249baa58db51a10",
+        "decodedLogs": [
+          {
+            "eventName": "ObligationSettled",
+            "args": {
+              "obligationId": "0xa11d4a8306304d71777e641dc11361115d2fe04cebfefa82e8a450de96783e52",
+              "amount": "1610000",
+              "txRef": "0x1d63c344c26ba2bd324606f79a770d164329f02fff86b7f411afd844c51a80b3"
+            }
+          }
+        ],
+        "verified": true
+      }
+    }
+  },
+  "beneficiary_balance": {
+    "address": "0xdc785bc6396D9753b1Db44Aa827beCaEa11E6569",
+    "before": "12320000",
+    "after": "13930000",
+    "delta": "1610000",
+    "read_by": "eth_call balanceOf against ARC_RPC_URL, not from an SDK"
+  },
+  "refused_payout": {
+    "expect": "REFUSE",
+    "outcome": "REFUSED BEFORE THE ENCLAVE",
+    "destination": "0xeF71FA50A55C80a3Cb50C1Bf5109ccc50E0967b0",
+    "note": "Same locked account, same key-quorum authorization signature, same amount shape — only the decoded transfer._to differs. No application-layer destination check ran anywhere in this path (invariant 1); the error below is Privy's, verbatim.",
+    "attempted": {
+      "wallet_id": "fpfl4y3ul8gcil9mbmwrafn0",
+      "method": "eth_signTransaction",
+      "to": "0xeF71FA50A55C80a3Cb50C1Bf5109ccc50E0967b0",
+      "amount": "10000",
+      "note": "same locked account, same quorum signature, a destination the policy does not carry"
+    },
+    "error": {
+      "__type": "SelfieCheckRequiredError",
+      "stack": "SelfieCheckRequiredError: world: a Selfie Check is required before paying out to 0xeF71FA50A55C80a3Cb50C1Bf5109ccc50E0967b0 (ADDRESS_CHANGE). FR-8.6/FR-8.7 — no payout executes to a beneficiary who has not established eligibility, and no withdrawal address is honoured without a continuity signal.\n    at payoutToBeneficiary (D:\\BOLT\\packages\\privy\\src\\beneficiary.ts:441:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async <anonymous> (D:\\BOLT\\packages\\privy\\scripts\\phase8-payout.ts:693:3)",
+      "message": "world: a Selfie Check is required before paying out to 0xeF71FA50A55C80a3Cb50C1Bf5109ccc50E0967b0 (ADDRESS_CHANGE). FR-8.6/FR-8.7 — no payout executes to a beneficiary who has not established eligibility, and no withdrawal address is honoured without a continuity signal.",
+      "reason": "ADDRESS_CHANGE",
+      "address": "0xeF71FA50A55C80a3Cb50C1Bf5109ccc50E0967b0",
+      "name": "SelfieCheckRequiredError"
+    }
+  }
+}

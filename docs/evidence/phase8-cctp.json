@@ -1,0 +1,417 @@
+{
+  "requirement": "FR-8.4 (MAY) — withdrawal to another chain via CCTP, initiated from one button. Also BOLT's Arc App Kit integration: @circle-fin/bridge-kit is Arc's Bridge App Kit.",
+  "app_kit": {
+    "package": "@circle-fin/bridge-kit",
+    "doc": "arc-docs /app-kit and /app-kit/bridge",
+    "why_here": "The payout out of a locked account is signed in Privy's enclave against a policy that decodes transfer._to; handing that transaction to another SDK to build would move the exact calldata the policy checks away from the file responsible for it, for no gain. The App Kit sits on the beneficiary's own leg instead: once the money is theirs, moving it off Arc is a bridging problem, and hand-rolling CCTP's burn -> attestation -> mint is precisely what an App Kit exists to remove.",
+    "circle_api_key_required": false
+  },
+  "route": {
+    "from": {
+      "chain": "Arc_Testnet",
+      "chain_id": 5042002,
+      "usdc": "0x3600000000000000000000000000000000000000"
+    },
+    "to": "Base_Sepolia",
+    "amount": "0.50",
+    "cctp_domain": 26,
+    "cctp_v2": {
+      "type": "split",
+      "tokenMessenger": "0x8FE6B999Dc680CcFDD5Bf7EB0974218be2542DAA",
+      "tokenMessengerWithFees": "0x8745D906D67C346E5eb1aEEED38Eb87F34DF0C0A",
+      "messageTransmitter": "0xE737e5cEBEEBa77EFE34D4aa090756590b1CE275",
+      "confirmations": 1,
+      "fastConfirmations": 1
+    }
+  },
+  "signer": {
+    "address": "0x7ff410E96827EFA8f24854a8aEfe4E5532274484",
+    "note": "A private-key adapter, so the route is verifiable from a terminal. The claim page's button uses createViemAdapterFromProvider over the beneficiary's Privy embedded wallet — same kit.bridge() call, different signer."
+  },
+  "steps": [
+    {
+      "method": "approve",
+      "values": {
+        "name": "approve",
+        "state": "success",
+        "txHash": "0x3abe809551ef4a88c9c1afafc8679035a91c46756c97693e001f922d112434a9",
+        "data": {
+          "txHash": "0x3abe809551ef4a88c9c1afafc8679035a91c46756c97693e001f922d112434a9",
+          "status": "success",
+          "cumulativeGasUsed": "1070703",
+          "gasUsed": "38596",
+          "blockNumber": "61436270",
+          "blockHash": "0xbbdb5ae4038e565172045445235f1f5735bf0f8a8dcc4768aa796122e357ecc5",
+          "transactionIndex": 9,
+          "effectiveGasPrice": "22000000000"
+        },
+        "explorerUrl": "https://testnet.arcscan.app/tx/0x3abe809551ef4a88c9c1afafc8679035a91c46756c97693e001f922d112434a9"
+      }
+    },
+    {
+      "method": "burn",
+      "values": {
+        "name": "burn",
+        "state": "success",
+        "txHash": "0xacb072cc0409a57534b890b59c2aaf1124265a69f471cf8c95f9c8c1de0d2b1c",
+        "data": {
+          "txHash": "0xacb072cc0409a57534b890b59c2aaf1124265a69f471cf8c95f9c8c1de0d2b1c",
+          "status": "success",
+          "cumulativeGasUsed": "3153010",
+          "gasUsed": "168058",
+          "blockNumber": "61436275",
+          "blockHash": "0xbeffefce4b0a211df228afc2b627eb4a04acc9b7e3f60c5b09b645039218a4dd",
+          "transactionIndex": 16,
+          "effectiveGasPrice": "22000000000"
+        },
+        "explorerUrl": "https://testnet.arcscan.app/tx/0xacb072cc0409a57534b890b59c2aaf1124265a69f471cf8c95f9c8c1de0d2b1c"
+      }
+    },
+    {
+      "method": "fetchAttestation",
+      "values": {
+        "name": "fetchAttestation",
+        "state": "success",
+        "data": {
+          "attestation": "0x225f051d04c9a5be756049af81cf02bf66fa71c62f73d281265173208535de6e67b6865c391a67cd2a041e38dab1df8f2712e6fb931f8a117f74fa5ae2d779351c9109e6626a55fce7856109cbd7379e3f89a92c98aa1d72051f69d8ae0df0ac7e4aa0e70580e63664e701156f5f7d8bf3b303b12e1f3538a8092adf47a07862be1c",
+          "message": "0x000000010000001a0000000610aa23afde851bd31679917d8980b785bee447165256a10ae5f4f238d6b7f31e0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000000000000000000000000000000000000000000000000003e8000007d00000000100000000000000000000000036000000000000000000000000000000000000000000000000000000000000007ff410e96827efa8f24854a8aefe4e5532274484000000000000000000000000000000000000000000000000000000000007a120000000000000000000000000c5567a5e3370d4dbfb0540025078e283e36a363d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "eventNonce": "0x10aa23afde851bd31679917d8980b785bee447165256a10ae5f4f238d6b7f31e",
+          "cctpVersion": 2,
+          "status": "complete",
+          "decodedMessage": {
+            "sourceDomain": "26",
+            "destinationDomain": "6",
+            "nonce": "0x10aa23afde851bd31679917d8980b785bee447165256a10ae5f4f238d6b7f31e",
+            "sender": "0x8fe6b999dc680ccfdd5bf7eb0974218be2542daa",
+            "recipient": "0x8fe6b999dc680ccfdd5bf7eb0974218be2542daa",
+            "destinationCaller": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "minFinalityThreshold": "1000",
+            "finalityThresholdExecuted": "2000",
+            "messageBody": "0x0000000100000000000000000000000036000000000000000000000000000000000000000000000000000000000000007ff410e96827efa8f24854a8aefe4e5532274484000000000000000000000000000000000000000000000000000000000007a120000000000000000000000000c5567a5e3370d4dbfb0540025078e283e36a363d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "decodedMessageBody": {
+              "burnToken": "0x3600000000000000000000000000000000000000",
+              "mintRecipient": "0x7ff410e96827efa8f24854a8aefe4e5532274484",
+              "amount": "500000",
+              "messageSender": "0xc5567a5e3370d4dbfb0540025078e283e36a363d",
+              "maxFee": "0",
+              "feeExecuted": "0",
+              "expirationBlock": "0",
+              "hookData": null
+            },
+            "decodedCctpXMessageBody": null
+          },
+          "delayReason": null
+        }
+      }
+    },
+    {
+      "method": "mint",
+      "values": {
+        "name": "mint",
+        "state": "error",
+        "error": {
+          "code": 9002,
+          "name": "BALANCE_INSUFFICIENT_GAS",
+          "type": "BALANCE",
+          "recoverability": "FATAL",
+          "cause": {
+            "trace": {
+              "rawError": {
+                "cause": {
+                  "details": "insufficient funds for gas * price + value: have 0 want 2800000000000",
+                  "metaMessages": [
+                    "This error could arise when the account does not have enough funds to:",
+                    " - pay for the total gas fee,",
+                    " - pay for the value to send.",
+                    " ",
+                    "The cost of the transaction is calculated as `gas * gas fee + value`, where:",
+                    " - `gas` is the amount of gas needed for transaction to execute,",
+                    " - `gas fee` is the gas fee,",
+                    " - `value` is the amount of ether to send to the recipient."
+                  ],
+                  "shortMessage": "The total cost (gas * gas fee + value) of executing this transaction exceeds the balance of the account.",
+                  "version": "2.56.3",
+                  "name": "InsufficientFundsError"
+                },
+                "details": "insufficient funds for gas * price + value: have 0 want 2800000000000",
+                "metaMessages": [
+                  "This error could arise when the account does not have enough funds to:",
+                  " - pay for the total gas fee,",
+                  " - pay for the value to send.",
+                  " ",
+                  "The cost of the transaction is calculated as `gas * gas fee + value`, where:",
+                  " - `gas` is the amount of gas needed for transaction to execute,",
+                  " - `gas fee` is the gas fee,",
+                  " - `value` is the amount of ether to send to the recipient.",
+                  " ",
+                  "Request Arguments:",
+                  "  chain:  Base Sepolia (id: 84532)\n  from:   0x7ff410E96827EFA8f24854a8aEfe4E5532274484\n  to:     0xe737e5cebeeba77efe34d4aa090756590b1ce275\n  data:   0x57ecfd28000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000001e00000000000000000000000000000000000000000000000000000000000000178000000010000001a0000000610aa23afde851bd31679917d8980b785bee447165256a10ae5f4f238d6b7f31e0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000000000000000000000000000000000000000000000000003e8000007d00000000100000000000000000000000036000000000000000000000000000000000000000000000000000000000000007ff410e96827efa8f24854a8aefe4e5532274484000000000000000000000000000000000000000000000000000000000007a120000000000000000000000000c5567a5e3370d4dbfb0540025078e283e36a363d00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000082225f051d04c9a5be756049af81cf02bf66fa71c62f73d281265173208535de6e67b6865c391a67cd2a041e38dab1df8f2712e6fb931f8a117f74fa5ae2d779351c9109e6626a55fce7856109cbd7379e3f89a92c98aa1d72051f69d8ae0df0ac7e4aa0e70580e63664e701156f5f7d8bf3b303b12e1f3538a8092adf47a07862be1c000000000000000000000000000000000000000000000000000000000000\n  gas:    400000"
+                ],
+                "shortMessage": "The total cost (gas * gas fee + value) of executing this transaction exceeds the balance of the account.",
+                "version": "2.56.3",
+                "name": "TransactionExecutionError"
+              },
+              "chain": "Base Sepolia"
+            }
+          }
+        },
+        "errorCategory": "unknown",
+        "errorMessage": "Insufficient native token on Base Sepolia to cover gas fees",
+        "forwarded": false
+      }
+    }
+  ],
+  "result": {
+    "state": "error",
+    "amount": "0.5",
+    "token": "USDC",
+    "source": {
+      "address": "0x7ff410E96827EFA8f24854a8aEfe4E5532274484",
+      "chain": {
+        "type": "evm",
+        "chain": "Arc_Testnet",
+        "name": "Arc Testnet",
+        "title": "ArcTestnet",
+        "nativeCurrency": {
+          "name": "USDC",
+          "symbol": "USDC",
+          "decimals": 18
+        },
+        "chainId": 5042002,
+        "isTestnet": true,
+        "explorerUrl": "https://testnet.arcscan.app/tx/{hash}",
+        "rpcEndpoints": [
+          "https://rpc.testnet.arc.network/"
+        ],
+        "eurcAddress": "0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a",
+        "usdcAddress": "0x3600000000000000000000000000000000000000",
+        "usdtAddress": null,
+        "cctp": {
+          "domain": 26,
+          "contracts": {
+            "v2": {
+              "type": "split",
+              "tokenMessenger": "0x8FE6B999Dc680CcFDD5Bf7EB0974218be2542DAA",
+              "tokenMessengerWithFees": "0x8745D906D67C346E5eb1aEEED38Eb87F34DF0C0A",
+              "messageTransmitter": "0xE737e5cEBEEBa77EFE34D4aa090756590b1CE275",
+              "confirmations": 1,
+              "fastConfirmations": 1
+            }
+          },
+          "forwarderSupported": {
+            "source": false,
+            "destination": true
+          }
+        },
+        "kitContracts": {
+          "bridge": "0xC5567a5E3370d4DBfB0540025078e283e36A363d",
+          "adapter": "0xBBD70b01a1CAbc96d5b7b129Ae1AAabdf50dd40b"
+        },
+        "gateway": {
+          "domain": 26,
+          "contracts": {
+            "v1": {
+              "wallet": "0x0077777d7EBA4688BDeF3E311b846F25870A19B9",
+              "minter": "0x0022222ABE238Cc2C7Bb1f21003F0a260052475B",
+              "depositForHandler": "0xD05E7D2E7d30b92c5F17d7d0fC575fce231F1A48",
+              "genericExecutor": "0xEdC81040756AcCfF070c21D37b265b9D0b5Ba45e"
+            }
+          },
+          "forwarderSupported": {
+            "source": true,
+            "destination": true
+          }
+        }
+      }
+    },
+    "destination": {
+      "address": "0x7ff410E96827EFA8f24854a8aEfe4E5532274484",
+      "chain": {
+        "type": "evm",
+        "chain": "Base_Sepolia",
+        "name": "Base Sepolia",
+        "title": "Base Sepolia Testnet",
+        "nativeCurrency": {
+          "name": "Sepolia Ether",
+          "symbol": "ETH",
+          "decimals": 18
+        },
+        "chainId": 84532,
+        "isTestnet": true,
+        "explorerUrl": "https://sepolia.basescan.org/tx/{hash}",
+        "rpcEndpoints": [
+          "https://sepolia.base.org"
+        ],
+        "eurcAddress": "0x808456652fdb597867f38412077A9182bf77359F",
+        "usdcAddress": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "usdtAddress": null,
+        "cctp": {
+          "domain": 6,
+          "contracts": {
+            "v1": {
+              "type": "split",
+              "tokenMessenger": "0x9f3B8679c73C2Fef8b59B4f3444d4e156fb70AA5",
+              "messageTransmitter": "0x7865fAfC2db2093669d92c0F33AeEF291086BEFD",
+              "confirmations": 65
+            },
+            "v2": {
+              "type": "split",
+              "tokenMessenger": "0x8fe6b999dc680ccfdd5bf7eb0974218be2542daa",
+              "tokenMessengerWithFees": "0x8745D906D67C346E5eb1aEEED38Eb87F34DF0C0A",
+              "messageTransmitter": "0xe737e5cebeeba77efe34d4aa090756590b1ce275",
+              "confirmations": 65,
+              "fastConfirmations": 1
+            }
+          },
+          "forwarderSupported": {
+            "source": false,
+            "destination": true
+          }
+        },
+        "kitContracts": {
+          "bridge": "0xC5567a5E3370d4DBfB0540025078e283e36A363d",
+          "adapter": "0xBBD70b01a1CAbc96d5b7b129Ae1AAabdf50dd40b"
+        },
+        "gateway": {
+          "domain": 6,
+          "contracts": {
+            "v1": {
+              "wallet": "0x0077777d7EBA4688BDeF3E311b846F25870A19B9",
+              "minter": "0x0022222ABE238Cc2C7Bb1f21003F0a260052475B"
+            }
+          },
+          "forwarderSupported": {
+            "source": true,
+            "destination": true
+          }
+        }
+      }
+    },
+    "steps": [
+      {
+        "name": "approve",
+        "state": "success",
+        "txHash": "0x3abe809551ef4a88c9c1afafc8679035a91c46756c97693e001f922d112434a9",
+        "data": {
+          "txHash": "0x3abe809551ef4a88c9c1afafc8679035a91c46756c97693e001f922d112434a9",
+          "status": "success",
+          "cumulativeGasUsed": "1070703",
+          "gasUsed": "38596",
+          "blockNumber": "61436270",
+          "blockHash": "0xbbdb5ae4038e565172045445235f1f5735bf0f8a8dcc4768aa796122e357ecc5",
+          "transactionIndex": 9,
+          "effectiveGasPrice": "22000000000"
+        },
+        "explorerUrl": "https://testnet.arcscan.app/tx/0x3abe809551ef4a88c9c1afafc8679035a91c46756c97693e001f922d112434a9"
+      },
+      {
+        "name": "burn",
+        "state": "success",
+        "txHash": "0xacb072cc0409a57534b890b59c2aaf1124265a69f471cf8c95f9c8c1de0d2b1c",
+        "data": {
+          "txHash": "0xacb072cc0409a57534b890b59c2aaf1124265a69f471cf8c95f9c8c1de0d2b1c",
+          "status": "success",
+          "cumulativeGasUsed": "3153010",
+          "gasUsed": "168058",
+          "blockNumber": "61436275",
+          "blockHash": "0xbeffefce4b0a211df228afc2b627eb4a04acc9b7e3f60c5b09b645039218a4dd",
+          "transactionIndex": 16,
+          "effectiveGasPrice": "22000000000"
+        },
+        "explorerUrl": "https://testnet.arcscan.app/tx/0xacb072cc0409a57534b890b59c2aaf1124265a69f471cf8c95f9c8c1de0d2b1c"
+      },
+      {
+        "name": "fetchAttestation",
+        "state": "success",
+        "data": {
+          "attestation": "0x225f051d04c9a5be756049af81cf02bf66fa71c62f73d281265173208535de6e67b6865c391a67cd2a041e38dab1df8f2712e6fb931f8a117f74fa5ae2d779351c9109e6626a55fce7856109cbd7379e3f89a92c98aa1d72051f69d8ae0df0ac7e4aa0e70580e63664e701156f5f7d8bf3b303b12e1f3538a8092adf47a07862be1c",
+          "message": "0x000000010000001a0000000610aa23afde851bd31679917d8980b785bee447165256a10ae5f4f238d6b7f31e0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000000000000000000000000000000000000000000000000003e8000007d00000000100000000000000000000000036000000000000000000000000000000000000000000000000000000000000007ff410e96827efa8f24854a8aefe4e5532274484000000000000000000000000000000000000000000000000000000000007a120000000000000000000000000c5567a5e3370d4dbfb0540025078e283e36a363d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "eventNonce": "0x10aa23afde851bd31679917d8980b785bee447165256a10ae5f4f238d6b7f31e",
+          "cctpVersion": 2,
+          "status": "complete",
+          "decodedMessage": {
+            "sourceDomain": "26",
+            "destinationDomain": "6",
+            "nonce": "0x10aa23afde851bd31679917d8980b785bee447165256a10ae5f4f238d6b7f31e",
+            "sender": "0x8fe6b999dc680ccfdd5bf7eb0974218be2542daa",
+            "recipient": "0x8fe6b999dc680ccfdd5bf7eb0974218be2542daa",
+            "destinationCaller": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "minFinalityThreshold": "1000",
+            "finalityThresholdExecuted": "2000",
+            "messageBody": "0x0000000100000000000000000000000036000000000000000000000000000000000000000000000000000000000000007ff410e96827efa8f24854a8aefe4e5532274484000000000000000000000000000000000000000000000000000000000007a120000000000000000000000000c5567a5e3370d4dbfb0540025078e283e36a363d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "decodedMessageBody": {
+              "burnToken": "0x3600000000000000000000000000000000000000",
+              "mintRecipient": "0x7ff410e96827efa8f24854a8aefe4e5532274484",
+              "amount": "500000",
+              "messageSender": "0xc5567a5e3370d4dbfb0540025078e283e36a363d",
+              "maxFee": "0",
+              "feeExecuted": "0",
+              "expirationBlock": "0",
+              "hookData": null
+            },
+            "decodedCctpXMessageBody": null
+          },
+          "delayReason": null
+        }
+      },
+      {
+        "name": "mint",
+        "state": "error",
+        "error": {
+          "code": 9002,
+          "name": "BALANCE_INSUFFICIENT_GAS",
+          "type": "BALANCE",
+          "recoverability": "FATAL",
+          "cause": {
+            "trace": {
+              "rawError": {
+                "cause": {
+                  "details": "insufficient funds for gas * price + value: have 0 want 2800000000000",
+                  "metaMessages": [
+                    "This error could arise when the account does not have enough funds to:",
+                    " - pay for the total gas fee,",
+                    " - pay for the value to send.",
+                    " ",
+                    "The cost of the transaction is calculated as `gas * gas fee + value`, where:",
+                    " - `gas` is the amount of gas needed for transaction to execute,",
+                    " - `gas fee` is the gas fee,",
+                    " - `value` is the amount of ether to send to the recipient."
+                  ],
+                  "shortMessage": "The total cost (gas * gas fee + value) of executing this transaction exceeds the balance of the account.",
+                  "version": "2.56.3",
+                  "name": "InsufficientFundsError"
+                },
+                "details": "insufficient funds for gas * price + value: have 0 want 2800000000000",
+                "metaMessages": [
+                  "This error could arise when the account does not have enough funds to:",
+                  " - pay for the total gas fee,",
+                  " - pay for the value to send.",
+                  " ",
+                  "The cost of the transaction is calculated as `gas * gas fee + value`, where:",
+                  " - `gas` is the amount of gas needed for transaction to execute,",
+                  " - `gas fee` is the gas fee,",
+                  " - `value` is the amount of ether to send to the recipient.",
+                  " ",
+                  "Request Arguments:",
+                  "  chain:  Base Sepolia (id: 84532)\n  from:   0x7ff410E96827EFA8f24854a8aEfe4E5532274484\n  to:     0xe737e5cebeeba77efe34d4aa090756590b1ce275\n  data:   0x57ecfd28000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000001e00000000000000000000000000000000000000000000000000000000000000178000000010000001a0000000610aa23afde851bd31679917d8980b785bee447165256a10ae5f4f238d6b7f31e0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000000000000000000000000000000000000000000000000003e8000007d00000000100000000000000000000000036000000000000000000000000000000000000000000000000000000000000007ff410e96827efa8f24854a8aefe4e5532274484000000000000000000000000000000000000000000000000000000000007a120000000000000000000000000c5567a5e3370d4dbfb0540025078e283e36a363d00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000082225f051d04c9a5be756049af81cf02bf66fa71c62f73d281265173208535de6e67b6865c391a67cd2a041e38dab1df8f2712e6fb931f8a117f74fa5ae2d779351c9109e6626a55fce7856109cbd7379e3f89a92c98aa1d72051f69d8ae0df0ac7e4aa0e70580e63664e701156f5f7d8bf3b303b12e1f3538a8092adf47a07862be1c000000000000000000000000000000000000000000000000000000000000\n  gas:    400000"
+                ],
+                "shortMessage": "The total cost (gas * gas fee + value) of executing this transaction exceeds the balance of the account.",
+                "version": "2.56.3",
+                "name": "TransactionExecutionError"
+              },
+              "chain": "Base Sepolia"
+            }
+          }
+        },
+        "errorCategory": "unknown",
+        "errorMessage": "Insufficient native token on Base Sepolia to cover gas fees",
+        "forwarded": false
+      }
+    ],
+    "config": {
+      "transferSpeed": "FAST"
+    },
+    "provider": "CCTPV2BridgingProvider"
+  },
+  "error": null
+}

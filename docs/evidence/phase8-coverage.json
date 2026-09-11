@@ -1,0 +1,77 @@
+{
+  "requirement": "FR-8.5 — outstanding obligations fall and the coverage line updates. Both figures come from the deployed subgraph's indexed events, not from Postgres (invariant 8).",
+  "business_id": "0xe4f80b146a0189b8f5c7e14a4e237f257b5952cb0f16d389ea268123d5a93039",
+  "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+  "before": {
+    "coverageSnapshots": [
+      {
+        "held": "10552989",
+        "owed": "10410000",
+        "ratioBps": "10137",
+        "blockNumber": "61615335",
+        "trigger": "ObligationAccrued"
+      }
+    ],
+    "account": {
+      "held": "10552989",
+      "owed": "10410000"
+    }
+  },
+  "after": {
+    "obligation": {
+      "accrued": "1660000",
+      "settled": "1660000",
+      "outstanding": "0"
+    },
+    "obligationSettlements": [
+      {
+        "amount": "50000",
+        "txRef": "0x0f567acea91dbe63b621e997f9a8cb9ca39ce59f3c6bb9d35e5a5bfd3c46fac2",
+        "blockNumber": "61435391",
+        "txHash": "0x37edfd7e0bccf1f8761f8faf798ce4a94e644ce788375f3057732e285bc531e3"
+      },
+      {
+        "amount": "1610000",
+        "txRef": "0x1d63c344c26ba2bd324606f79a770d164329f02fff86b7f411afd844c51a80b3",
+        "blockNumber": "61615762",
+        "txHash": "0x806fe496b4310143a447c8aed83ec72fe8d9042250320fa3d249baa58db51a10"
+      }
+    ],
+    "account": {
+      "held": "8890836",
+      "owed": "8750000"
+    },
+    "coverageSnapshots": [
+      {
+        "held": "8890836",
+        "owed": "8750000",
+        "ratioBps": "10160",
+        "trigger": "ObligationSettled",
+        "blockNumber": "61615769",
+        "txHash": "0xeb5a339273a4666e9ca4f7b82b5645598dd9aa44e89578f0a60d1882ac8039fa"
+      },
+      {
+        "held": "8890836",
+        "owed": "8800000",
+        "ratioBps": "10103",
+        "trigger": "UsdcTransfer",
+        "blockNumber": "61615766",
+        "txHash": "0xaf90320fc9c5d2436017a876843ba05e0301306c6df9a48cc486aee5adb160c3"
+      },
+      {
+        "held": "8941913",
+        "owed": "8800000",
+        "ratioBps": "10161",
+        "trigger": "ObligationSettled",
+        "blockNumber": "61615762",
+        "txHash": "0x806fe496b4310143a447c8aed83ec72fe8d9042250320fa3d249baa58db51a10"
+      }
+    ],
+    "_meta": {
+      "block": {
+        "number": 61615795
+      }
+    }
+  },
+  "public_page": "/acme-marketplace"
+}
