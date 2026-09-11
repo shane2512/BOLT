@@ -1,0 +1,9 @@
+{
+  "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+  "old_policy_hash": "0x22f438c939680e9c7554d22143fbe1d28fbb3471710e03f82f729061473d961d",
+  "new_policy_hash": "0x697b9ddaa4ff7f6f4f90aa12e3c7c31f4323474d5850f9e0c78c294b1f224071",
+  "quorum_ref": "0x2629a13e80ea4c8bf3eae28cdd2b59eb0e6838b801bcb7df748e7bbdfa87e94f",
+  "tx": "0x82617273a43524701018991e1a190d301b77f6fbde8475fcca2a76df76f8f56c",
+  "status": "0x1",
+  "explorer": "https://testnet.arcscan.app/tx/0x82617273a43524701018991e1a190d301b77f6fbde8475fcca2a76df76f8f56c"
+}

@@ -1,0 +1,12 @@
+{
+  "policy_id": "ufrjjsolxvvmf4uwiw6yl9h9",
+  "rule_names": [
+    "USDC transfer to payee (eth_signTransaction)",
+    "Deny approve (eth_signTransaction)",
+    "Deny transferFrom (eth_signTransaction)",
+    "USDC transfer to payee (eth_sendTransaction)",
+    "Deny approve (eth_sendTransaction)",
+    "Deny transferFrom (eth_sendTransaction)"
+  ],
+  "widening_rule_present": false
+}

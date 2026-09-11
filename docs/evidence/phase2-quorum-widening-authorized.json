@@ -1,0 +1,15 @@
+{
+  "expect": "ALLOW",
+  "outcome": "WIDENED",
+  "note": "Byte-identical to the refused request above except for the quorum authorization signature. This is the control that makes the refusal mean something.",
+  "policy_id": "ufrjjsolxvvmf4uwiw6yl9h9",
+  "rule_names_after": [
+    "Deny transferFrom (eth_signTransaction)",
+    "USDC transfer to payee (eth_signTransaction)",
+    "Deny approve (eth_signTransaction)",
+    "Deny transferFrom (eth_sendTransaction)",
+    "USDC transfer to payee (eth_sendTransaction)",
+    "Deny approve (eth_sendTransaction)",
+    "Widen: add payee 0xe15Ea983"
+  ]
+}
