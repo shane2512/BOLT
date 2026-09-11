@@ -1,0 +1,28 @@
+{
+  "slug": "bolt-simulator-sandbox",
+  "name": "BOLT Simulator Sandbox",
+  "organizationId": "cmtwgf4pm000h0dl06apptrlv",
+  "keyQuorumId": "of4vu67mj0q3odf4cc7i16ej",
+  "chainId": 5042002,
+  "usdcAddress": "0x3600000000000000000000000000000000000000",
+  "permittedPayee": "0x5C4107308B15447B6274971639D3EEd2b7974a66",
+  "account": {
+    "walletId": "o1av2soamiqwpwg1q5n1tbo5",
+    "address": "0x42e895aD56D76c230BAF106F7d2BA52aA00Dc2F0",
+    "accountClass": "CLIENT_MONEY",
+    "policyId": "y1f5r1j2wf21fw30jy7pqo3v",
+    "policyHash": "0x6e7e4ac3185b1d1eef1e673223bdd6b67ed3b0b066a6d6d0b93d1c27051c871d"
+  },
+  "otherAccounts": [
+    {
+      "accountClass": "OPERATING",
+      "address": "0xA918694ff9DB57B3B7dd621F555960Af7855C85c",
+      "policyId": null
+    },
+    {
+      "accountClass": "OBLIGATION_RESERVE",
+      "address": "0x23A50c8177be8691b5B835FF2C6766935Fb6f380",
+      "policyId": "m2mfmhigg9t8goi8gbvqgiua"
+    }
+  ]
+}
