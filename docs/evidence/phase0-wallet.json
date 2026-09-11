@@ -1,0 +1,15 @@
+{
+  "id": "ule8cjaznx9y9khgs4ohtgqp",
+  "address": "0x03929eB4825eCf791eFb17852B5e5C7A8556a871",
+  "chain_type": "ethereum",
+  "policy_ids": [
+    "c5sp0lfcxusc1day0zpc15ah"
+  ],
+  "additional_signers": [],
+  "exported_at": null,
+  "imported_at": null,
+  "archived_at": null,
+  "created_at": 1788771768616,
+  "owner_id": null,
+  "entity": null
+}
