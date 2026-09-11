@@ -1,0 +1,8 @@
+{
+  "note": "The permitted transfer, signed by the enclave and self-broadcast (Privy does not broadcast on Arc). Proof the sandbox account holds real money and the signatures the enclave withholds from every attack are real ones.",
+  "from": "0x42e895aD56D76c230BAF106F7d2BA52aA00Dc2F0",
+  "to": "0x5C4107308B15447B6274971639D3EEd2b7974a66",
+  "tx": "0x69cf30c86a633649fd1f3efd4f535ffe0fd71fa0594634f28169d3651e86c6c0",
+  "status": "success",
+  "explorer": "https://testnet.arcscan.app/tx/0x69cf30c86a633649fd1f3efd4f535ffe0fd71fa0594634f28169d3651e86c6c0"
+}

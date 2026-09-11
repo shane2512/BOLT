@@ -1,0 +1,31 @@
+{
+  "expect": "REFUSE",
+  "stopped_by": "ethereum_calldata.transfer._to (the enclave decodes properly)",
+  "wallet": "0x42e895aD56D76c230BAF106F7d2BA52aA00Dc2F0",
+  "thief": "0x99e3b93861B2F931bcA75008459b3c040ea3274B",
+  "attackId": "dirty-padding",
+  "outcome": "REFUSED",
+  "rawError": {
+    "__type": "BadRequestError",
+    "stack": "Error: 400 {\"error\":\"RPC request denied due to policy violation\",\"code\":\"policy_violation\"}\n    at Function.generate (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\core\\error.ts:60:14)\n    at PrivyAPI.makeStatusError (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\client.ts:1600:28)\n    at PrivyAPI.makeRequest (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\client.ts:1820:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async PrivyWalletsService.rpc (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\public-api\\services\\wallets.ts:104:12)\n    at async PrivyEthereumService.signTransaction (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\public-api\\services\\ethereum.ts:78:22)\n    at async attemptAttack (D:\\BOLT\\packages\\privy\\src\\simulator.ts:305:20)\n    at async <anonymous> (D:\\BOLT\\packages\\privy\\scripts\\phase9-simulator.ts:317:18)",
+    "message": "400 {\"error\":\"RPC request denied due to policy violation\",\"code\":\"policy_violation\"}",
+    "status": 400,
+    "headers": {},
+    "error": {
+      "error": "RPC request denied due to policy violation",
+      "code": "policy_violation"
+    }
+  },
+  "transaction": {
+    "from": "0x42e895aD56D76c230BAF106F7d2BA52aA00Dc2F0",
+    "chain_id": 5042002,
+    "nonce": 0,
+    "type": 2,
+    "gas_limit": 300000,
+    "max_fee_per_gas": "0xa83beea00",
+    "max_priority_fee_per_gas": "0x541df7500",
+    "to": "0x3600000000000000000000000000000000000000",
+    "value": "0x0",
+    "data": "0xa9059cbbdeadbeefcafebabefeedface99e3b93861b2f931bca75008459b3c040ea3274b0000000000000000000000000000000000000000000000000000000000002710"
+  }
+}

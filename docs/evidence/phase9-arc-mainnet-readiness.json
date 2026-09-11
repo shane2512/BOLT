@@ -1,0 +1,21 @@
+{
+  "question": "Would the same Hardhat config and deploy script work against Arc mainnet, unchanged, once Circle publishes its parameters?",
+  "arc_docs_checked_on": "2026-09-11",
+  "arc_docs_finding": {
+    "/arc/concepts/deployment-model.mdx": "Public Testnet = Live (chain 5042002). Private Mainnet = Upcoming. Public Mainnet = Upcoming.",
+    "/arc/references/rpc-endpoints.mdx": "\"Mainnet endpoints and parameters are published separately when available.\" Only testnet endpoints are listed.",
+    "/arc/references/contract-addresses.mdx": "\"All addresses on this page are for Arc Testnet. Mainnet addresses are not [published]\""
+  },
+  "conclusion": "Arc mainnet is not publicly live, so BoltRegistry cannot be deployed to it. There is no chain id or RPC to hard-code and none was invented.",
+  "readiness_rehearsal": {
+    "note": "The arcMainnet network entry and the contracts:deploy:mainnet script were exercised end to end with ARC_MAINNET_RPC_URL / ARC_MAINNET_CHAIN_ID pointed at the testnet values, to prove the code path is real rather than asserted. Substituting the published mainnet values is the only change needed. THIS CONTRACT IS ON TESTNET, NOT MAINNET.",
+    "command": "ARC_MAINNET_RPC_URL=https://rpc.testnet.arc.io ARC_MAINNET_CHAIN_ID=5042002 pnpm contracts:deploy:mainnet",
+    "tx": "0x4e81455dbc61ac77816a0f7001fa2bd228ef0583a6bd4e891b516d8c15d51b9d",
+    "status": "0x1",
+    "block": "0x3aa91c2",
+    "contract": "0xb27698fd51c8e76ffaaee2740e6639d896c1d008",
+    "network_used": "arcTestnet parameters via the arcMainnet entry",
+    "explorer": "https://testnet.arcscan.app/tx/0x4e81455dbc61ac77816a0f7001fa2bd228ef0583a6bd4e891b516d8c15d51b9d"
+  },
+  "without_env_vars": "pnpm contracts:deploy:mainnet exits 1 — the arcMainnet network does not exist unless both parameters are supplied. A phantom network that silently points at nothing is worse than none."
+}
