@@ -1,0 +1,33 @@
+{
+  "expect": "3-of-5",
+  "key_quorum_id": "v4e3fx5o6ut4h92em38kk7gk",
+  "authorization_threshold": 3,
+  "members": [
+    {
+      "label": "approver-1",
+      "address": "0x61730284cc6B67b9654F5BEEb91C8DA0BAF57E9d",
+      "public_key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEkTUxfAj0KjG/R+vFfHPRnhqbApARp2e7AZZ5pYQCmdQNmt6bSi9ChasJ8FAT00F9hnY7kLRHjw0dgP9c+rGdHA=="
+    },
+    {
+      "label": "approver-2",
+      "address": "0xA75DfE76898dDB6DC09C9a38745cD7222E42d4DB",
+      "public_key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEhqFdU4rxsqsbm5auSRVmh2m6bXx4xKgaq6M5W+NLqxhZ6Gq+2IRGL5KhgHvtI7IN+QKV4sDMfDtSxQvn5gA4EA=="
+    },
+    {
+      "label": "approver-3",
+      "address": "0x1791F453b01fF12F204b97EE3A55D6963386B901",
+      "public_key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEwUhyCgilieKonLayl8QE6Qbx6ri9doX9jU+P2Z18CXL5dCFgtCi6TAMHYt3mHDXjk8GLl/gMaVvxggm10Zg7Dg=="
+    },
+    {
+      "label": "approver-4",
+      "address": "0x58042AC6226176649bF418153E1404303959E80E",
+      "public_key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAErF5b88/Rt+edSrWNMXAkPqfhh09eXuaKok7M6TuDF38OdpaGoESU90AG1PvxvHsKVfIzUDtKx+Th6R5sU0GRDQ=="
+    },
+    {
+      "label": "approver-5",
+      "address": "0x1C5B14a58A648AF4511868E8603b7118DBf94d99",
+      "public_key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE8oZdfztru0eXQffTURp3KmrI1pfpoZMJSf602MxDkfZwDteKhQlWbfwNCryc0y3sWH3XlBEOBXqB9nJBMX6URA=="
+    }
+  ],
+  "note": "FR-5.2. Privy's TEE enforces the threshold; no application code counts approvals."
+}

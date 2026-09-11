@@ -1,0 +1,25 @@
+{
+  "what": "POST /v1/intents/{intent_id}/authorize wants 'an authorization signature over the intent's action'. privy-docs never defines those bytes, and @privy-io/node@0.34.0 has no intents().authorize() to copy from (the docs' example is Java-only). Every payload shape derived from the intent's own request_details is refused.",
+  "endpoint": "POST https://api.privy.io/v1/intents/zokx0zcjuwwh7fy8tzr77c5d/authorize",
+  "sdk_version": "@privy-io/node@0.34.0",
+  "attempts": [
+    {
+      "payload": "request_details + privy-app-id",
+      "status": 400,
+      "body": {
+        "error": "No valid authorization key found for signature",
+        "code": "invalid_data"
+      }
+    },
+    {
+      "payload": "request_details + chain_type",
+      "status": 400,
+      "body": {
+        "error": "No valid authorization key found for signature",
+        "code": "invalid_data"
+      }
+    }
+  ],
+  "control": "The same keys, over the documented m-of-n route (/controls/key-quorum/sign), are accepted — see phase6-quorum-two-of-five.json. So the keys and the signing helper are correct; only the intent-authorize payload definition is missing.",
+  "impact": "None to the security property: the quorum still enforces 3-of-5 in Privy's TEE. The intent remains the proposal record; the signatures ride the documented header."
+}

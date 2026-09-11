@@ -1,0 +1,55 @@
+{
+  "requirement": "FR-5.1 → FR-5.4 — the full unlock ceremony, with live World Selfie Checks",
+  "run": {
+    "at": "2026-09-10T16:09:32.818Z",
+    "approvers_attempted": 1,
+    "poll_timeout_ms": 20000,
+    "note": "PHASE6_APPROVALS and PHASE6_POLL_TIMEOUT_MS override these. A run with a short timeout and fewer approvers is a wiring check, not a ceremony — read `outcome`."
+  },
+  "off_chain_store": "pglite (Postgres unreachable) — the page renders the unlock and its reason HASH from the subgraph, but not the prose. Re-run where DATABASE_URL is reachable for the full page.",
+  "world": {
+    "app_id": "app_c1634cdf104184a52e0bd68561a89ddc",
+    "rp_id": "rp_2b39e68adda22dfe",
+    "action": "bolt-unlock-approval",
+    "environment": "sandbox",
+    "verify_endpoint": "https://developer.world.org/api/v4/verify/rp_2b39e68adda22dfe",
+    "preset": "selfieCheckLegacy (World ID 3.0)",
+    "signal": "984d23aa-e658-493c-98d5-10aa300e9f8e",
+    "expected_signal_hash": "0x00b3c32da12a22551a1646979c0c64da7e34c6dc2edcc88a9db427177f0c212a",
+    "note": "Selfie Check has no headless path: a proof is produced by a person completing a face capture in the sandbox World ID app, installed via TestFlight or a private Google Play track (world-docs /world-id/sandbox/sandbox-access). Nothing here simulates one."
+  },
+  "unlock": {
+    "unlock_id": "0xb3c32da12a22551a1646979c0c64da7e34c6dc2edcc88a9db427177f0c212a91",
+    "db_row_id": "984d23aa-e658-493c-98d5-10aa300e9f8e",
+    "reason": "Buyer confirmed delivery and waived the 14-day hold. Releasing the seller's escrowed balance early, to the address already permitted by this account's policy.",
+    "reason_hash": "0x1d0d584be1741a84fe8bfbe878c3fd53f50448ce74f2742393edfde41d228353",
+    "intent_id": "i1avw3ohr6xr2grftp0erju8",
+    "threshold": 3,
+    "quorum_size": 5,
+    "account": "0xf7916e8B1F5f033d940aE3b12614DFDa6F8B9849",
+    "destination": "0x32295054BAE0263042EC3Cc9E634e73121d65550",
+    "amount_usdc_base_units": "25000000",
+    "requested_tx": "0xeb827be8a48f2e761b608e803eb89547ec2157d48427f57cfd33939067fdff21",
+    "explorer": "https://testnet.arcscan.app/tx/0xeb827be8a48f2e761b608e803eb89547ec2157d48427f57cfd33939067fdff21"
+  },
+  "approvals": [
+    {
+      "approver": "approver-1",
+      "address": "0x61730284cc6B67b9654F5BEEb91C8DA0BAF57E9d",
+      "connect_url": "https://sandbox.world.org/verify?t=wld&i=3146ff99-a0c8-4058-aeef-990d7bec71b1&k=Vg2btBFWu3oqoUimBoTOYkQELquDnEFtRoaYf%2BwhgaQ%3D",
+      "world_request_id": "3146ff99-a0c8-4058-aeef-990d7bec71b1",
+      "rp_signature": {
+        "nonce": "0x0005c9f46211a0ff9bcf8f0417bd004cf8e604801fd652d17d511616b2b2aac0",
+        "created_at": 1789056550,
+        "expires_at": 1789056850
+      },
+      "outcome": "IDKIT_FAILED",
+      "idkit_error": "timeout"
+    }
+  ],
+  "approvals_completed": 0,
+  "timer": null,
+  "execution": null,
+  "execution_error": null,
+  "outcome": "INCOMPLETE — 0 of 3 approvals completed"
+}
