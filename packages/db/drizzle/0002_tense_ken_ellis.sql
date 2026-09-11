@@ -1,0 +1,1 @@
+ALTER TABLE "unlock_approvals" ADD COLUMN "quorum_signature" text;
