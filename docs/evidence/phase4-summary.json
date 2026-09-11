@@ -1,0 +1,25 @@
+{
+  "subgraph": "bolt",
+  "studio_url": "https://thegraph.com/studio/subgraph/bolt",
+  "query_url": "https://api.studio.thegraph.com/query/1758871/bolt/v0.0.1",
+  "network": "arc-testnet",
+  "chain_id_confirmed": "eip155:5042002",
+  "note_on_network_naming": "The Graph's supported-networks docs list TWO unrelated networks both called 'Arc': a mainnet entry (chain eip155:5042, docs.arc.network — a different project) and a testnet entry ('arc-testnet', chain eip155:5042002, docs.arc.network link is likely a doc error — the chain id is the definitive match to Circle's Arc Testnet, confirmed by BoltRegistry's real deployment). Studio's onboarding UI just labels the testnet option 'Arc'.",
+  "startBlock": 60893705,
+  "startBlock_method": "binary search on eth_getCode against the Arc RPC — eth_getLogs from block 0 returns 'pruned history unavailable'",
+  "synced_to_block_at_verification": 60912504,
+  "hasIndexingErrors": false,
+  "docs_used": [
+    "https://github.com/graphprotocol/subgraphs-skills — skills/subgraph-dev/SKILL.md (manifest configuration), skills/subgraph-dev/references/schema-types.md (entity field types/directives)",
+    "https://thegraph.com/docs/en/supported-networks/arc-testnet/ — network identifier and chain id confirmation",
+    "https://thegraph.com/docs/ — Subgraph Studio deploy flow (graph auth / graph deploy), since subgraphs-skills doesn't cover Studio deployment mechanics"
+  ],
+  "real_bug_found_and_fixed": "`class` is a reserved word in AssemblyScript. graph-cli's codegen silently renames the generated entity/event-param accessor to `class_` in compiled mapping code, while the public GraphQL schema field stays plain `class`. The mappings and the GraphQL client each needed the correct one — mixing them up compiles/queries but returns nothing.",
+  "exit_criteria": {
+    "documentation_requested_not_recalled": true,
+    "deployed_and_fully_synced": true,
+    "coverage_at_arbitrary_past_block": true,
+    "phase3_deposit_indexed_with_splits_and_obligations": true,
+    "no_mocked_or_local_only_data": true
+  }
+}

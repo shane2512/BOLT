@@ -1,0 +1,21 @@
+{
+  "note": "Phase 3's real 10 USDC deposit and its splits, read live from the deployed subgraph — not from Postgres, not from a local fixture.",
+  "query_url": "https://api.studio.thegraph.com/query/1758871/bolt/v0.0.1",
+  "queried_by_txHash": "0x6903df82be26889fcf39932481f16c1a84f5ac049ec3deb349639c5e8008e8d8",
+  "result": {
+    "id": "0x6cc8b68fbe011a7ca7d5165cbf07e5a07fe3991a250b78fb74ad8fb7e9a2723f",
+    "amount": "10000000",
+    "mandateVersion": "1",
+    "splitTotal": "10000000",
+    "splits": [
+      { "amount": "400000", "account": { "id": "0x3b467cdd0949edc45b9d9f163c9dcf7028605d14", "class": "OBLIGATION_RESERVE" } },
+      { "amount": "8800000", "account": { "id": "0x0eb2a7667e56dd07131000ee0d99b6d218592d8b", "class": "CLIENT_MONEY" } },
+      { "amount": "800000", "account": { "id": "0xe0d6fc2fdb556a26c173c6e5fa90d6b5283ff060", "class": "OPERATING" } }
+    ]
+  },
+  "obligations_for_the_business": [
+    { "account": { "class": "CLIENT_MONEY" }, "accrued": "8800000", "settled": "0", "outstanding": "8800000" },
+    { "account": { "class": "OBLIGATION_RESERVE" }, "accrued": "400000", "settled": "0", "outstanding": "400000" }
+  ],
+  "matches_phase3_evidence": "8,800,000 + 400,000 + 800,000 = 10,000,000 — exactly the mandate's 88/4/8 split of the real 10 USDC deposit from docs/evidence/phase3-split.json"
+}

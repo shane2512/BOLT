@@ -1,0 +1,15 @@
+{
+  "note": "Two live queries against the deployed subgraph at different `blockNumber_lte` values, proving coverage is reconstructed as of an arbitrary past block, not just read as the current value (FR-6.4).",
+  "business": "0xe4f80b146a0189b8f5c7e14a4e237f257b5952cb0f16d389ea268123d5a93039",
+  "as_of_block_60904000_before_the_deposit": [
+    { "class": "OBLIGATION_RESERVE", "held": "0", "owed": "0", "blockNumber": "60903114", "trigger": "AccountRegistered" },
+    { "class": "CLIENT_MONEY", "held": "0", "owed": "0", "blockNumber": "60903109", "trigger": "AccountRegistered" },
+    { "class": "OPERATING", "held": "0", "owed": "0", "blockNumber": "60903106", "trigger": "AccountRegistered" }
+  ],
+  "as_of_block_60905700_mid_split_before_obligations_accrued": [
+    { "class": "OBLIGATION_RESERVE", "held": "400000", "owed": "0", "blockNumber": "60905698", "trigger": "UsdcTransfer" },
+    { "class": "OPERATING", "held": "796894", "owed": "0", "blockNumber": "60905698", "trigger": "UsdcTransfer" },
+    { "class": "CLIENT_MONEY", "held": "8800000", "owed": "0", "blockNumber": "60905695", "trigger": "UsdcTransfer" }
+  ],
+  "reading": "At block 60904000, nothing has arrived yet — all classes read zero. At block 60905700, the split has already moved USDC into CLIENT_MONEY and OBLIGATION_RESERVE (held > 0), but ObligationAccrued hadn't landed yet at that exact block, so owed is still 0 — an accurate mid-transition snapshot, not a rounded-off current state."
+}
