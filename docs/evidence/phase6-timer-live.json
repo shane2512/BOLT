@@ -1,0 +1,181 @@
+{
+  "requirement": "FR-5.4 — 24 hours between final approval and executability",
+  "contract": "0xda6528D75e1C576E36c17F7012A7f0ffAD49B82E",
+  "explorer": "https://testnet.arcscan.app/address/0xda6528D75e1C576E36c17F7012A7f0ffAD49B82E",
+  "unlock_delay_seconds_read_from_chain": "86400",
+  "unlock_delay_hours": 24,
+  "probe_unlock_id": "0x719d15b1188d5943409f682190bb6411193b2ca1d672f7903a533addc372efb8",
+  "armed_tx": "0x28446feb595c74910266def827ee1a0649502a574d5d91343a0118791d9ddce8",
+  "armed_at": "1789040994",
+  "executable_at": "1789127394",
+  "seconds_remaining": "86399",
+  "expect": "REFUSE",
+  "outcome": "REFUSED",
+  "error": {
+    "__type": "ContractFunctionExecutionError",
+    "stack": "ContractFunctionExecutionError: The contract function \"release\" reverted with the following reason:\nBoltUnlockTimer: 24h timer has not elapsed\n\nContract Call:\n  address:   0xda6528D75e1C576E36c17F7012A7f0ffAD49B82E\n  function:  release(bytes32 unlockId)\n  args:             (0x719d15b1188d5943409f682190bb6411193b2ca1d672f7903a533addc372efb8)\n  sender:    0x7ff410E96827EFA8f24854a8aEfe4E5532274484\n\nDocs: https://viem.sh/docs/contract/writeContract\nDetails: execution reverted: BoltUnlockTimer: 24h timer has not elapsed\nVersion: viem@2.56.3\n    at getContractError (D:\\BOLT\\node_modules\\.pnpm\\viem@2.56.3_typescript@5.9.3_zod@4.5.4\\node_modules\\viem\\utils\\errors\\getContractError.ts:82:10)\n    at AsyncFunction.internal (D:\\BOLT\\node_modules\\.pnpm\\viem@2.56.3_typescript@5.9.3_zod@4.5.4\\node_modules\\viem\\actions\\wallet\\writeContract.ts:241:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async write (D:\\BOLT\\packages\\core\\src\\registry.ts:640:18)\n    at async <anonymous> (D:\\BOLT\\packages\\privy\\scripts\\phase6-unlock.ts:472:3)",
+    "message": "The contract function \"release\" reverted with the following reason:\nBoltUnlockTimer: 24h timer has not elapsed\n\nContract Call:\n  address:   0xda6528D75e1C576E36c17F7012A7f0ffAD49B82E\n  function:  release(bytes32 unlockId)\n  args:             (0x719d15b1188d5943409f682190bb6411193b2ca1d672f7903a533addc372efb8)\n  sender:    0x7ff410E96827EFA8f24854a8aEfe4E5532274484\n\nDocs: https://viem.sh/docs/contract/writeContract\nDetails: execution reverted: BoltUnlockTimer: 24h timer has not elapsed\nVersion: viem@2.56.3",
+    "cause": {
+      "details": "execution reverted: BoltUnlockTimer: 24h timer has not elapsed",
+      "shortMessage": "The contract function \"release\" reverted with the following reason:\nBoltUnlockTimer: 24h timer has not elapsed",
+      "version": "2.56.3",
+      "name": "ContractFunctionRevertedError",
+      "data": {
+        "abiItem": {
+          "inputs": [
+            {
+              "name": "message",
+              "type": "string"
+            }
+          ],
+          "name": "Error",
+          "type": "error"
+        },
+        "args": [
+          "BoltUnlockTimer: 24h timer has not elapsed"
+        ],
+        "errorName": "Error"
+      },
+      "raw": "0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000002a426f6c74556e6c6f636b54696d65723a203234682074696d657220686173206e6f7420656c617073656400000000000000000000000000000000000000000000",
+      "reason": "BoltUnlockTimer: 24h timer has not elapsed"
+    },
+    "details": "execution reverted: BoltUnlockTimer: 24h timer has not elapsed",
+    "docsPath": "/docs/contract/writeContract",
+    "metaMessages": [
+      "Contract Call:",
+      "  address:   0xda6528D75e1C576E36c17F7012A7f0ffAD49B82E\n  function:  release(bytes32 unlockId)\n  args:             (0x719d15b1188d5943409f682190bb6411193b2ca1d672f7903a533addc372efb8)\n  sender:    0x7ff410E96827EFA8f24854a8aEfe4E5532274484"
+    ],
+    "shortMessage": "The contract function \"release\" reverted with the following reason:\nBoltUnlockTimer: 24h timer has not elapsed",
+    "version": "2.56.3",
+    "name": "ContractFunctionExecutionError",
+    "abi": [
+      {
+        "type": "function",
+        "name": "UNLOCK_DELAY",
+        "stateMutability": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ]
+      },
+      {
+        "type": "function",
+        "name": "arm",
+        "stateMutability": "nonpayable",
+        "inputs": [
+          {
+            "name": "unlockId",
+            "type": "bytes32"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "executableAt",
+            "type": "uint64"
+          }
+        ]
+      },
+      {
+        "type": "function",
+        "name": "release",
+        "stateMutability": "nonpayable",
+        "inputs": [
+          {
+            "name": "unlockId",
+            "type": "bytes32"
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "type": "function",
+        "name": "timers",
+        "stateMutability": "view",
+        "inputs": [
+          {
+            "name": "",
+            "type": "bytes32"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "armedAt",
+            "type": "uint64"
+          },
+          {
+            "name": "executableAt",
+            "type": "uint64"
+          },
+          {
+            "name": "released",
+            "type": "bool"
+          }
+        ]
+      },
+      {
+        "type": "function",
+        "name": "secondsRemaining",
+        "stateMutability": "view",
+        "inputs": [
+          {
+            "name": "unlockId",
+            "type": "bytes32"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "UnlockArmed",
+        "inputs": [
+          {
+            "name": "unlockId",
+            "type": "bytes32",
+            "indexed": true
+          },
+          {
+            "name": "armedAt",
+            "type": "uint64",
+            "indexed": false
+          },
+          {
+            "name": "executableAt",
+            "type": "uint64",
+            "indexed": false
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "UnlockReleased",
+        "inputs": [
+          {
+            "name": "unlockId",
+            "type": "bytes32",
+            "indexed": true
+          },
+          {
+            "name": "releasedAt",
+            "type": "uint64",
+            "indexed": false
+          }
+        ]
+      }
+    ],
+    "args": [
+      "0x719d15b1188d5943409f682190bb6411193b2ca1d672f7903a533addc372efb8"
+    ],
+    "contractAddress": "0xda6528D75e1C576E36c17F7012A7f0ffAD49B82E",
+    "functionName": "release",
+    "sender": "0x7ff410E96827EFA8f24854a8aEfe4E5532274484"
+  },
+  "note": "The 24 hours are real and are not shortened for the demo. The 'it succeeds after the window' half is asserted in contracts/test/BoltUnlockTimer.test.ts against a local Hardhat chain with time travel, and is labelled there as a local test — not as a live Arc claim."
+}

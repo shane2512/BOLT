@@ -1,0 +1,114 @@
+{
+  "registry": "0x654713c0554cf3286e140C876E49F15B3F9dA0cd",
+  "unlock_timer": "0xda6528D75e1C576E36c17F7012A7f0ffAD49B82E",
+  "business_id": "0x7fc70a0a6c2a3c9e2b9d5349e6f47ecae94a5d5446b4a62f172d999de34529a2",
+  "quorum_ref": "0x7925d808a5cc57ea16ed079d5caf4cef455444c43ab1e2a0ed60f24976524734",
+  "rpc": "https://rpc.testnet.arc.io",
+  "events": [
+    {
+      "event": "BusinessRegistered",
+      "txHash": "0xe1dc5176fa7afa48922475c29a985301d10fa7477b80d9ef9ee6a31d0de8f4f0",
+      "status": "0x1",
+      "blockNumber": "0x3a8c7e7",
+      "explorer": "https://testnet.arcscan.app/tx/0xe1dc5176fa7afa48922475c29a985301d10fa7477b80d9ef9ee6a31d0de8f4f0",
+      "decodedLogs": [
+        {
+          "eventName": "BusinessRegistered",
+          "args": {
+            "businessId": "0x7fc70a0a6c2a3c9e2b9d5349e6f47ecae94a5d5446b4a62f172d999de34529a2",
+            "slug": "bolt-unlock-demo",
+            "admin": "0x7ff410E96827EFA8f24854a8aEfe4E5532274484"
+          }
+        }
+      ],
+      "verified": true
+    },
+    {
+      "event": "AccountRegistered",
+      "note": "OPERATING",
+      "txHash": "0x4cac067b6bc77df6d53c3381dcf1ef0fb9b8cf95c1c1c46a7cd14d340a827c8e",
+      "status": "0x1",
+      "blockNumber": "0x3a8c7ea",
+      "explorer": "https://testnet.arcscan.app/tx/0x4cac067b6bc77df6d53c3381dcf1ef0fb9b8cf95c1c1c46a7cd14d340a827c8e",
+      "decodedLogs": [
+        {
+          "eventName": "AccountRegistered",
+          "args": {
+            "businessId": "0x7fc70a0a6c2a3c9e2b9d5349e6f47ecae94a5d5446b4a62f172d999de34529a2",
+            "account": "0x59a63D619f42FDa4C0aDc24B40D50A5c3B2cA709",
+            "class": 0,
+            "policyHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "label": "Operating"
+          }
+        }
+      ],
+      "verified": true
+    },
+    {
+      "event": "AccountRegistered",
+      "note": "CLIENT_MONEY",
+      "txHash": "0xd4df14b13f6d5cc6bb36b8a524e465fa7b82bd511cd031fd4d6cba3c448e32e2",
+      "status": "0x1",
+      "blockNumber": "0x3a8c7ed",
+      "explorer": "https://testnet.arcscan.app/tx/0xd4df14b13f6d5cc6bb36b8a524e465fa7b82bd511cd031fd4d6cba3c448e32e2",
+      "decodedLogs": [
+        {
+          "eventName": "AccountRegistered",
+          "args": {
+            "businessId": "0x7fc70a0a6c2a3c9e2b9d5349e6f47ecae94a5d5446b4a62f172d999de34529a2",
+            "account": "0xf7916e8B1F5f033d940aE3b12614DFDa6F8B9849",
+            "class": 1,
+            "policyHash": "0xdd41e31edbd99e30dca3a05220dc65f96173518c0adf8b10cf78ec3be81ba369",
+            "label": "Client money"
+          }
+        }
+      ],
+      "verified": true
+    },
+    {
+      "event": "UnlockRequested",
+      "txHash": "0x2d5b4e0eec95b4be0a8c8b200a3180f487ee6c515c8cfe9650fc7b78f0745fca",
+      "status": "0x1",
+      "blockNumber": "0x3a8c7fa",
+      "explorer": "https://testnet.arcscan.app/tx/0x2d5b4e0eec95b4be0a8c8b200a3180f487ee6c515c8cfe9650fc7b78f0745fca",
+      "decodedLogs": [
+        {
+          "eventName": "UnlockRequested",
+          "args": {
+            "businessId": "0x7fc70a0a6c2a3c9e2b9d5349e6f47ecae94a5d5446b4a62f172d999de34529a2",
+            "unlockId": "0x79699020a8ec15bf768cb685ed011e7586630355fcd981beed09b4833b28c56d",
+            "account": "0xf7916e8B1F5f033d940aE3b12614DFDa6F8B9849",
+            "amount": "25000000",
+            "destination": "0x32295054BAE0263042EC3Cc9E634e73121d65550",
+            "reasonHash": "0x1d0d584be1741a84fe8bfbe878c3fd53f50448ce74f2742393edfde41d228353",
+            "executableAt": "1789127209"
+          }
+        }
+      ],
+      "verified": true
+    },
+    {
+      "event": "UnlockArmed",
+      "note": "BoltUnlockTimer, not BoltRegistry",
+      "txHash": "0x28446feb595c74910266def827ee1a0649502a574d5d91343a0118791d9ddce8",
+      "status": "0x1",
+      "blockNumber": "0x3a8c801",
+      "explorer": "https://testnet.arcscan.app/tx/0x28446feb595c74910266def827ee1a0649502a574d5d91343a0118791d9ddce8",
+      "decodedLogs": [
+        {
+          "eventName": "UnlockArmed",
+          "args": {
+            "unlockId": "0x719d15b1188d5943409f682190bb6411193b2ca1d672f7903a533addc372efb8",
+            "armedAt": "1789040994",
+            "executableAt": "1789127394"
+          }
+        }
+      ],
+      "verified": true
+    }
+  ],
+  "not_emitted": {
+    "UnlockApproved": "blocked — requires a completed World Selfie Check (FR-5.3)",
+    "UnlockExecuted": "blocked — requires three approvals, which require Selfie Checks"
+  }
+}

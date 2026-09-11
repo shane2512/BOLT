@@ -1,0 +1,55 @@
+{
+  "chain": {
+    "chain_id": 5042002,
+    "rpc": "https://rpc.testnet.arc.io",
+    "usdc": "0x3600000000000000000000000000000000000000",
+    "registry": "0x654713c0554cf3286e140C876E49F15B3F9dA0cd",
+    "unlock_timer": "0xda6528D75e1C576E36c17F7012A7f0ffAD49B82E"
+  },
+  "slug": "bolt-unlock-demo",
+  "public_page": "/bolt-unlock-demo",
+  "organization_id": "cmtvfyezo006k0djuw0vayylj",
+  "key_quorum": {
+    "id": "v4e3fx5o6ut4h92em38kk7gk",
+    "threshold": 3
+  },
+  "locked_account": {
+    "address": "0xf7916e8B1F5f033d940aE3b12614DFDa6F8B9849",
+    "policy_id": "lg4adnk7z5r86ossifgfgnww",
+    "policy_hash": "0xdd41e31edbd99e30dca3a05220dc65f96173518c0adf8b10cf78ec3be81ba369",
+    "permitted_payee": "0x32295054BAE0263042EC3Cc9E634e73121d65550",
+    "explorer": "https://testnet.arcscan.app/address/0xf7916e8B1F5f033d940aE3b12614DFDa6F8B9849"
+  },
+  "unlock": {
+    "unlock_id": "0x79699020a8ec15bf768cb685ed011e7586630355fcd981beed09b4833b28c56d",
+    "intent_id": "zokx0zcjuwwh7fy8tzr77c5d",
+    "reason_hash": "0x1d0d584be1741a84fe8bfbe878c3fd53f50448ce74f2742393edfde41d228353",
+    "amount": "25000000",
+    "requested_tx": "0x2d5b4e0eec95b4be0a8c8b200a3180f487ee6c515c8cfe9650fc7b78f0745fca"
+  },
+  "world": {
+    "app_id": "app_c1634cdf104184a52e0bd68561a89ddc",
+    "rp_id": "rp_2b39e68adda22dfe",
+    "action": "bolt-unlock-approval",
+    "environment": "sandbox",
+    "status": "LIVE — evidence in phase6-world-credentials-live.json",
+    "server_half_proven_live": [
+      "signRequest() produces an RP signature with the real WORLD_RP_SIGNING_KEY",
+      "World's sandbox bridge accepts that signature and holds a real Selfie Check request for bolt-unlock-approval (pollOnce -> waiting_for_connection)",
+      "POST /api/v4/verify/rp_2b39e68adda22dfe recognises the RP: a deliberately invalid proof reaches proof verification (invalid_merkle_root), where an unregistered rp_id is rejected before that (app_not_migrated)"
+    ],
+    "client_half_outstanding": "A completed Selfie Check. It is a face capture made by a person in the sandbox World ID app (TestFlight on iOS, a private Google Play track on Android). There is no headless, simulated or scripted path, and nothing in this repo fabricates one."
+  },
+  "exit_criteria": {
+    "full ceremony completes": "PARTIAL — every step that does not need a human is live: UnlockRequested on Arc, the intent at 3-of-5, and one real Selfie Check request opened per approver on World's sandbox bridge. Finish it with `pnpm --filter @bolt/privy phase6:ceremony` and a phone running the sandbox World ID app; the last run is in phase6-ceremony.json.",
+    "two approvals cannot execute": "PASS — Privy returned 401 at two of five and 200 at three; the refusal is the quorum's, verbatim",
+    "completed unlock appears publicly": "PARTIAL — the unlock, its reason hash, amount and destination render at /bolt-unlock-demo from the subgraph, indexed within ~2 minutes of the request. The approver table with each Selfie Check proof reference reads the subgraph's Approval entities and stays empty until UnlockApproved events exist, which needs the completed checks above. It is deliberately not populated with placeholder data.",
+    "approval without a Selfie Check does not count": "PASS — refused before Privy was reached",
+    "WORLD_FEEDBACK.md exists": "see docs/WORLD_FEEDBACK.md — (a) and (b) written in Phase 6, (c) and (d) topped up with live Sandbox findings"
+  },
+  "blocked_on": {
+    "what": "A physical device running the sandbox World ID app, and a person to complete three Selfie Checks",
+    "why": "world-docs /world-id/sandbox/sandbox-access and /world-id/sandbox/testing-selfie-check: the sandbox builds ship through TestFlight and a private Google Play track, and the credential is a camera capture with liveness. The staging simulator at simulator.worldcoin.org is not offered as a route for Selfie Check.",
+    "how_to_finish": "pnpm --filter @bolt/privy phase6:ceremony — it prints one connect URL per approver and waits up to 15 minutes each. Have the phone ready before starting: the RP signature is valid for 300 seconds."
+  }
+}

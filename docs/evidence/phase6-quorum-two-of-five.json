@@ -1,0 +1,48 @@
+{
+  "requirement": "FR-5.7 — an unlock cannot execute without the required approvals",
+  "expect": "REFUSE at 2, ALLOW at 3",
+  "outcome": {
+    "two_of_five": "REFUSED",
+    "three_of_five": "SIGNED"
+  },
+  "note": "Byte-identical requests; the only difference is the number of authorization signatures in the privy-authorization-signature header. Nothing in BOLT's code counted to three — Privy's TEE did, and the refusal body below is Privy's, verbatim. That the three-signature request succeeds also confirms the unlock destination is PERMITTED BY THE ACCOUNT'S EXISTING POLICY (invariant 2): the enclave decoded transfer._to and allowed it. Neither of these is an unlock: no Selfie Check was performed, so no UnlockApproved was recorded, the 24h timer was never armed, and the signed transaction below was never broadcast.",
+  "intent_id": "zokx0zcjuwwh7fy8tzr77c5d",
+  "threshold": 3,
+  "quorum_size": 5,
+  "signed_request": {
+    "url": "https://api.privy.io/v1/wallets/l2bclr0gzdm4nm5f0ui0tsry/rpc",
+    "body": {
+      "method": "eth_signTransaction",
+      "params": {
+        "transaction": {
+          "to": "0x3600000000000000000000000000000000000000",
+          "data": "0xa9059cbb00000000000000000000000032295054bae0263042ec3cc9e634e73121d6555000000000000000000000000000000000000000000000000000000000017d7840",
+          "from": "0xf7916e8B1F5f033d940aE3b12614DFDa6F8B9849",
+          "type": 2,
+          "nonce": 0,
+          "value": "0x0",
+          "chain_id": 5042002,
+          "gas_limit": 300000,
+          "max_fee_per_gas": "0x6116a8f80",
+          "max_priority_fee_per_gas": "0x7ae79f80"
+        }
+      },
+      "chain_type": "ethereum"
+    },
+    "headers": {
+      "privy-app-id": "cmtr03b9r019s0bicai3e3qkv"
+    }
+  },
+  "two_of_five_error": {
+    "__type": "PrivyQuorumError",
+    "stack": "PrivyQuorumError: privy: refused the unlock (HTTP 401): {\"error\":\"Number of signatures in `privy-authorization-signature` header does not match the wallet's authorization threshold.\"}\n    at submitQuorumSignedUnlock (D:\\BOLT\\packages\\privy\\src\\unlock.ts:212:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async <anonymous> (D:\\BOLT\\packages\\privy\\scripts\\phase6-unlock.ts:357:3)",
+    "message": "privy: refused the unlock (HTTP 401): {\"error\":\"Number of signatures in `privy-authorization-signature` header does not match the wallet's authorization threshold.\"}",
+    "status": 401,
+    "body": {
+      "error": "Number of signatures in `privy-authorization-signature` header does not match the wallet's authorization threshold."
+    },
+    "name": "PrivyQuorumError"
+  },
+  "three_of_five_signed_transaction": "0x02f8b4834cef5280847ae79f808506116a8f80830493e094360000000000000000000000000000000000000080b844a9059cbb00000000000000000000000032295054bae0263042ec3cc9e634e73121d6555000000000000000000000000000000000000000000000000000000000017d7840c080a09d5903659a242bffafe9fdfbb7c680c1f1ffa8706450eee56318696d0fa275b0a07c14f1865abd5b62feba74569bdf2e018028ecd1863984da4ce7fb84585e0b7d",
+  "three_of_five_error": null
+}
