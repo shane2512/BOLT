@@ -1,0 +1,13 @@
+{
+  "id": "zygjbl2k4dbghdfqanf2ymo6",
+  "display_name": "BOLT phase-0 spike quorum",
+  "authorization_threshold": 1,
+  "authorization_keys": [
+    {
+      "public_key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEieSsAIfG22++pYjSpguMrHNPr+8hb+2DkA7Bb5kmNSVwCITud5GbMklesjNxh6f3HF0VUAqUQ7QWSOBUfUA1Hw==",
+      "display_name": null
+    }
+  ],
+  "user_ids": [],
+  "key_quorum_ids": []
+}

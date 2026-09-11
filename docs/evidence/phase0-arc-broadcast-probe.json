@@ -1,0 +1,14 @@
+{
+  "mode": "privy caip2",
+  "outcome": "FAILED",
+  "error": {
+    "__type": "AuthenticationError",
+    "stack": "Error: 401 {\"error\":\"App is not authorized to transact on chain eip155:5042002\"}\n    at Function.generate (D:\\BOLT\\docs\\evidence\\phase0-spike\\node_modules\\@privy-io\\node\\src\\core\\error.ts:64:14)\n    at PrivyAPI.makeStatusError (D:\\BOLT\\docs\\evidence\\phase0-spike\\node_modules\\@privy-io\\node\\src\\client.ts:381:28)\n    at PrivyAPI.makeRequest (D:\\BOLT\\docs\\evidence\\phase0-spike\\node_modules\\@privy-io\\node\\src\\client.ts:600:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async PrivyWalletsService.rpc (D:\\BOLT\\docs\\evidence\\phase0-spike\\node_modules\\@privy-io\\node\\src\\public-api\\services\\wallets.ts:68:12)\n    at async PrivyEthereumService.sendTransaction (D:\\BOLT\\docs\\evidence\\phase0-spike\\node_modules\\@privy-io\\node\\src\\public-api\\services\\ethereum.ts:93:22)\n    at async send (D:\\BOLT\\docs\\evidence\\phase0-spike\\spike.ts:469:12)\n    at async <anonymous> (D:\\BOLT\\docs\\evidence\\phase0-spike\\spike.ts:510:17)",
+    "message": "401 {\"error\":\"App is not authorized to transact on chain eip155:5042002\"}",
+    "status": 401,
+    "headers": {},
+    "error": {
+      "error": "App is not authorized to transact on chain eip155:5042002"
+    }
+  }
+}
