@@ -1,0 +1,17 @@
+{
+  "name": "bolt-phase0-spike",
+  "private": true,
+  "type": "module",
+  "description": "Throwaway Phase 0 go/no-go spike. Not part of the pnpm workspace.",
+  "scripts": {
+    "spike": "tsx spike.ts"
+  },
+  "dependencies": {
+    "@privy-io/node": "^0.4.0",
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
