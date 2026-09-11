@@ -1,0 +1,163 @@
+{
+ "note": "Solvency Monitor output (FR-7). Every finding below was computed from the deployed subgraph alone — see each finding's evidence.source. Nothing here reads Postgres, an RPC, or a local file.",
+ "subgraphUrl": "https://api.studio.thegraph.com/query/1758871/bolt/v0.0.1",
+ "business": "bolt-unlock-demo",
+ "generatedAt": "2026-09-10T16:51:13.717Z",
+ "findings": [
+  {
+   "kind": "UNLOCK_ANOMALY",
+   "severity": "WARNING",
+   "title": "Unlock at block 61423319 arrived 5.2× faster than usual",
+   "message": "This unlock followed the previous one after 107s. The median gap across the 6 intervals before it was 555s, so it arrived in under a quarter of the usual spacing. Requests for 25.000000 USDC clustered this tightly are the shape a scripted drain makes; the World Selfie Check on each approval is what stops one completing, but the clustering itself is worth surfacing.",
+   "evidence": {
+    "unlockId": "0xb3c32da12a22551a1646979c0c64da7e34c6dc2edcc88a9db427177f0c212a91",
+    "blockNumber": "61423319",
+    "timestamp": "2026-09-10T16:12:07.000Z",
+    "previousUnlockBlock": "61423113",
+    "gapSeconds": 107,
+    "medianPriorGapSeconds": 555,
+    "priorGapCount": 6,
+    "amount": "25000000",
+    "source": "Unlock entities (subgraph)"
+   },
+   "fingerprint": "UNLOCK_ANOMALY:frequency:0xb3c32da12a22551a1646979c0c64da7e34c6dc2edcc88a9db427177f0c212a91"
+  },
+  {
+   "kind": "UNLOCK_ANOMALY",
+   "severity": "WARNING",
+   "title": "8 open unlocks on Client money exceed its balance",
+   "message": "Client money (0xf7916e8b1f5f033d940ae3b12614dfda6f8b9849) holds 0.000000 USDC on chain, but 8 unexecuted unlock requests against it total 200.000000 USDC — the most recent at block 61423319 (2026-09-10T16:12:07.000Z). None of them can settle in full at the current balance. Either the requests are stale, the balance has already moved, or the amounts were never grounded in the account.",
+   "evidence": {
+    "account": "0xf7916e8b1f5f033d940ae3b12614dfda6f8b9849",
+    "accountClass": "CLIENT_MONEY",
+    "accountHeld": "0",
+    "openRequestCount": 8,
+    "totalRequested": "200000000",
+    "requests": [
+     {
+      "unlockId": "0xeb85617a2cf77a714fdb67f81f0c6f35bb4287f164e8e55dc10b9b484f97fefc",
+      "amount": "25000000",
+      "status": "REQUESTED",
+      "blockNumber": "61390115",
+      "timestamp": "2026-09-10T11:26:03.000Z",
+      "requestedTx": "0x170c61160c490d2a02fa81342ffbcb47ae83cf0ae7715dc7ce6690ea03fdd1f3",
+      "approvalCount": 0
+     },
+     {
+      "unlockId": "0x698e7420caf80ea9e28eea5dbe74d71babba1b73ec09b2277557e1fb87c34211",
+      "amount": "25000000",
+      "status": "REQUESTED",
+      "blockNumber": "61391234",
+      "timestamp": "2026-09-10T11:35:39.000Z",
+      "requestedTx": "0xc842da08c420120e37ddb8744369e02a5b3b3d2a4f444133954f9a0d68932261",
+      "approvalCount": 0
+     },
+     {
+      "unlockId": "0xf3c3aea9ade873679a61e9ee28d041dad9e86e7c936db03dd96ed42bd748e149",
+      "amount": "25000000",
+      "status": "REQUESTED",
+      "blockNumber": "61391309",
+      "timestamp": "2026-09-10T11:36:17.000Z",
+      "requestedTx": "0x2d9c36853a66c86e1e4e71ee3ad717582742842528d369474a86a3c20d6bfce5",
+      "approvalCount": 0
+     },
+     {
+      "unlockId": "0x9c089e281884d85cba28337ba36b0c0139393f284f8f01a3af716ec03ceb6eac",
+      "amount": "25000000",
+      "status": "REQUESTED",
+      "blockNumber": "61391359",
+      "timestamp": "2026-09-10T11:36:44.000Z",
+      "requestedTx": "0xf8cf9cb78bf904d2843b2183e55fb375ef7a4be9ca234c6991aec0a1d52452ef",
+      "approvalCount": 0
+     },
+     {
+      "unlockId": "0x79699020a8ec15bf768cb685ed011e7586630355fcd981beed09b4833b28c56d",
+      "amount": "25000000",
+      "status": "REQUESTED",
+      "blockNumber": "61392890",
+      "timestamp": "2026-09-10T11:49:50.000Z",
+      "requestedTx": "0x2d5b4e0eec95b4be0a8c8b200a3180f487ee6c515c8cfe9650fc7b78f0745fca",
+      "approvalCount": 0
+     },
+     {
+      "unlockId": "0xf3ba3d16224f9b2c93e8800e4287f89c1d6af2f4ebfd6a4d2b626ac3c6624a38",
+      "amount": "25000000",
+      "status": "REQUESTED",
+      "blockNumber": "61422091",
+      "timestamp": "2026-09-10T16:01:27.000Z",
+      "requestedTx": "0x9c10ce8b38d3737cd449432efcc5678eb2870be4278e6a160751b8276f0e8158",
+      "approvalCount": 0
+     },
+     {
+      "unlockId": "0xcf635a73fd00fb1d9543c8dba0c7286ac553e2ea97b79edad438501d4109e463",
+      "amount": "25000000",
+      "status": "REQUESTED",
+      "blockNumber": "61423113",
+      "timestamp": "2026-09-10T16:10:20.000Z",
+      "requestedTx": "0x11745b585b177540da8b38c086b1df556f329420ff0d1eec67687a50cb7b1579",
+      "approvalCount": 0
+     },
+     {
+      "unlockId": "0xb3c32da12a22551a1646979c0c64da7e34c6dc2edcc88a9db427177f0c212a91",
+      "amount": "25000000",
+      "status": "REQUESTED",
+      "blockNumber": "61423319",
+      "timestamp": "2026-09-10T16:12:07.000Z",
+      "requestedTx": "0xeb827be8a48f2e761b608e803eb89547ec2157d48427f57cfd33939067fdff21",
+      "approvalCount": 0
+     }
+    ],
+    "source": "Unlock entities vs Account.held (USDC balanceOf, subgraph)"
+   },
+   "fingerprint": "UNLOCK_ANOMALY:exceeds-held:0xf7916e8b1f5f033d940ae3b12614dfda6f8b9849:8"
+  },
+  {
+   "kind": "SHORTFALL_FORECAST",
+   "severity": "INFO",
+   "title": "OPERATING: cover stable or growing",
+   "message": "OPERATING's surplus moved up by 0 base units per day across 0.02 days (blocks 61390106–61392874). It is not depleting, so there is no depletion date to project. Current cover: 0.000000 USDC held against 0.000000 USDC owed.",
+   "evidence": {
+    "class": "OPERATING",
+    "held": "0",
+    "owed": "0",
+    "surplus": "0",
+    "heldReadable": "0.000000 USDC",
+    "owedReadable": "0.000000 USDC",
+    "snapshotsObserved": 5,
+    "windowFirstBlock": "61390106",
+    "windowLastBlock": "61392874",
+    "windowFirstTimestamp": "2026-09-10T11:25:58.000Z",
+    "windowLastTimestamp": "2026-09-10T11:49:42.000Z",
+    "observationDays": 0.0165,
+    "netSurplusChangePerDayBaseUnits": 0,
+    "daysOfCover": null,
+    "source": "CoverageSnapshot entities (subgraph)"
+   },
+   "fingerprint": "SHORTFALL_FORECAST:OPERATING:stable"
+  },
+  {
+   "kind": "SHORTFALL_FORECAST",
+   "severity": "INFO",
+   "title": "CLIENT_MONEY: cover stable or growing",
+   "message": "CLIENT_MONEY's surplus moved up by 0 base units per day across 0.02 days (blocks 61390109–61392877). It is not depleting, so there is no depletion date to project. Current cover: 0.000000 USDC held against 0.000000 USDC owed.",
+   "evidence": {
+    "class": "CLIENT_MONEY",
+    "held": "0",
+    "owed": "0",
+    "surplus": "0",
+    "heldReadable": "0.000000 USDC",
+    "owedReadable": "0.000000 USDC",
+    "snapshotsObserved": 5,
+    "windowFirstBlock": "61390109",
+    "windowLastBlock": "61392877",
+    "windowFirstTimestamp": "2026-09-10T11:26:00.000Z",
+    "windowLastTimestamp": "2026-09-10T11:49:44.000Z",
+    "observationDays": 0.0165,
+    "netSurplusChangePerDayBaseUnits": 0,
+    "daysOfCover": null,
+    "source": "CoverageSnapshot entities (subgraph)"
+   },
+   "fingerprint": "SHORTFALL_FORECAST:CLIENT_MONEY:stable"
+  }
+ ]
+}

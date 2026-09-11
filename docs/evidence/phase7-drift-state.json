@@ -1,0 +1,17 @@
+{
+  "mandatePublishedTx": "0xc486ece04eb1109963d9e2cb7d09410927d3fd28b2c83afa5c21905237198d29",
+  "deposits": [
+    {
+      "label": "honest-1",
+      "txHash": "0xc8eedc8c0586d571b96f428e94cb93c9606732dd74776a31dc136f291f56ca4c"
+    },
+    {
+      "label": "skimming-1",
+      "txHash": "0x28cad7494ec5a49cf27e0af42358cacf5b11815649a809f3fd712c9904a4f856"
+    },
+    {
+      "label": "skimming-2",
+      "txHash": "0x6a3a4e9759de8d6d483f686e941b8bc9bb8078ebf7ab07e741239ff6b10546d8"
+    }
+  ]
+}

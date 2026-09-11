@@ -1,0 +1,97 @@
+{
+  "note": "The Solvency Monitor's findings for acme-marketplace before the drift demo ran. The UNRATIFIED_MANDATE finding is real and was not planted: Phase 3 published mandate v1 into Postgres but never emitted MandatePublished, and the Monitor found that by comparing DepositObserved.mandateVersion against the MandatePublished events the subgraph has indexed. Step 1 of this script closes it.",
+  "subgraphUrl": "https://api.studio.thegraph.com/query/1758871/bolt/v0.0.1",
+  "indexedAtBlock": "61427041",
+  "depositsIndexed": 1,
+  "findings": [
+    {
+      "kind": "UNRATIFIED_MANDATE",
+      "severity": "SEVERE",
+      "title": "Mandate version 1 was never published on chain",
+      "message": "1 deposit claims to have been split under mandate version 1, but no MandatePublished event for version 1 exists for acme-marketplace. FR-4.2 requires a key quorum to publish a mandate and to emit that event, so a version deposits reference but the chain has never seen is a version no quorum ratified — the ratios it was split by exist only in the backend's own database.",
+      "evidence": {
+        "mandateVersion": "1",
+        "depositsUnderVersion": 1,
+        "versionsPublishedOnChain": [],
+        "firstDeposit": {
+          "txHash": "0x6903df82be26889fcf39932481f16c1a84f5ac049ec3deb349639c5e8008e8d8",
+          "blockNumber": "60905691"
+        },
+        "source": "DepositObserved.mandateVersion vs MandatePublished events (subgraph)"
+      },
+      "fingerprint": "UNRATIFIED_MANDATE:acme-marketplace:1"
+    },
+    {
+      "kind": "SHORTFALL_FORECAST",
+      "severity": "INFO",
+      "title": "OPERATING: cover stable or growing",
+      "message": "OPERATING's surplus moved up by 37789046 base units per day across 0.02 days (blocks 60902161–60905698). It is not depleting, so there is no depletion date to project. Current cover: 0.796894 USDC held against 0.000000 USDC owed.",
+      "evidence": {
+        "class": "OPERATING",
+        "held": "796894",
+        "owed": "0",
+        "surplus": "796894",
+        "heldReadable": "0.796894 USDC",
+        "owedReadable": "0.000000 USDC",
+        "snapshotsObserved": 9,
+        "windowFirstBlock": "60902161",
+        "windowLastBlock": "60905698",
+        "windowFirstTimestamp": "2026-09-07T11:40:30.000Z",
+        "windowLastTimestamp": "2026-09-07T12:10:52.000Z",
+        "observationDays": 0.0211,
+        "netSurplusChangePerDayBaseUnits": 37789046,
+        "daysOfCover": null,
+        "source": "CoverageSnapshot entities (subgraph)"
+      },
+      "fingerprint": "SHORTFALL_FORECAST:OPERATING:stable"
+    },
+    {
+      "kind": "SHORTFALL_FORECAST",
+      "severity": "INFO",
+      "title": "CLIENT_MONEY: cover stable or growing",
+      "message": "CLIENT_MONEY's surplus moved up by 0 base units per day across 0.02 days (blocks 60902171–60905707). It is not depleting, so there is no depletion date to project. Current cover: 8.800000 USDC held against 8.800000 USDC owed.",
+      "evidence": {
+        "class": "CLIENT_MONEY",
+        "held": "8800000",
+        "owed": "8800000",
+        "surplus": "0",
+        "heldReadable": "8.800000 USDC",
+        "owedReadable": "8.800000 USDC",
+        "snapshotsObserved": 8,
+        "windowFirstBlock": "60902171",
+        "windowLastBlock": "60905707",
+        "windowFirstTimestamp": "2026-09-07T11:40:35.000Z",
+        "windowLastTimestamp": "2026-09-07T12:10:57.000Z",
+        "observationDays": 0.0211,
+        "netSurplusChangePerDayBaseUnits": 0,
+        "daysOfCover": null,
+        "source": "CoverageSnapshot entities (subgraph)"
+      },
+      "fingerprint": "SHORTFALL_FORECAST:CLIENT_MONEY:stable"
+    },
+    {
+      "kind": "SHORTFALL_FORECAST",
+      "severity": "INFO",
+      "title": "OBLIGATION_RESERVE: cover stable or growing",
+      "message": "OBLIGATION_RESERVE's surplus moved up by 0 base units per day across 0.02 days (blocks 60902178–60905710). It is not depleting, so there is no depletion date to project. Current cover: 0.400000 USDC held against 0.400000 USDC owed.",
+      "evidence": {
+        "class": "OBLIGATION_RESERVE",
+        "held": "400000",
+        "owed": "400000",
+        "surplus": "0",
+        "heldReadable": "0.400000 USDC",
+        "owedReadable": "0.400000 USDC",
+        "snapshotsObserved": 8,
+        "windowFirstBlock": "60902178",
+        "windowLastBlock": "60905710",
+        "windowFirstTimestamp": "2026-09-07T11:40:39.000Z",
+        "windowLastTimestamp": "2026-09-07T12:10:58.000Z",
+        "observationDays": 0.0211,
+        "netSurplusChangePerDayBaseUnits": 0,
+        "daysOfCover": null,
+        "source": "CoverageSnapshot entities (subgraph)"
+      },
+      "fingerprint": "SHORTFALL_FORECAST:OBLIGATION_RESERVE:stable"
+    }
+  ]
+}
