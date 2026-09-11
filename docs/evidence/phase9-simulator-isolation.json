@@ -1,0 +1,110 @@
+{
+  "question": "Can the credential the /simulator route holds reach a real business's money? Attempted, not reasoned about.",
+  "sandbox": {
+    "slug": "bolt-simulator-sandbox",
+    "organization_id": "cmtwgf4pm000h0dl06apptrlv",
+    "key_quorum_id": "of4vu67mj0q3odf4cc7i16ej",
+    "accounts": [
+      "0xa918694ff9db57b3b7dd621f555960af7855c85c",
+      "0x42e895ad56d76c230baf106f7d2ba52aa00dc2f0",
+      "0x23a50c8177be8691b5b835ff2c6766935fb6f380"
+    ],
+    "permitted_payee": "0x5C4107308B15447B6274971639D3EEd2b7974a66"
+  },
+  "attempts": [
+    {
+      "slug": "acme-marketplace",
+      "their_key_quorum": "pwwre68io5ufavny68fasb6p",
+      "sandbox_key_quorum": "of4vu67mj0q3odf4cc7i16ej",
+      "shares_key_quorum": false,
+      "shares_organization": false,
+      "locked_account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+      "spend_attempt": {
+        "attackId": "wrong-destination",
+        "outcome": "REFUSED",
+        "rawError": {
+          "__type": "AuthenticationError",
+          "stack": "Error: 401 {\"error\":\"No valid authorization signatures were provided. Your payload may be malformed or your signing keys may be incorrect or expired. Docs: https://docs.privy.io/api-reference/authorization-signatures\"}\n    at Function.generate (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\core\\error.ts:64:14)\n    at PrivyAPI.makeStatusError (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\client.ts:1600:28)\n    at PrivyAPI.makeRequest (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\client.ts:1820:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async PrivyWalletsService.rpc (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\public-api\\services\\wallets.ts:104:12)\n    at async PrivyEthereumService.signTransaction (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\public-api\\services\\ethereum.ts:78:22)\n    at async attemptAttack (D:\\BOLT\\packages\\privy\\src\\simulator.ts:305:20)\n    at async <anonymous> (D:\\BOLT\\packages\\privy\\scripts\\phase9-simulator.ts:389:19)",
+          "message": "401 {\"error\":\"No valid authorization signatures were provided. Your payload may be malformed or your signing keys may be incorrect or expired. Docs: https://docs.privy.io/api-reference/authorization-signatures\"}",
+          "status": 401,
+          "headers": {},
+          "error": {
+            "error": "No valid authorization signatures were provided. Your payload may be malformed or your signing keys may be incorrect or expired. Docs: https://docs.privy.io/api-reference/authorization-signatures"
+          }
+        },
+        "transaction": {
+          "from": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+          "chain_id": 5042002,
+          "nonce": 6,
+          "type": 2,
+          "gas_limit": 300000,
+          "max_fee_per_gas": "0xa83beea00",
+          "max_priority_fee_per_gas": "0x541df7500",
+          "to": "0x3600000000000000000000000000000000000000",
+          "value": "0x0",
+          "data": "0xa9059cbb00000000000000000000000099e3b93861b2f931bca75008459b3c040ea3274b0000000000000000000000000000000000000000000000000000000000002710"
+        }
+      },
+      "widen_attempt": {
+        "__type": "AuthenticationError",
+        "stack": "Error: 401 {\"error\":\"No valid authorization signatures were provided. Your payload may be malformed or your signing keys may be incorrect or expired. Docs: https://docs.privy.io/api-reference/authorization-signatures\",\"code\":\"invalid_data\"}\n    at Function.generate (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\core\\error.ts:64:14)\n    at PrivyAPI.makeStatusError (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\client.ts:1600:28)\n    at PrivyAPI.makeRequest (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\client.ts:1820:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async PrivyPoliciesService.createRule (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\public-api\\services\\policies.ts:92:12)\n    at async <anonymous> (D:\\BOLT\\packages\\privy\\scripts\\phase9-simulator.ts:405:5)",
+        "message": "401 {\"error\":\"No valid authorization signatures were provided. Your payload may be malformed or your signing keys may be incorrect or expired. Docs: https://docs.privy.io/api-reference/authorization-signatures\",\"code\":\"invalid_data\"}",
+        "status": 401,
+        "headers": {},
+        "error": {
+          "error": "No valid authorization signatures were provided. Your payload may be malformed or your signing keys may be incorrect or expired. Docs: https://docs.privy.io/api-reference/authorization-signatures",
+          "code": "invalid_data"
+        }
+      },
+      "reachable_by_simulator": false
+    },
+    {
+      "slug": "bolt-unlock-demo",
+      "their_key_quorum": "v4e3fx5o6ut4h92em38kk7gk",
+      "sandbox_key_quorum": "of4vu67mj0q3odf4cc7i16ej",
+      "shares_key_quorum": false,
+      "shares_organization": false,
+      "locked_account": "0xf7916e8B1F5f033d940aE3b12614DFDa6F8B9849",
+      "spend_attempt": {
+        "attackId": "wrong-destination",
+        "outcome": "REFUSED",
+        "rawError": {
+          "__type": "AuthenticationError",
+          "stack": "Error: 401 {\"error\":\"Number of signatures in `privy-authorization-signature` header does not match the wallet's authorization threshold.\"}\n    at Function.generate (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\core\\error.ts:64:14)\n    at PrivyAPI.makeStatusError (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\client.ts:1600:28)\n    at PrivyAPI.makeRequest (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\client.ts:1820:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async PrivyWalletsService.rpc (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\public-api\\services\\wallets.ts:104:12)\n    at async PrivyEthereumService.signTransaction (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\public-api\\services\\ethereum.ts:78:22)\n    at async attemptAttack (D:\\BOLT\\packages\\privy\\src\\simulator.ts:305:20)\n    at async <anonymous> (D:\\BOLT\\packages\\privy\\scripts\\phase9-simulator.ts:389:19)",
+          "message": "401 {\"error\":\"Number of signatures in `privy-authorization-signature` header does not match the wallet's authorization threshold.\"}",
+          "status": 401,
+          "headers": {},
+          "error": {
+            "error": "Number of signatures in `privy-authorization-signature` header does not match the wallet's authorization threshold."
+          }
+        },
+        "transaction": {
+          "from": "0xf7916e8B1F5f033d940aE3b12614DFDa6F8B9849",
+          "chain_id": 5042002,
+          "nonce": 0,
+          "type": 2,
+          "gas_limit": 300000,
+          "max_fee_per_gas": "0xa83beea00",
+          "max_priority_fee_per_gas": "0x541df7500",
+          "to": "0x3600000000000000000000000000000000000000",
+          "value": "0x0",
+          "data": "0xa9059cbb00000000000000000000000099e3b93861b2f931bca75008459b3c040ea3274b0000000000000000000000000000000000000000000000000000000000002710"
+        }
+      },
+      "widen_attempt": {
+        "__type": "AuthenticationError",
+        "stack": "Error: 401 {\"error\":\"Number of signatures in `privy-authorization-signature` header does not match the wallet's authorization threshold.\",\"code\":\"invalid_data\"}\n    at Function.generate (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\core\\error.ts:64:14)\n    at PrivyAPI.makeStatusError (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\client.ts:1600:28)\n    at PrivyAPI.makeRequest (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\client.ts:1820:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async PrivyPoliciesService.createRule (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\public-api\\services\\policies.ts:92:12)\n    at async <anonymous> (D:\\BOLT\\packages\\privy\\scripts\\phase9-simulator.ts:405:5)",
+        "message": "401 {\"error\":\"Number of signatures in `privy-authorization-signature` header does not match the wallet's authorization threshold.\",\"code\":\"invalid_data\"}",
+        "status": 401,
+        "headers": {},
+        "error": {
+          "error": "Number of signatures in `privy-authorization-signature` header does not match the wallet's authorization threshold.",
+          "code": "invalid_data"
+        }
+      },
+      "reachable_by_simulator": false
+    }
+  ],
+  "address_overlap_with_real_businesses": [],
+  "isolated": true
+}

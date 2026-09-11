@@ -1,0 +1,8 @@
+{
+  "from": "0x7ff410E96827EFA8f24854a8aEfe4E5532274484",
+  "to": "0x42e895aD56D76c230BAF106F7d2BA52aA00Dc2F0",
+  "value_wei": "250000000000000000",
+  "tx": "0xc245e699ada8b2dc454f96f2101cbdc63b53a1fbb8bced8309a16c4b6442aefd",
+  "status": "success",
+  "explorer": "https://testnet.arcscan.app/tx/0xc245e699ada8b2dc454f96f2101cbdc63b53a1fbb8bced8309a16c4b6442aefd"
+}
