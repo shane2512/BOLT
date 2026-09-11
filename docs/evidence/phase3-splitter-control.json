@@ -1,0 +1,6 @@
+{
+  "expect": "ALLOW",
+  "outcome": "ALLOWED",
+  "note": "Byte-identical to the refused request above except for the decoded recipient. This is the control that makes the refusal mean something. Signature only — not broadcast; the real transfers happen in the split.",
+  "destination": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b"
+}

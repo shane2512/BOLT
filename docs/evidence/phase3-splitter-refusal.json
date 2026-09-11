@@ -1,0 +1,36 @@
+{
+  "expect": "REFUSE",
+  "outcome": "REFUSED",
+  "note": "A compromised splitter cannot pay an outsider (FR-3.3). The request was signed by the splitter's own authorization key, which is a valid additional signer on this wallet — so it got past the API gate and was refused by the enclave evaluating the splitter's override policy. No application-layer destination check ran. The body below is what came back OUT of the policy_refusals jsonb column (PGlite), not what went in.",
+  "attempted": {
+    "signer": "splitter session signer",
+    "signer_key_quorum_id": "vw54govlx475ltyc6z1eivy8",
+    "override_policy_id": "sqrngom21nulafoq8tmyrg03",
+    "wallet_id": "tqaesz2thqtffoaehh8ziwrg",
+    "method": "eth_signTransaction",
+    "transaction": {
+      "from": "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+      "to": "0x3600000000000000000000000000000000000000",
+      "value": "0x0",
+      "chain_id": 5042002,
+      "nonce": 10,
+      "type": 2,
+      "gas_limit": 300000,
+      "max_fee_per_gas": "0x60db88400",
+      "max_priority_fee_per_gas": "0x77359400",
+      "data": "0xa9059cbb000000000000000000000000e57081a6eb5df35285f0c3e00103c697b938c0d600000000000000000000000000000000000000000000000000000000000186a0"
+    }
+  },
+  "db_row_id": "8b817619-4310-40fa-82f6-a38679a3bc10",
+  "raw_error_read_back_from_postgres": {
+    "error": {
+      "code": "policy_violation",
+      "error": "RPC request denied due to policy violation"
+    },
+    "stack": "Error: 400 {\"error\":\"RPC request denied due to policy violation\",\"code\":\"policy_violation\"}\n    at Function.generate (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\core\\error.ts:60:14)\n    at PrivyAPI.makeStatusError (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\client.ts:1600:28)\n    at PrivyAPI.makeRequest (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\client.ts:1820:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async PrivyWalletsService.rpc (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\public-api\\services\\wallets.ts:104:12)\n    at async PrivyEthereumService.signTransaction (D:\\BOLT\\node_modules\\.pnpm\\@privy-io+node@0.34.0_@sola_c7f3308ceead7b46842f08d9e91c06fc\\node_modules\\@privy-io\\node\\src\\public-api\\services\\ethereum.ts:78:22)\n    at async <anonymous> (D:\\BOLT\\packages\\privy\\scripts\\phase3-split.ts:457:18)",
+    "__type": "BadRequestError",
+    "status": 400,
+    "headers": {},
+    "message": "400 {\"error\":\"RPC request denied due to policy violation\",\"code\":\"policy_violation\"}"
+  }
+}

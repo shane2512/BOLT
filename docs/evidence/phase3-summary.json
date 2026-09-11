@@ -1,0 +1,70 @@
+{
+  "chain": {
+    "chain_id": 5042002,
+    "rpc": "https://rpc.testnet.arc.io",
+    "usdc": "0x3600000000000000000000000000000000000000",
+    "registry": "0x654713c0554cf3286e140C876E49F15B3F9dA0cd"
+  },
+  "exit_criteria": {
+    "deposit_splits_across_three_accounts_under_30s": {
+      "elapsed_ms": 13789,
+      "under_30s": true,
+      "splits": 3
+    },
+    "replay_produces_no_second_split": true,
+    "bad_ratios_rejected_at_write_time": true,
+    "all_three_event_types_on_chain": {
+      "DepositObserved": true,
+      "SplitExecuted": true,
+      "ObligationAccrued": true
+    },
+    "splitter_cannot_pay_an_outsider": true,
+    "splitter_can_pay_own_accounts": true
+  },
+  "splitter": {
+    "key_quorum_id": "vw54govlx475ltyc6z1eivy8",
+    "override_policy_id": "sqrngom21nulafoq8tmyrg03",
+    "permitted_destinations": [
+      "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+      "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+      "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14"
+    ]
+  },
+  "registry_events": [
+    {
+      "event": "DepositObserved",
+      "tx": "0x7e207418e8875f4abc3929c64f37a8abe3383ef2ee09c32b34d331cc6e8d61f9",
+      "verified": true
+    },
+    {
+      "event": "ObligationAccrued",
+      "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+      "tx": "0x3351af08ddca308def74e49409cbbc6f5f5a214bcacfc97c7bf8b415cb675de3",
+      "verified": true
+    },
+    {
+      "event": "ObligationAccrued",
+      "account": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+      "tx": "0xc81438b3b47c49a84010989d610efa3ae906b00783319a47c1e3b67ba95773c4",
+      "verified": true
+    },
+    {
+      "event": "SplitExecuted",
+      "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+      "tx": "0x005673c808ee7da660202cd6f687c3ec2a00ac91b7e82976e0789a92ccd475db",
+      "verified": true
+    },
+    {
+      "event": "SplitExecuted",
+      "account": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+      "tx": "0x08457245c37d3d0b1d3971fc419118d0f4bcb0df1159e4799fc06e6a91bcaecd",
+      "verified": true
+    },
+    {
+      "event": "SplitExecuted",
+      "account": "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+      "tx": "0xb6b67db4a7ecd28d48ecee0dcf24251d1ca09b8ef6e79e1ee019e952d7249a82",
+      "verified": true
+    }
+  ]
+}
