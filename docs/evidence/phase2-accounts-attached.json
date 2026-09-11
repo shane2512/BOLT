@@ -1,0 +1,49 @@
+{
+  "organization_id": "cmtr6g1cw00gm0dkwodha9v1s",
+  "key_quorum_id": "pwwre68io5ufavny68fasb6p",
+  "accounts": {
+    "OPERATING": {
+      "wallet_id": "tqaesz2thqtffoaehh8ziwrg",
+      "address": "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+      "entity": {
+        "type": "organization",
+        "id": "cmtr6g1cw00gm0dkwodha9v1s"
+      },
+      "owner_id": "pwwre68io5ufavny68fasb6p",
+      "policy_ids": [],
+      "policy_owner_id": null,
+      "policy_rule_count": 0,
+      "yield_enabled": false
+    },
+    "CLIENT_MONEY": {
+      "wallet_id": "fpfl4y3ul8gcil9mbmwrafn0",
+      "address": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+      "entity": {
+        "type": "organization",
+        "id": "cmtr6g1cw00gm0dkwodha9v1s"
+      },
+      "owner_id": "pwwre68io5ufavny68fasb6p",
+      "policy_ids": [
+        "ufrjjsolxvvmf4uwiw6yl9h9"
+      ],
+      "policy_owner_id": "pwwre68io5ufavny68fasb6p",
+      "policy_rule_count": 6,
+      "yield_enabled": false
+    },
+    "OBLIGATION_RESERVE": {
+      "wallet_id": "o2o7dtc5k1vj0wdcbemjqndy",
+      "address": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+      "entity": {
+        "type": "organization",
+        "id": "cmtr6g1cw00gm0dkwodha9v1s"
+      },
+      "owner_id": "pwwre68io5ufavny68fasb6p",
+      "policy_ids": [
+        "og2l1tx810pktnimglti6kx1"
+      ],
+      "policy_owner_id": "pwwre68io5ufavny68fasb6p",
+      "policy_rule_count": 6,
+      "yield_enabled": true
+    }
+  }
+}

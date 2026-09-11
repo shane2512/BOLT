@@ -1,0 +1,16 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+  - "contracts"
+  - "subgraph"
+allowBuilds:
+  '@reown/appkit': true
+  bufferutil: true
+  esbuild: true
+  keccak: true
+  secp256k1: true
+  utf-8-validate: true
+minimumReleaseAgeExclude:
+  - '@privy-io/js-sdk-core@0.75.0'
+  - '@privy-io/react-auth@3.42.0'
+  - '@privy-io/routes@0.3.0'

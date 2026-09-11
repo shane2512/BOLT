@@ -1,0 +1,25 @@
+{
+  "expect": "ALLOW",
+  "outcome": "ALLOWED",
+  "note": "Signature only — Phase 0 established that Privy will not broadcast on Arc, so BOLT signs in the enclave and self-broadcasts. Not broadcast here: this wallet is unfunded and the point is that the enclave produced a signature.",
+  "attempted": {
+    "wallet_id": "fpfl4y3ul8gcil9mbmwrafn0",
+    "to": "0x730969CD8910F52A7FEBA40eC5ba7A3A5008a89B",
+    "transaction": {
+      "from": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+      "to": "0x3600000000000000000000000000000000000000",
+      "value": "0x0",
+      "chain_id": 5042002,
+      "nonce": 0,
+      "type": 2,
+      "gas_limit": 300000,
+      "max_fee_per_gas": "0x5d21dba00",
+      "max_priority_fee_per_gas": "0x3b9aca00",
+      "data": "0xa9059cbb000000000000000000000000730969cd8910f52a7feba40ec5ba7a3a5008a89b0000000000000000000000000000000000000000000000000000000000002710"
+    }
+  },
+  "response": {
+    "signed_transaction": "0x02f8b4834cef5280843b9aca008505d21dba00830493e094360000000000000000000000000000000000000080b844a9059cbb000000000000000000000000730969cd8910f52a7feba40ec5ba7a3a5008a89b0000000000000000000000000000000000000000000000000000000000002710c080a0877f3356670de60b37d7b531b9b11195c61bba01e966906cfa13bc8d1f00b9f9a043fb2b0d5a3e31fffbcedad790a6f105dae4ebe9ca37c3b0429d39c6ab65540a",
+    "encoding": "rlp"
+  }
+}
