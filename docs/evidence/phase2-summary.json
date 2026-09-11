@@ -1,0 +1,95 @@
+{
+  "chain": {
+    "chain_id": 5042002,
+    "rpc": "https://rpc.testnet.arc.io",
+    "usdc": "0x3600000000000000000000000000000000000000",
+    "registry": "0x654713c0554cf3286e140C876E49F15B3F9dA0cd"
+  },
+  "organization_id": "cmtr6g1cw00gm0dkwodha9v1s",
+  "key_quorum_id": "pwwre68io5ufavny68fasb6p",
+  "accounts": [
+    {
+      "class": "OPERATING",
+      "address": "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+      "policy_id": null,
+      "policy_hash": null,
+      "yield_enabled": false,
+      "explorer": "https://testnet.arcscan.app/address/0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060"
+    },
+    {
+      "class": "CLIENT_MONEY",
+      "address": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+      "policy_id": "ufrjjsolxvvmf4uwiw6yl9h9",
+      "policy_hash": "0x22f438c939680e9c7554d22143fbe1d28fbb3471710e03f82f729061473d961d",
+      "yield_enabled": false,
+      "explorer": "https://testnet.arcscan.app/address/0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b"
+    },
+    {
+      "class": "OBLIGATION_RESERVE",
+      "address": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+      "policy_id": "og2l1tx810pktnimglti6kx1",
+      "policy_hash": "0x1d79422a0b7ea72ced1264366d4569abb8ce41ef1f778d58023a819bd55a234f",
+      "yield_enabled": true,
+      "explorer": "https://testnet.arcscan.app/address/0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14"
+    }
+  ],
+  "permitted": {
+    "client_money": "0x730969CD8910F52A7FEBA40eC5ba7A3A5008a89B",
+    "obligation_reserve": "0x48ab931994C1A07D175E8D380488f5F459fA3E3B",
+    "never_permitted": "0xe15Ea9830fd176B1000c1a96a74E5c37c79605c1"
+  },
+  "registry_events": [
+    {
+      "event": "BusinessRegistered",
+      "tx": "0x3054b256976ef4342d054ed82817d4cafd86ff06dbea4ac663935701b5b47d15",
+      "verified": true
+    },
+    {
+      "event": "AccountRegistered",
+      "account": "0xe0D6fc2FDb556a26C173C6E5FA90d6B5283fF060",
+      "tx": "0x5b18dff7e3d9d9474810f927beff0f234567613704343620b15eb2ed39584d75",
+      "verified": true
+    },
+    {
+      "event": "AccountRegistered",
+      "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+      "tx": "0x367928c8297c73d2c2a6ca20e3cf7527e6b03e686bb48eeee6d0ec763c8d2acd",
+      "verified": true
+    },
+    {
+      "event": "PolicyRotated",
+      "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+      "tx": "0x8e6d115ea51d41c988ace7c3f76dd04591ec4d2c9e00051635e72e74fbebccad",
+      "verified": true
+    },
+    {
+      "event": "AccountRegistered",
+      "account": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+      "tx": "0xa66f16bcf2ee3a2f519c4bd5de1bdb8305d47c082c94fa37f4f688a1725b9480",
+      "verified": true
+    },
+    {
+      "event": "PolicyRotated",
+      "account": "0x3b467CDd0949EDC45B9D9F163C9DCF7028605D14",
+      "tx": "0x02e021e3fe28733bc61a8f9be73682007ddaaf122784f2b90881305cde2ece93",
+      "verified": true
+    },
+    {
+      "event": "PolicyRotated",
+      "account": "0x0EB2A7667e56Dd07131000Ee0D99b6D218592d8b",
+      "tx": "0x82617273a43524701018991e1a190d301b77f6fbde8475fcca2a76df76f8f56c",
+      "verified": true
+    }
+  ],
+  "refusal": {
+    "permitted_transfer_signed": true,
+    "attempted_destination": "0xBffa7D3e6BAB5703b0258C1AAAc3356cFd8606b9",
+    "refused": true,
+    "stored_and_read_back": true
+  },
+  "quorum_enforcement": {
+    "widening_without_quorum_refused": true,
+    "policy_widened_without_quorum": false,
+    "widening_with_quorum_succeeded": true
+  }
+}
