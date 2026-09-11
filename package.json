@@ -1,0 +1,23 @@
+{
+  "name": "bolt",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "pnpm --filter @bolt/web dev",
+    "test": "pnpm -r --if-present test",
+    "db:push": "pnpm --filter @bolt/db db:push",
+    "contracts:build": "pnpm --filter @bolt/contracts exec hardhat compile",
+    "contracts:test": "pnpm --filter @bolt/contracts exec hardhat test",
+    "contracts:deploy": "pnpm --filter @bolt/contracts exec hardhat run scripts/deploy.ts --network arcTestnet",
+    "contracts:deploy:mainnet": "pnpm --filter @bolt/contracts exec hardhat run scripts/deploy.ts --network arcMainnet",
+    "subgraph:codegen": "pnpm --filter @bolt/subgraph codegen",
+    "subgraph:build": "pnpm --filter @bolt/subgraph build",
+    "subgraph:deploy": "pnpm --filter @bolt/subgraph codegen && pnpm --filter @bolt/subgraph build && pnpm --filter @bolt/subgraph deploy",
+    "monitor:dev": "pnpm --filter @bolt/monitor dev",
+    "monitor:once": "pnpm --filter @bolt/monitor once"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  },
+  "packageManager": "pnpm@11.25.0"
+}
