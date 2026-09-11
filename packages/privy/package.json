@@ -1,0 +1,35 @@
+{
+  "name": "@bolt/privy",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "test": "vitest run",
+    "phase2:provision": "tsx scripts/phase2-provision.ts",
+    "phase3:split": "tsx scripts/phase3-split.ts",
+    "phase6:unlock": "tsx scripts/phase6-unlock.ts",
+    "phase6:ceremony": "tsx scripts/phase6-ceremony.ts",
+    "phase6:world-probe": "tsx scripts/phase6-world-probe.ts",
+    "phase8:world-probe": "tsx scripts/phase8-world-probe.ts",
+    "phase8:payout": "tsx scripts/phase8-payout.ts",
+    "phase9:simulator": "tsx scripts/phase9-simulator.ts"
+  },
+  "dependencies": {
+    "@bolt/core": "workspace:*",
+    "@bolt/db": "workspace:*",
+    "@privy-io/node": "^0.34.0",
+    "drizzle-orm": "^0.36.0",
+    "viem": "^2.21.0",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.2.17",
+    "@worldcoin/idkit-core": "^4.2.4",
+    "dotenv": "^17.4.2",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  }
+}
