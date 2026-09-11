@@ -1,0 +1,18 @@
+{
+  "requirement": "FR-5.1 — free-text reason, hash on chain",
+  "unlock_id": "0x79699020a8ec15bf768cb685ed011e7586630355fcd981beed09b4833b28c56d",
+  "db_row_id": "7c4f1d72-34c6-420a-9df7-f6d91f482102",
+  "reason": "Buyer confirmed delivery and waived the 14-day hold. Releasing the seller's escrowed balance early, to the address already permitted by this account's policy.",
+  "reason_hash": "0x1d0d584be1741a84fe8bfbe878c3fd53f50448ce74f2742393edfde41d228353",
+  "reason_hash_recomputable_as": "keccak256(utf8(reason))",
+  "reason_hash_check": true,
+  "account": "0xf7916e8B1F5f033d940aE3b12614DFDa6F8B9849",
+  "destination": "0x32295054BAE0263042EC3Cc9E634e73121d65550",
+  "destination_is_permitted_by_policy": true,
+  "amount_usdc_base_units": "25000000",
+  "intent_id": "zokx0zcjuwwh7fy8tzr77c5d",
+  "intent_threshold": 3,
+  "executable_at_floor_unix": "1789127209",
+  "tx": "0x2d5b4e0eec95b4be0a8c8b200a3180f487ee6c515c8cfe9650fc7b78f0745fca",
+  "explorer": "https://testnet.arcscan.app/tx/0x2d5b4e0eec95b4be0a8c8b200a3180f487ee6c515c8cfe9650fc7b78f0745fca"
+}

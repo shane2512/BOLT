@@ -1,0 +1,33 @@
+{
+  "requirement": "FR-5.3 — an approval without a completed Selfie Check does not count",
+  "expect": "REFUSE",
+  "outcome": "REFUSED",
+  "world_credentials_present": {
+    "WORLD_APP_ID": false,
+    "WORLD_RP_ID": false,
+    "WORLD_RP_SIGNING_KEY": false,
+    "WORLD_ACTION_ID": false
+  },
+  "error": {
+    "__type": "SelfieCheckError",
+    "stack": "SelfieCheckError: world: payload is not an IDKit result\n    at verifySelfieCheck (D:\\BOLT\\packages\\core\\src\\world.ts:155:11)\n    at approveUnlock (D:\\BOLT\\packages\\privy\\src\\unlock.ts:471:23)\n    at async <anonymous> (D:\\BOLT\\packages\\privy\\scripts\\phase6-unlock.ts:504:3)",
+    "message": "world: payload is not an IDKit result",
+    "status": 0,
+    "body": [
+      {
+        "code": "too_small",
+        "minimum": 1,
+        "type": "array",
+        "inclusive": true,
+        "exact": false,
+        "message": "Array must contain at least 1 element(s)",
+        "path": [
+          "responses"
+        ]
+      }
+    ],
+    "name": "SelfieCheckError"
+  },
+  "approval_rows_written": 0,
+  "note": "The refusal below is the World gate, not a policy or a quorum. Signature count is unchanged, which is the point: a failed Selfie Check does not merely fail to increment a counter, it never reaches Privy at all. The refusal shapes that matter once credentials exist — an invalid proof, an Orb proof offered instead of a Selfie Check, a proof scoped to another action, one human filling two slots — are asserted in packages/privy/src/unlock.test.ts."
+}
