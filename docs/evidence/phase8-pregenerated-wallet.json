@@ -1,0 +1,15 @@
+{
+  "requirement": "FR-8.1 — a beneficiary with no wallet is onboarded via a pregenerated Privy wallet bound to their email; their balance exists before they ever sign in.",
+  "doc": "privy-docs /recipes/pregenerate-wallets.mdx — users().create({linked_accounts, wallets})",
+  "sdk_divergence": "The recipe's NodeJS sample passes wallet_index and create_direct_signer. @privy-io/node@0.34.0's UserCreateParams accepts only linked_accounts, custom_metadata and wallets, and the wallet's smart-account flag is create_smart_wallet, not create_smart_account. Those fields exist on the REST shapes in the same page. We follow the SDK.",
+  "email": "shanejo1506+bolt-seller-mtvt8snb@gmail.com",
+  "privy_user_id": "did:privy:cmtvtcpn7000d0cl9ggboexge",
+  "address": "0xdc785bc6396D9753b1Db44Aa827beCaEa11E6569",
+  "usdc_balance_before_any_login": "12320000",
+  "login_by_email_resolves_to_the_same_wallet": {
+    "method": "privy.users().getByEmailAddress({ address })",
+    "address": "0xdc785bc6396D9753b1Db44Aa827beCaEa11E6569",
+    "matches": true
+  },
+  "explorer": "https://testnet.arcscan.app/address/0xdc785bc6396D9753b1Db44Aa827beCaEa11E6569"
+}

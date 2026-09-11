@@ -1,0 +1,63 @@
+{
+  "requirements": {
+    "FR-8.6": "A beneficiary completes a Selfie Check on first claim, before any payout executes to them.",
+    "FR-8.7": "A fresh Selfie Check when changing withdrawal address, or claiming from an unrecognised device.",
+    "FR-8.8": "A repeat withdrawal to an already-verified address requires no fresh check."
+  },
+  "world": {
+    "mode": "LIVE — a real Selfie Check completed on a device, verified by World's verifier.",
+    "action": "bolt-beneficiary-claim",
+    "environment": "sandbox",
+    "signal": "2de3de47-d8e7-44df-8962-a0cf8be96ddf:0xdc785bc6396d9753b1db44aa827becaea11e6569",
+    "signal_hash": "0x007c3f29ce5b25ed1082a5bcbfd80bf8c6a8b6680b4e4015a70c98e50f3b8ef6",
+    "connect_url": "https://sandbox.world.org/verify?t=wld&i=66ffed5d-1816-4791-b731-4711f9528e47&k=ENaHOFRLwtiTtZpjSLXfbgmMRAdlheaz8jI296e679o%3D",
+    "action_scoping": "A second action, distinct from bolt-unlock-approval. The nullifier is scoped to (RP, action), so sharing one action would put a beneficiary's nullifier in the same scope as a quorum approver's. Proven usable with no Developer Portal step — see phase8-world-action-probe.json."
+  },
+  "FR-8.6_first_claim_without_a_check": {
+    "expect": "NO PAYOUT",
+    "outcome": "BLOCKED",
+    "error": {
+      "name": "SelfieCheckRequiredError",
+      "reason": "FIRST_CLAIM",
+      "message": "world: a Selfie Check is required before paying out to 0xdc785bc6396D9753b1Db44Aa827beCaEa11E6569 (FIRST_CLAIM). FR-8.6/FR-8.7 — no payout executes to a beneficiary who has not established eligibility, and no withdrawal address is honoured without a continuity signal."
+    },
+    "note": "Thrown before the transaction is built, so Privy is never reached and no signature can exist. This is not a boolean we check and then ignore."
+  },
+  "FR-8.8_repeat_to_verified_address": {
+    "expect": "NO FRESH CHECK",
+    "gate": {
+      "required": false,
+      "reason": "ALREADY_VERIFIED",
+      "verifiedAt": "2026-09-11T19:39:33.720Z"
+    },
+    "payout_executed": {
+      "tx": "0xaf90320fc9c5d2436017a876843ba05e0301306c6df9a48cc486aee5adb160c3",
+      "explorer": "https://testnet.arcscan.app/tx/0xaf90320fc9c5d2436017a876843ba05e0301306c6df9a48cc486aee5adb160c3"
+    },
+    "error": null
+  },
+  "FR-8.7_address_change": {
+    "expect": "FRESH CHECK",
+    "gate": {
+      "required": true,
+      "reason": "ADDRESS_CHANGE"
+    }
+  },
+  "FR-8.7_unrecognised_device": {
+    "expect": "FRESH CHECK",
+    "gate": {
+      "required": true,
+      "reason": "NEW_DEVICE"
+    }
+  },
+  "verification_ledger": [
+    {
+      "address": "0xdc785bc6396d9753b1db44aa827becaea11e6569",
+      "reason": "FIRST_CLAIM",
+      "device_id": "phase8-evidence-run",
+      "human_proof_ref": "0x232b6fd149ab573b04096dc9c95fe2f808990baf215425f83a659b51c5333a92",
+      "nullifier_decimal": "15907695860431424091990541669723956127350553435244172794619123099661809957522",
+      "verified_at": "2026-09-11T19:39:33.720Z"
+    }
+  ]
+}

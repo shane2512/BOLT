@@ -1,0 +1,43 @@
+{
+  "phase": "8 — beneficiary payout",
+  "world_selfie_check_mode": "LIVE — a real Selfie Check completed on a device, verified by World's verifier.",
+  "postgres": "PGlite (in-memory WASM Postgres), same schema and migrations as production — direct Postgres is unreachable from this sandbox.",
+  "exit_criteria": {
+    "a fresh email address receives a payout end to end without ever seeing a seed phrase": {
+      "email": "shanejo1506+bolt-seller-mtvt8snb@gmail.com",
+      "privy_user_id": "did:privy:cmtvtcpn7000d0cl9ggboexge",
+      "address": "0xdc785bc6396D9753b1Db44Aa827beCaEa11E6569",
+      "balance_before": "12320000",
+      "balance_after": "13930000",
+      "passed": true
+    },
+    "the payout is policy-permitted; a payout to a non-beneficiary from the same account is still refused": {
+      "permitted_payout_tx": "0x1d63c344c26ba2bd324606f79a770d164329f02fff86b7f411afd844c51a80b3",
+      "non_beneficiary": "0xeF71FA50A55C80a3Cb50C1Bf5109ccc50E0967b0",
+      "refused": false,
+      "passed": false
+    },
+    "a first claim without a Selfie Check does not pay out": {
+      "blocked": true,
+      "passed": true
+    },
+    "a repeat withdrawal to a verified address needs no fresh check": {
+      "fresh_check_required": false,
+      "payout_tx": "0xaf90320fc9c5d2436017a876843ba05e0301306c6df9a48cc486aee5adb160c3",
+      "passed": true
+    },
+    "changing the withdrawal address forces a fresh check": {
+      "gate": {
+        "required": true,
+        "reason": "ADDRESS_CHANGE"
+      },
+      "passed": true
+    }
+  },
+  "chain": {
+    "chain_id": 5042002,
+    "rpc": "https://rpc.testnet.arc.io",
+    "usdc": "0x3600000000000000000000000000000000000000",
+    "registry": "0x654713c0554cf3286e140C876E49F15B3F9dA0cd"
+  }
+}
