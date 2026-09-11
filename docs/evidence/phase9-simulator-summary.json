@@ -1,0 +1,88 @@
+{
+  "chain": {
+    "chain_id": 5042002,
+    "rpc": "https://rpc.testnet.arc.io",
+    "usdc": "0x3600000000000000000000000000000000000000",
+    "registry": "0x654713c0554cf3286e140C876E49F15B3F9dA0cd"
+  },
+  "sandbox": {
+    "slug": "bolt-simulator-sandbox",
+    "organization_id": "cmtwgf4pm000h0dl06apptrlv",
+    "key_quorum_id": "of4vu67mj0q3odf4cc7i16ej",
+    "locked_account": "0x42e895aD56D76c230BAF106F7d2BA52aA00Dc2F0",
+    "policy_id": "y1f5r1j2wf21fw30jy7pqo3v",
+    "permitted_payee": "0x5C4107308B15447B6274971639D3EEd2b7974a66",
+    "balance_wei": "250000000000000000",
+    "explorer": "https://testnet.arcscan.app/address/0x42e895aD56D76c230BAF106F7d2BA52aA00Dc2F0"
+  },
+  "attack_suite": [
+    {
+      "id": "wrong-destination",
+      "expect": "REFUSE",
+      "outcome": "REFUSED",
+      "policyViolation": true
+    },
+    {
+      "id": "native-value-send",
+      "expect": "REFUSE",
+      "outcome": "REFUSED",
+      "policyViolation": true
+    },
+    {
+      "id": "permitted-transfer-with-native-value",
+      "expect": "REFUSE",
+      "outcome": "REFUSED",
+      "policyViolation": true
+    },
+    {
+      "id": "approve",
+      "expect": "REFUSE",
+      "outcome": "REFUSED",
+      "policyViolation": true
+    },
+    {
+      "id": "transfer-from",
+      "expect": "REFUSE",
+      "outcome": "REFUSED",
+      "policyViolation": true
+    },
+    {
+      "id": "dirty-padding",
+      "expect": "REFUSE",
+      "outcome": "REFUSED",
+      "policyViolation": true
+    },
+    {
+      "id": "trailing-bytes",
+      "expect": "REFUSE",
+      "outcome": "REFUSED",
+      "policyViolation": true
+    },
+    {
+      "id": "multicall-wrapper",
+      "expect": "REFUSE",
+      "outcome": "REFUSED",
+      "policyViolation": true
+    },
+    {
+      "id": "permitted-transfer",
+      "expect": "ALLOW",
+      "outcome": "ALLOWED",
+      "policyViolation": false
+    }
+  ],
+  "attacks_behaving_as_expected": "9/9",
+  "control_broadcast_tx": "0x69cf30c86a633649fd1f3efd4f535ffe0fd71fa0594634f28169d3651e86c6c0",
+  "isolation": [
+    {
+      "slug": "acme-marketplace",
+      "reachable_by_simulator": false,
+      "shares_key_quorum": false
+    },
+    {
+      "slug": "bolt-unlock-demo",
+      "reachable_by_simulator": false,
+      "shares_key_quorum": false
+    }
+  ]
+}
