@@ -1,0 +1,39 @@
+{
+  "question": "Phase 8 needs a second World action for the beneficiary gates (FR-8.6/8.7). Does an action string have to be created in the Developer Portal before World's bridge will accept a proof request for it?",
+  "why_a_second_action": "world-docs /world-id/concepts: 'An app can have one or more actions depending on your use case'; /world-id/SKILL Phase 3: 'switching later means a new action'. The nullifier is scoped to (RP, action), so reusing bolt-unlock-approval would put a beneficiary's nullifier in the same scope as a quorum approver's and make the two gates' one-human-one-slot reasoning read across each other.",
+  "credentials": {
+    "app_id": "app_c1634cdf104184a52e0bd68561a89ddc",
+    "rp_id": "rp_2b39e68adda22dfe",
+    "environment": "sandbox"
+  },
+  "signal_shape": {
+    "example": "phase8-probe:0x0000000000000000000000000000000000000001",
+    "hashed": "0x00278beea9271ee803598d883ddd362ec145b8c24bc107b6325cab422366d90d",
+    "note": "A beneficiary claim binds the proof to (beneficiary, withdrawal address) so a proof minted to authorise one address cannot be presented for another."
+  },
+  "probes": [
+    {
+      "action": "bolt-unlock-approval",
+      "purpose": "Phase 6 control — an action that exists in the Developer Portal",
+      "rp_signature_ok": true,
+      "accepted": true,
+      "request_id": "bcdb2d28-84be-4bee-b890-aa9ce038f6ce",
+      "connect_url": "https://sandbox.world.org/verify?t=wld&i=bcdb2d28-84be-4bee-b890-aa9ce038f6ce&k=%2BH647M6K5jemAJU4Dm2vPMrwuStXzDgIlgrO6f1WgxU%3D",
+      "poll_once": {
+        "type": "waiting_for_connection"
+      }
+    },
+    {
+      "action": "bolt-beneficiary-claim",
+      "purpose": "Phase 8 — beneficiary first claim / address change",
+      "rp_signature_ok": true,
+      "accepted": true,
+      "request_id": "5f54a617-8b5c-4b45-a3d6-dd7af2acdcec",
+      "connect_url": "https://sandbox.world.org/verify?t=wld&i=5f54a617-8b5c-4b45-a3d6-dd7af2acdcec&k=F5IDHZbuyhNNKf5X%2FBbdXa4gR44b6vExTxE8s8BWsn4%3D",
+      "poll_once": {
+        "type": "waiting_for_connection"
+      }
+    }
+  ],
+  "verdict": "NO PORTAL STEP NEEDED — the sandbox bridge holds a Selfie Check request for the new action with the same app, RP and signing key. Actions are request-scoped strings, not Portal-registered objects."
+}
