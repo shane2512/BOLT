@@ -1,9 +1,9 @@
 {
   "requirement": "FR-5.1 → FR-5.4 — the full unlock ceremony, with live World Selfie Checks",
   "run": {
-    "at": "2026-09-10T16:09:32.818Z",
-    "approvers_attempted": 1,
-    "poll_timeout_ms": 20000,
+    "at": "2026-09-11T20:35:25.742Z",
+    "approvers_attempted": 3,
+    "poll_timeout_ms": 900000,
     "note": "PHASE6_APPROVALS and PHASE6_POLL_TIMEOUT_MS override these. A run with a short timeout and fewer approvers is a wiring check, not a ceremony — read `outcome`."
   },
   "off_chain_store": "pglite (Postgres unreachable) — the page renders the unlock and its reason HASH from the subgraph, but not the prose. Re-run where DATABASE_URL is reachable for the full page.",
@@ -14,42 +14,119 @@
     "environment": "sandbox",
     "verify_endpoint": "https://developer.world.org/api/v4/verify/rp_2b39e68adda22dfe",
     "preset": "selfieCheckLegacy (World ID 3.0)",
-    "signal": "984d23aa-e658-493c-98d5-10aa300e9f8e",
-    "expected_signal_hash": "0x00b3c32da12a22551a1646979c0c64da7e34c6dc2edcc88a9db427177f0c212a",
+    "signal": "3d1ab81c-ebbc-4720-be73-25319eaaa9c5",
+    "expected_signal_hash": "0x002e33d5c575a590d276df0c789cb4d0a10060312d0e24fa1f10d49519654947",
     "note": "Selfie Check has no headless path: a proof is produced by a person completing a face capture in the sandbox World ID app, installed via TestFlight or a private Google Play track (world-docs /world-id/sandbox/sandbox-access). Nothing here simulates one."
   },
   "unlock": {
-    "unlock_id": "0xb3c32da12a22551a1646979c0c64da7e34c6dc2edcc88a9db427177f0c212a91",
-    "db_row_id": "984d23aa-e658-493c-98d5-10aa300e9f8e",
+    "unlock_id": "0x2e33d5c575a590d276df0c789cb4d0a10060312d0e24fa1f10d4951965494756",
+    "db_row_id": "3d1ab81c-ebbc-4720-be73-25319eaaa9c5",
     "reason": "Buyer confirmed delivery and waived the 14-day hold. Releasing the seller's escrowed balance early, to the address already permitted by this account's policy.",
     "reason_hash": "0x1d0d584be1741a84fe8bfbe878c3fd53f50448ce74f2742393edfde41d228353",
-    "intent_id": "i1avw3ohr6xr2grftp0erju8",
+    "intent_id": "ki9q4lbh91dvfuf0abldy4ct",
     "threshold": 3,
     "quorum_size": 5,
     "account": "0xf7916e8B1F5f033d940aE3b12614DFDa6F8B9849",
     "destination": "0x32295054BAE0263042EC3Cc9E634e73121d65550",
     "amount_usdc_base_units": "25000000",
-    "requested_tx": "0xeb827be8a48f2e761b608e803eb89547ec2157d48427f57cfd33939067fdff21",
-    "explorer": "https://testnet.arcscan.app/tx/0xeb827be8a48f2e761b608e803eb89547ec2157d48427f57cfd33939067fdff21"
+    "requested_tx": "0xf5ce80699805a4da023a92a68ff94a4ce943a00280890e0907617a380b5a1da2",
+    "explorer": "https://testnet.arcscan.app/tx/0xf5ce80699805a4da023a92a68ff94a4ce943a00280890e0907617a380b5a1da2"
   },
   "approvals": [
     {
       "approver": "approver-1",
       "address": "0x61730284cc6B67b9654F5BEEb91C8DA0BAF57E9d",
-      "connect_url": "https://sandbox.world.org/verify?t=wld&i=3146ff99-a0c8-4058-aeef-990d7bec71b1&k=Vg2btBFWu3oqoUimBoTOYkQELquDnEFtRoaYf%2BwhgaQ%3D",
-      "world_request_id": "3146ff99-a0c8-4058-aeef-990d7bec71b1",
+      "connect_url": "https://sandbox.world.org/verify?t=wld&i=407d16ce-3754-4d5a-9d94-1b996abd87c5&k=9LxSTx1e412fAfH5%2F7%2Fd5XQ20XY3HMC5n2M77E7oJEA%3D",
+      "world_request_id": "407d16ce-3754-4d5a-9d94-1b996abd87c5",
       "rp_signature": {
-        "nonce": "0x0005c9f46211a0ff9bcf8f0417bd004cf8e604801fd652d17d511616b2b2aac0",
-        "created_at": 1789056550,
-        "expires_at": 1789056850
+        "nonce": "0x004a2877e7a2dd1e372ff9fc1518502d1215bb15d2ef94a27e0aca34891f8063",
+        "created_at": 1789158692,
+        "expires_at": 1789158992
       },
-      "outcome": "IDKIT_FAILED",
-      "idkit_error": "timeout"
+      "outcome": "APPROVED",
+      "idkit_result": {
+        "action": "bolt-unlock-approval",
+        "environment": "sandbox",
+        "nonce": "0x004a2877e7a2dd1e372ff9fc1518502d1215bb15d2ef94a27e0aca34891f8063",
+        "protocol_version": "3.0",
+        "responses": [
+          {
+            "identifier": "selfie",
+            "merkle_root": "0x12c35125fcdf03ed00ec1ea2e4ab73d8f0c7dd74073a053733724f72a0bc6170",
+            "nullifier": "0x1e2cee46f1beb15bd9ab141568a76b9be59c6f51ecacb2827b9891414b4fbb31",
+            "proof": "0x046e5dcd9a987e695e857e44d3769cd2f0871783326b821bc29a205e72fc404d30553d28ca597dbe04ce2c182337ad3eae58f20efe98486886936e02bf98ab44112dcf8eb871e6276949052bc305483709524c08d406be319eabedbd280da85e2cd3e8e0bc2ae5238506383e11c4656acca741bfc41090ca43d2ae432b451e480e90ad2413f5af23b4559941af441fbb685cc9fa60c63aef4d473dfeee4c4c371ce07dfe4644dc53eb35f3b04789bbb4a916af23476fcdf434c6234165ffe0831458c55ead3106d9b20afefecbe3272b2700d7b8117dde2452d052e6283f15770cafd6ca8986bef61fa8858fc0b4ca497e17b83282414de00d9c346c13018ec8",
+            "signal_hash": "0x002e33d5c575a590d276df0c789cb4d0a10060312d0e24fa1f10d49519654947"
+          }
+        ]
+      },
+      "world_verification": {
+        "success": true,
+        "action": "bolt-unlock-approval",
+        "nullifier": "0x1e2cee46f1beb15bd9ab141568a76b9be59c6f51ecacb2827b9891414b4fbb31",
+        "created_at": "2026-09-11T20:37:36.63254+00:00",
+        "environment": "sandbox",
+        "protocol_version": "3.0",
+        "results": [
+          {
+            "identifier": "selfie",
+            "success": true,
+            "nullifier": "0x1e2cee46f1beb15bd9ab141568a76b9be59c6f51ecacb2827b9891414b4fbb31"
+          }
+        ],
+        "message": "Proof verified successfully"
+      },
+      "human_proof_ref": "0x1e2cee46f1beb15bd9ab141568a76b9be59c6f51ecacb2827b9891414b4fbb31",
+      "approved_tx": "0x27f551fc3caedeadee8fa82bfeff9767fdf99a284f455946c3fc8a6de6a3d949",
+      "approvals_after": 1,
+      "armed": null
+    },
+    {
+      "approver": "approver-2",
+      "address": "0xA75DfE76898dDB6DC09C9a38745cD7222E42d4DB",
+      "connect_url": "https://sandbox.world.org/verify?t=wld&i=f8018f9c-3729-447c-b258-e83a4314e172&k=tnPji2rPRCVPsBVKUZ4tdWCbCi%2F%2BbxJYw0yCr0SZYE0%3D",
+      "world_request_id": "f8018f9c-3729-447c-b258-e83a4314e172",
+      "rp_signature": {
+        "nonce": "0x00a04b14e2917bfb92663f30ac7029a00d8c755ea3890d46c2842526daaf0e87",
+        "created_at": 1789158877,
+        "expires_at": 1789159177
+      },
+      "outcome": "REFUSED",
+      "idkit_result": {
+        "action": "bolt-unlock-approval",
+        "environment": "sandbox",
+        "nonce": "0x00a04b14e2917bfb92663f30ac7029a00d8c755ea3890d46c2842526daaf0e87",
+        "protocol_version": "3.0",
+        "responses": [
+          {
+            "identifier": "selfie",
+            "merkle_root": "0x57dd2150fe48523637501679089b971369c30045a92a0de0dc6f4d7671d7cc1",
+            "nullifier": "0x1e2cee46f1beb15bd9ab141568a76b9be59c6f51ecacb2827b9891414b4fbb31",
+            "proof": "0x22ee3a7dc5a3edb9a08fbd81dc3d5081b1a1d785f4f24d686aa47556f325b1560592a2753b9e0037a9a64652e3f1c84acd1eeae967f1b3aa59637605bdcad7a406d831ea19e33d16cd0fa3a5e068624f439b16606883706d501cf8d733806acf2961d051feaf667f37cad77b7338bd202cf575236df31e3a985e073b24f8750a1938eae732b6851078b740bf91e86de8d1fad0e746d950ad5194885acba6df4f0eaf9bcc380c63242718deb830086989def1dcbe1e999a6ffbca568c4b86150d1593d7b359fb1091228cb8c305f4dc4f5237829a4f3354eae6c8b9f3bb2d007b0118237700b381c8400adc8282e0d37bb27303367a5a6ca0c080cf989bbd1862",
+            "signal_hash": "0x002e33d5c575a590d276df0c789cb4d0a10060312d0e24fa1f10d49519654947"
+          }
+        ]
+      },
+      "approval_error": {
+        "__type": "E",
+        "stack": "error: duplicate key value violates unique constraint \"unlock_approvals_request_nullifier_idx\"\n    at ye.Ve (D:\\BOLT\\node_modules\\.pnpm\\@electric-sql+pglite@0.2.17\\node_modules\\@electric-sql\\pglite\\dist\\chunk-EADU5A67.js:1:17602)\n    at ye.nt (D:\\BOLT\\node_modules\\.pnpm\\@electric-sql+pglite@0.2.17\\node_modules\\@electric-sql\\pglite\\dist\\chunk-EADU5A67.js:1:14988)\n    at ye.parse (D:\\BOLT\\node_modules\\.pnpm\\@electric-sql+pglite@0.2.17\\node_modules\\@electric-sql\\pglite\\dist\\chunk-EADU5A67.js:1:13740)\n    at pe.execProtocol (D:\\BOLT\\node_modules\\.pnpm\\@electric-sql+pglite@0.2.17\\node_modules\\@electric-sql\\pglite\\dist\\index.js:3:239489)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async pe.l (D:\\BOLT\\node_modules\\.pnpm\\@electric-sql+pglite@0.2.17\\node_modules\\@electric-sql\\pglite\\src\\base.ts:130:12)\n    at async <anonymous> (D:\\BOLT\\node_modules\\.pnpm\\@electric-sql+pglite@0.2.17\\node_modules\\@electric-sql\\pglite\\src\\base.ts:267:13)",
+        "message": "duplicate key value violates unique constraint \"unlock_approvals_request_nullifier_idx\"",
+        "length": 387,
+        "name": "error",
+        "severity": "ERROR",
+        "code": "23505",
+        "detail": "Key (unlock_request_id, nullifier)=(3d1ab81c-ebbc-4720-be73-25319eaaa9c5, 13648771256633752179609926615148663244209735533643330643466568085166265187121) already exists.",
+        "schema": "public",
+        "table": "unlock_approvals",
+        "constraint": "unlock_approvals_request_nullifier_idx",
+        "file": "nbtinsert.c",
+        "line": "673",
+        "routine": "_bt_check_unique"
+      }
     }
   ],
-  "approvals_completed": 0,
+  "approvals_completed": 1,
   "timer": null,
   "execution": null,
   "execution_error": null,
-  "outcome": "INCOMPLETE — 0 of 3 approvals completed"
+  "outcome": "INCOMPLETE — 1 of 3 approvals completed"
 }

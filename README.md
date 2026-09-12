@@ -122,7 +122,7 @@ The `approve` / `transferFrom` route is the one worth singling out: an allowance
 | Their bullet | How BOLT meets it |
 |---|---|
 | **A complete, functional financial flow on a GA feature** | Buyer pays → webhook → mandate → session-signed split into locked accounts → obligation accrues on chain → beneficiary is paid out of the locked account → obligation settles and the public coverage line moves ([`phase8-coverage.json`](docs/evidence/phase8-coverage.json)). Every Privy leg ran live on Arc testnet; the one substituted response in that run is disclosed two rows down. |
-| **Eligible flow type** | Transfers (the payout, tx [`0x53f21fd0…`](https://testnet.arcscan.app/tx/0x53f21fd0867dab745df3681e821ca15a9bdf12268d7ba6d6bb77ea090ba54148)) and bridging (CCTP to Base Sepolia — read the Arc section for exactly how far that got). |
+| **Eligible flow type** | Transfers (the payout, tx [`0x53f21fd0…`](https://testnet.arcscan.app/tx/0x53f21fd0867dab745df3681e821ca15a9bdf12268d7ba6d6bb77ea090ba54148)) and bridging (CCTP to Base Sepolia, complete — see the Arc section). |
 | **Hides unnecessary onchain complexity** | A seller receives a payout without a seed phrase, a gas balance, a chain picker or a bridge UI. The **pregenerated wallet** means their balance exists before they first sign in — [`phase8-pregenerated-wallet.json`](docs/evidence/phase8-pregenerated-wallet.json). A fresh Gmail address went from nothing to paid in one session. |
 | **Mocked features do not count toward eligibility** | Nothing in the Privy path is mocked. No Privy Cards, no fiat, no simulated signer. The one substituted response anywhere in this repo is World's HTTP reply in Phase 8's payout run, and it is labelled in the evidence file and stated plainly in the World section below. |
 
@@ -153,7 +153,7 @@ What exists instead is a rehearsed mainnet path. The `arcMainnet` Hardhat networ
 
 **Arc App Kit — `@circle-fin/bridge-kit`, in the beneficiary's withdrawal leg.** The App Kit is deliberately *not* on the payout leg. That transaction is signed in Privy's enclave against a policy that decodes `transfer._to`, and handing its construction to another SDK would move the exact calldata the policy checks away from the file responsible for it, for no gain. Once the money is the beneficiary's, moving it off Arc is a bridging problem — and hand-rolling CCTP's burn → attestation → mint is precisely what an App Kit exists to remove. Same `kit.bridge()` call in both places; the claim page's button signs with the beneficiary's Privy embedded wallet, the terminal-verifiable run signs with a key adapter. Reasoning and transcript: [`phase8-cctp.json`](docs/evidence/phase8-cctp.json).
 
-**CCTP (FR-8.4, MAY priority) — how far it actually got.** Arc → Base Sepolia, 0.50 USDC. The `approve` and `burn` transactions succeeded on Arc ([`0xacb072cc…`](https://testnet.arcscan.app/tx/0xacb072cc0409a57534b890b59c2aaf1124265a69f471cf8c95f9c8c1de0d2b1c)) and Circle returned a real attestation for the burn. **The final mint on Base Sepolia reverted**, with `BALANCE_INSUFFICIENT_GAS`: the destination address held no Base Sepolia ETH. That is a funding gap on our side, not a code failure and not an Arc or Circle failure — but the money did not land on the destination chain, so we say so rather than calling the flow complete. Everything up to and including the attestation is live.
+**CCTP (FR-8.4, MAY priority) — complete.** Arc → Base Sepolia, 0.50 USDC, all four steps live: `approve` and `burn` on Arc ([`0xdf3a992f…`](https://testnet.arcscan.app/tx/0xdf3a992f15a6a443d1a4785f68117823a12c90180a8d09f47ecd07c4d73b7907)), a real Circle attestation for the burn, and the mint on Base Sepolia ([`0xde005e63…`](https://sepolia.basescan.org/tx/0xde005e63c3135626551630e0f881cf2d32b425b80124fc88a11febc3e0e29562)) — confirmed by an independent `balanceOf` read against the destination USDC contract, not just the script's own report. An earlier attempt reverted with `BALANCE_INSUFFICIENT_GAS` because the destination address held no Base Sepolia ETH; that was a funding gap on our side, not a code, Arc, or Circle failure, and it is fixed.
 
 ---
 
@@ -215,7 +215,6 @@ Three things this build does **not** claim, collected here so nobody has to find
 
 - **Not deployed on any mainnet.** Arc testnet only. Arc's mainnet is not publicly live; the deploy path is rehearsed, not used.
 - **A human has completed a Selfie Check for a beneficiary's first claim** (a real payout, gated by it, on Arc testnet — see the World section). **The full 3-of-5 unlock ceremony has not yet been run with three real device checks**, and one secondary sub-check (a payout to a non-beneficiary being refused *by Privy specifically*, as opposed to by the World gate) did not complete in the one live run so far — World's sandbox returned an HTTP 500 on that particular request mid-run.
-- **The CCTP mint did not land.** Burn and attestation succeeded; the destination-chain mint reverted for want of gas on the destination address. FR-8.4 is MAY priority and we are not counting it as finished.
 
 Each is explained where it belongs in the sponsor sections above.
 

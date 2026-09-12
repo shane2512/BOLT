@@ -34,18 +34,18 @@
       "values": {
         "name": "approve",
         "state": "success",
-        "txHash": "0x3abe809551ef4a88c9c1afafc8679035a91c46756c97693e001f922d112434a9",
+        "txHash": "0x59b020c5109db7686f2beb7191e80d4e454fdc17ca40d98a612d6e94f7859014",
         "data": {
-          "txHash": "0x3abe809551ef4a88c9c1afafc8679035a91c46756c97693e001f922d112434a9",
+          "txHash": "0x59b020c5109db7686f2beb7191e80d4e454fdc17ca40d98a612d6e94f7859014",
           "status": "success",
-          "cumulativeGasUsed": "1070703",
+          "cumulativeGasUsed": "2130883",
           "gasUsed": "38596",
-          "blockNumber": "61436270",
-          "blockHash": "0xbbdb5ae4038e565172045445235f1f5735bf0f8a8dcc4768aa796122e357ecc5",
-          "transactionIndex": 9,
+          "blockNumber": "61620649",
+          "blockHash": "0x2c859536ecf96e52ee41e4cbf3af28bfff4da87619dbf264d2d63b0aee8a2c8c",
+          "transactionIndex": 12,
           "effectiveGasPrice": "22000000000"
         },
-        "explorerUrl": "https://testnet.arcscan.app/tx/0x3abe809551ef4a88c9c1afafc8679035a91c46756c97693e001f922d112434a9"
+        "explorerUrl": "https://testnet.arcscan.app/tx/0x59b020c5109db7686f2beb7191e80d4e454fdc17ca40d98a612d6e94f7859014"
       }
     },
     {
@@ -53,18 +53,18 @@
       "values": {
         "name": "burn",
         "state": "success",
-        "txHash": "0xacb072cc0409a57534b890b59c2aaf1124265a69f471cf8c95f9c8c1de0d2b1c",
+        "txHash": "0xdf3a992f15a6a443d1a4785f68117823a12c90180a8d09f47ecd07c4d73b7907",
         "data": {
-          "txHash": "0xacb072cc0409a57534b890b59c2aaf1124265a69f471cf8c95f9c8c1de0d2b1c",
+          "txHash": "0xdf3a992f15a6a443d1a4785f68117823a12c90180a8d09f47ecd07c4d73b7907",
           "status": "success",
-          "cumulativeGasUsed": "3153010",
+          "cumulativeGasUsed": "2790688",
           "gasUsed": "168058",
-          "blockNumber": "61436275",
-          "blockHash": "0xbeffefce4b0a211df228afc2b627eb4a04acc9b7e3f60c5b09b645039218a4dd",
-          "transactionIndex": 16,
+          "blockNumber": "61620654",
+          "blockHash": "0xea94d9851328f4cccb580b5fee15511e849f6b303dabe9555d5738bac7a37b06",
+          "transactionIndex": 6,
           "effectiveGasPrice": "22000000000"
         },
-        "explorerUrl": "https://testnet.arcscan.app/tx/0xacb072cc0409a57534b890b59c2aaf1124265a69f471cf8c95f9c8c1de0d2b1c"
+        "explorerUrl": "https://testnet.arcscan.app/tx/0xdf3a992f15a6a443d1a4785f68117823a12c90180a8d09f47ecd07c4d73b7907"
       }
     },
     {
@@ -73,15 +73,15 @@
         "name": "fetchAttestation",
         "state": "success",
         "data": {
-          "attestation": "0x225f051d04c9a5be756049af81cf02bf66fa71c62f73d281265173208535de6e67b6865c391a67cd2a041e38dab1df8f2712e6fb931f8a117f74fa5ae2d779351c9109e6626a55fce7856109cbd7379e3f89a92c98aa1d72051f69d8ae0df0ac7e4aa0e70580e63664e701156f5f7d8bf3b303b12e1f3538a8092adf47a07862be1c",
-          "message": "0x000000010000001a0000000610aa23afde851bd31679917d8980b785bee447165256a10ae5f4f238d6b7f31e0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000000000000000000000000000000000000000000000000003e8000007d00000000100000000000000000000000036000000000000000000000000000000000000000000000000000000000000007ff410e96827efa8f24854a8aefe4e5532274484000000000000000000000000000000000000000000000000000000000007a120000000000000000000000000c5567a5e3370d4dbfb0540025078e283e36a363d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-          "eventNonce": "0x10aa23afde851bd31679917d8980b785bee447165256a10ae5f4f238d6b7f31e",
+          "attestation": "0x6931a349428bad604f1a80b01bbae5099aea64a74cb3d7f791af201c7d6bcd634b56366029d3f1a779e85a7bab1c489d7023abdf1df12e28f921ac31baf037d21c1d884ca8140e7383378ce80d54783b0f8def2787f95ac3a9c571cf53c238cd310938fc11eaa50de999264f44c61cafe50fa5926d763370a8840c54e67b2d7ff41c",
+          "message": "0x000000010000001a00000006c9dc764cdf46237645e64dbe3013ce4c62679774ef3f3f27b3dce32749b5eae70000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000000000000000000000000000000000000000000000000003e8000007d00000000100000000000000000000000036000000000000000000000000000000000000000000000000000000000000007ff410e96827efa8f24854a8aefe4e5532274484000000000000000000000000000000000000000000000000000000000007a120000000000000000000000000c5567a5e3370d4dbfb0540025078e283e36a363d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "eventNonce": "0xc9dc764cdf46237645e64dbe3013ce4c62679774ef3f3f27b3dce32749b5eae7",
           "cctpVersion": 2,
           "status": "complete",
           "decodedMessage": {
             "sourceDomain": "26",
             "destinationDomain": "6",
-            "nonce": "0x10aa23afde851bd31679917d8980b785bee447165256a10ae5f4f238d6b7f31e",
+            "nonce": "0xc9dc764cdf46237645e64dbe3013ce4c62679774ef3f3f27b3dce32749b5eae7",
             "sender": "0x8fe6b999dc680ccfdd5bf7eb0974218be2542daa",
             "recipient": "0x8fe6b999dc680ccfdd5bf7eb0974218be2542daa",
             "destinationCaller": "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -108,61 +108,25 @@
       "method": "mint",
       "values": {
         "name": "mint",
-        "state": "error",
-        "error": {
-          "code": 9002,
-          "name": "BALANCE_INSUFFICIENT_GAS",
-          "type": "BALANCE",
-          "recoverability": "FATAL",
-          "cause": {
-            "trace": {
-              "rawError": {
-                "cause": {
-                  "details": "insufficient funds for gas * price + value: have 0 want 2800000000000",
-                  "metaMessages": [
-                    "This error could arise when the account does not have enough funds to:",
-                    " - pay for the total gas fee,",
-                    " - pay for the value to send.",
-                    " ",
-                    "The cost of the transaction is calculated as `gas * gas fee + value`, where:",
-                    " - `gas` is the amount of gas needed for transaction to execute,",
-                    " - `gas fee` is the gas fee,",
-                    " - `value` is the amount of ether to send to the recipient."
-                  ],
-                  "shortMessage": "The total cost (gas * gas fee + value) of executing this transaction exceeds the balance of the account.",
-                  "version": "2.56.3",
-                  "name": "InsufficientFundsError"
-                },
-                "details": "insufficient funds for gas * price + value: have 0 want 2800000000000",
-                "metaMessages": [
-                  "This error could arise when the account does not have enough funds to:",
-                  " - pay for the total gas fee,",
-                  " - pay for the value to send.",
-                  " ",
-                  "The cost of the transaction is calculated as `gas * gas fee + value`, where:",
-                  " - `gas` is the amount of gas needed for transaction to execute,",
-                  " - `gas fee` is the gas fee,",
-                  " - `value` is the amount of ether to send to the recipient.",
-                  " ",
-                  "Request Arguments:",
-                  "  chain:  Base Sepolia (id: 84532)\n  from:   0x7ff410E96827EFA8f24854a8aEfe4E5532274484\n  to:     0xe737e5cebeeba77efe34d4aa090756590b1ce275\n  data:   0x57ecfd28000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000001e00000000000000000000000000000000000000000000000000000000000000178000000010000001a0000000610aa23afde851bd31679917d8980b785bee447165256a10ae5f4f238d6b7f31e0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000000000000000000000000000000000000000000000000003e8000007d00000000100000000000000000000000036000000000000000000000000000000000000000000000000000000000000007ff410e96827efa8f24854a8aefe4e5532274484000000000000000000000000000000000000000000000000000000000007a120000000000000000000000000c5567a5e3370d4dbfb0540025078e283e36a363d00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000082225f051d04c9a5be756049af81cf02bf66fa71c62f73d281265173208535de6e67b6865c391a67cd2a041e38dab1df8f2712e6fb931f8a117f74fa5ae2d779351c9109e6626a55fce7856109cbd7379e3f89a92c98aa1d72051f69d8ae0df0ac7e4aa0e70580e63664e701156f5f7d8bf3b303b12e1f3538a8092adf47a07862be1c000000000000000000000000000000000000000000000000000000000000\n  gas:    400000"
-                ],
-                "shortMessage": "The total cost (gas * gas fee + value) of executing this transaction exceeds the balance of the account.",
-                "version": "2.56.3",
-                "name": "TransactionExecutionError"
-              },
-              "chain": "Base Sepolia"
-            }
-          }
+        "state": "success",
+        "txHash": "0xde005e63c3135626551630e0f881cf2d32b425b80124fc88a11febc3e0e29562",
+        "data": {
+          "txHash": "0xde005e63c3135626551630e0f881cf2d32b425b80124fc88a11febc3e0e29562",
+          "status": "success",
+          "cumulativeGasUsed": "400445",
+          "gasUsed": "171041",
+          "blockNumber": "46694996",
+          "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "transactionIndex": 3,
+          "effectiveGasPrice": "6000000"
         },
-        "errorCategory": "unknown",
-        "errorMessage": "Insufficient native token on Base Sepolia to cover gas fees",
+        "explorerUrl": "https://sepolia.basescan.org/tx/0xde005e63c3135626551630e0f881cf2d32b425b80124fc88a11febc3e0e29562",
         "forwarded": false
       }
     }
   ],
   "result": {
-    "state": "error",
+    "state": "success",
     "amount": "0.5",
     "token": "USDC",
     "source": {
@@ -291,48 +255,48 @@
       {
         "name": "approve",
         "state": "success",
-        "txHash": "0x3abe809551ef4a88c9c1afafc8679035a91c46756c97693e001f922d112434a9",
+        "txHash": "0x59b020c5109db7686f2beb7191e80d4e454fdc17ca40d98a612d6e94f7859014",
         "data": {
-          "txHash": "0x3abe809551ef4a88c9c1afafc8679035a91c46756c97693e001f922d112434a9",
+          "txHash": "0x59b020c5109db7686f2beb7191e80d4e454fdc17ca40d98a612d6e94f7859014",
           "status": "success",
-          "cumulativeGasUsed": "1070703",
+          "cumulativeGasUsed": "2130883",
           "gasUsed": "38596",
-          "blockNumber": "61436270",
-          "blockHash": "0xbbdb5ae4038e565172045445235f1f5735bf0f8a8dcc4768aa796122e357ecc5",
-          "transactionIndex": 9,
+          "blockNumber": "61620649",
+          "blockHash": "0x2c859536ecf96e52ee41e4cbf3af28bfff4da87619dbf264d2d63b0aee8a2c8c",
+          "transactionIndex": 12,
           "effectiveGasPrice": "22000000000"
         },
-        "explorerUrl": "https://testnet.arcscan.app/tx/0x3abe809551ef4a88c9c1afafc8679035a91c46756c97693e001f922d112434a9"
+        "explorerUrl": "https://testnet.arcscan.app/tx/0x59b020c5109db7686f2beb7191e80d4e454fdc17ca40d98a612d6e94f7859014"
       },
       {
         "name": "burn",
         "state": "success",
-        "txHash": "0xacb072cc0409a57534b890b59c2aaf1124265a69f471cf8c95f9c8c1de0d2b1c",
+        "txHash": "0xdf3a992f15a6a443d1a4785f68117823a12c90180a8d09f47ecd07c4d73b7907",
         "data": {
-          "txHash": "0xacb072cc0409a57534b890b59c2aaf1124265a69f471cf8c95f9c8c1de0d2b1c",
+          "txHash": "0xdf3a992f15a6a443d1a4785f68117823a12c90180a8d09f47ecd07c4d73b7907",
           "status": "success",
-          "cumulativeGasUsed": "3153010",
+          "cumulativeGasUsed": "2790688",
           "gasUsed": "168058",
-          "blockNumber": "61436275",
-          "blockHash": "0xbeffefce4b0a211df228afc2b627eb4a04acc9b7e3f60c5b09b645039218a4dd",
-          "transactionIndex": 16,
+          "blockNumber": "61620654",
+          "blockHash": "0xea94d9851328f4cccb580b5fee15511e849f6b303dabe9555d5738bac7a37b06",
+          "transactionIndex": 6,
           "effectiveGasPrice": "22000000000"
         },
-        "explorerUrl": "https://testnet.arcscan.app/tx/0xacb072cc0409a57534b890b59c2aaf1124265a69f471cf8c95f9c8c1de0d2b1c"
+        "explorerUrl": "https://testnet.arcscan.app/tx/0xdf3a992f15a6a443d1a4785f68117823a12c90180a8d09f47ecd07c4d73b7907"
       },
       {
         "name": "fetchAttestation",
         "state": "success",
         "data": {
-          "attestation": "0x225f051d04c9a5be756049af81cf02bf66fa71c62f73d281265173208535de6e67b6865c391a67cd2a041e38dab1df8f2712e6fb931f8a117f74fa5ae2d779351c9109e6626a55fce7856109cbd7379e3f89a92c98aa1d72051f69d8ae0df0ac7e4aa0e70580e63664e701156f5f7d8bf3b303b12e1f3538a8092adf47a07862be1c",
-          "message": "0x000000010000001a0000000610aa23afde851bd31679917d8980b785bee447165256a10ae5f4f238d6b7f31e0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000000000000000000000000000000000000000000000000003e8000007d00000000100000000000000000000000036000000000000000000000000000000000000000000000000000000000000007ff410e96827efa8f24854a8aefe4e5532274484000000000000000000000000000000000000000000000000000000000007a120000000000000000000000000c5567a5e3370d4dbfb0540025078e283e36a363d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-          "eventNonce": "0x10aa23afde851bd31679917d8980b785bee447165256a10ae5f4f238d6b7f31e",
+          "attestation": "0x6931a349428bad604f1a80b01bbae5099aea64a74cb3d7f791af201c7d6bcd634b56366029d3f1a779e85a7bab1c489d7023abdf1df12e28f921ac31baf037d21c1d884ca8140e7383378ce80d54783b0f8def2787f95ac3a9c571cf53c238cd310938fc11eaa50de999264f44c61cafe50fa5926d763370a8840c54e67b2d7ff41c",
+          "message": "0x000000010000001a00000006c9dc764cdf46237645e64dbe3013ce4c62679774ef3f3f27b3dce32749b5eae70000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000000000000000000000000000000000000000000000000003e8000007d00000000100000000000000000000000036000000000000000000000000000000000000000000000000000000000000007ff410e96827efa8f24854a8aefe4e5532274484000000000000000000000000000000000000000000000000000000000007a120000000000000000000000000c5567a5e3370d4dbfb0540025078e283e36a363d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "eventNonce": "0xc9dc764cdf46237645e64dbe3013ce4c62679774ef3f3f27b3dce32749b5eae7",
           "cctpVersion": 2,
           "status": "complete",
           "decodedMessage": {
             "sourceDomain": "26",
             "destinationDomain": "6",
-            "nonce": "0x10aa23afde851bd31679917d8980b785bee447165256a10ae5f4f238d6b7f31e",
+            "nonce": "0xc9dc764cdf46237645e64dbe3013ce4c62679774ef3f3f27b3dce32749b5eae7",
             "sender": "0x8fe6b999dc680ccfdd5bf7eb0974218be2542daa",
             "recipient": "0x8fe6b999dc680ccfdd5bf7eb0974218be2542daa",
             "destinationCaller": "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -356,55 +320,19 @@
       },
       {
         "name": "mint",
-        "state": "error",
-        "error": {
-          "code": 9002,
-          "name": "BALANCE_INSUFFICIENT_GAS",
-          "type": "BALANCE",
-          "recoverability": "FATAL",
-          "cause": {
-            "trace": {
-              "rawError": {
-                "cause": {
-                  "details": "insufficient funds for gas * price + value: have 0 want 2800000000000",
-                  "metaMessages": [
-                    "This error could arise when the account does not have enough funds to:",
-                    " - pay for the total gas fee,",
-                    " - pay for the value to send.",
-                    " ",
-                    "The cost of the transaction is calculated as `gas * gas fee + value`, where:",
-                    " - `gas` is the amount of gas needed for transaction to execute,",
-                    " - `gas fee` is the gas fee,",
-                    " - `value` is the amount of ether to send to the recipient."
-                  ],
-                  "shortMessage": "The total cost (gas * gas fee + value) of executing this transaction exceeds the balance of the account.",
-                  "version": "2.56.3",
-                  "name": "InsufficientFundsError"
-                },
-                "details": "insufficient funds for gas * price + value: have 0 want 2800000000000",
-                "metaMessages": [
-                  "This error could arise when the account does not have enough funds to:",
-                  " - pay for the total gas fee,",
-                  " - pay for the value to send.",
-                  " ",
-                  "The cost of the transaction is calculated as `gas * gas fee + value`, where:",
-                  " - `gas` is the amount of gas needed for transaction to execute,",
-                  " - `gas fee` is the gas fee,",
-                  " - `value` is the amount of ether to send to the recipient.",
-                  " ",
-                  "Request Arguments:",
-                  "  chain:  Base Sepolia (id: 84532)\n  from:   0x7ff410E96827EFA8f24854a8aEfe4E5532274484\n  to:     0xe737e5cebeeba77efe34d4aa090756590b1ce275\n  data:   0x57ecfd28000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000001e00000000000000000000000000000000000000000000000000000000000000178000000010000001a0000000610aa23afde851bd31679917d8980b785bee447165256a10ae5f4f238d6b7f31e0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000000000000000000000000000000000000000000000000003e8000007d00000000100000000000000000000000036000000000000000000000000000000000000000000000000000000000000007ff410e96827efa8f24854a8aefe4e5532274484000000000000000000000000000000000000000000000000000000000007a120000000000000000000000000c5567a5e3370d4dbfb0540025078e283e36a363d00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000082225f051d04c9a5be756049af81cf02bf66fa71c62f73d281265173208535de6e67b6865c391a67cd2a041e38dab1df8f2712e6fb931f8a117f74fa5ae2d779351c9109e6626a55fce7856109cbd7379e3f89a92c98aa1d72051f69d8ae0df0ac7e4aa0e70580e63664e701156f5f7d8bf3b303b12e1f3538a8092adf47a07862be1c000000000000000000000000000000000000000000000000000000000000\n  gas:    400000"
-                ],
-                "shortMessage": "The total cost (gas * gas fee + value) of executing this transaction exceeds the balance of the account.",
-                "version": "2.56.3",
-                "name": "TransactionExecutionError"
-              },
-              "chain": "Base Sepolia"
-            }
-          }
+        "state": "success",
+        "txHash": "0xde005e63c3135626551630e0f881cf2d32b425b80124fc88a11febc3e0e29562",
+        "data": {
+          "txHash": "0xde005e63c3135626551630e0f881cf2d32b425b80124fc88a11febc3e0e29562",
+          "status": "success",
+          "cumulativeGasUsed": "400445",
+          "gasUsed": "171041",
+          "blockNumber": "46694996",
+          "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "transactionIndex": 3,
+          "effectiveGasPrice": "6000000"
         },
-        "errorCategory": "unknown",
-        "errorMessage": "Insufficient native token on Base Sepolia to cover gas fees",
+        "explorerUrl": "https://sepolia.basescan.org/tx/0xde005e63c3135626551630e0f881cf2d32b425b80124fc88a11febc3e0e29562",
         "forwarded": false
       }
     ],
