@@ -5,6 +5,8 @@ import { AppFrame } from "@/components/AppFrame";
 import { ClayWell } from "@/components/ui/ClayWell";
 import { ExplorerLink } from "@/components/ui/ExplorerLink";
 import { LoadingState } from "@/components/ui/States";
+import { DesktopShell } from "@/components/desktop/DesktopShell";
+import { DesktopTopNav } from "@/components/desktop/DesktopTopNav";
 import { fmtUsdc, fmtBps, titleiseClass } from "@/lib/format";
 import { useOperatorData } from "@/lib/useOperatorData";
 
@@ -112,8 +114,24 @@ export default function OperatorActivityPage() {
     }))
   ].sort((a, b) => Number(b.block) - Number(a.block));
 
+  const desktop = (
+    <DesktopShell nav={<DesktopTopNav />}>
+      <div className="flex items-center justify-between pb-6">
+        <h1 className="text-[26px] font-semibold text-[#0A0A0A]">Activity</h1>
+        <span className="text-[13px] text-[#7C7C7C]">{rows.length} indexed events</span>
+      </div>
+      {rows.length === 0 && (
+        <ClayWell className="p-4">
+          <p className="text-[13px] text-[#5A5A5A]">No deposits or unlocks indexed yet.</p>
+        </ClayWell>
+      )}
+      {/* Same card elements the mobile column uses, laid out two-up instead of stacked. */}
+      <div className="grid grid-cols-2 gap-4">{rows.map((r) => r.el)}</div>
+    </DesktopShell>
+  );
+
   return (
-    <AppFrame showTabBar headerTitle="Activity" headerSubtitle={`${rows.length} indexed events`}>
+    <AppFrame showTabBar headerTitle="Activity" headerSubtitle={`${rows.length} indexed events`} desktop={desktop}>
       <div className="p-4 flex-1 flex flex-col gap-4 pb-28">
         {rows.length === 0 && (
           <ClayWell className="p-4">

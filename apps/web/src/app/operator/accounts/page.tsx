@@ -7,6 +7,8 @@ import { ClaySlab } from "@/components/ui/ClaySlab";
 import { StatusChip } from "@/components/ui/StatusChip";
 import { ExplorerLink } from "@/components/ui/ExplorerLink";
 import { LoadingState } from "@/components/ui/States";
+import { DesktopShell } from "@/components/desktop/DesktopShell";
+import { DesktopTopNav } from "@/components/desktop/DesktopTopNav";
 import { fmtUsdc, titleiseClass } from "@/lib/format";
 import { useOperatorData } from "@/lib/useOperatorData";
 
@@ -54,8 +56,60 @@ export default function OperatorAccountsPage() {
 
   const accounts = data.business.accounts;
 
+  const desktop = (
+    <DesktopShell nav={<DesktopTopNav />}>
+      <div className="flex items-center justify-between pb-6">
+        <h1 className="text-[26px] font-semibold text-[#0A0A0A]">Accounts</h1>
+        <span className="text-[13px] text-[#7C7C7C]">{accounts.length} registered</span>
+      </div>
+      <div className="grid grid-cols-2 gap-5">
+        {accounts.map((acc) => {
+          const locked = acc.class !== "OPERATING";
+          const Surface = locked ? ClayWell : ClaySlab;
+          return (
+            <Surface key={acc.id} className="p-5 flex flex-col gap-3 border border-[#DCDCDC]">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span
+                    className={`w-7 h-7 rounded-full flex items-center justify-center font-mono text-[10px] ${
+                      locked ? "bg-[#0A0A0A] text-white" : "bg-white border border-[#0A0A0A] text-[#0A0A0A]"
+                    }`}
+                  >
+                    {locked ? "L" : "O"}
+                  </span>
+                  <div>
+                    <h2 className="text-[15px] font-semibold text-[#0A0A0A] leading-tight">{acc.label}</h2>
+                    <span className="text-[11px] text-[#7C7C7C]">{titleiseClass(acc.class)}</span>
+                  </div>
+                </div>
+                <StatusChip status={locked ? "covered" : "pending"} label={locked ? "Locked" : "Operating"} />
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-[13px]">
+                <div>
+                  <span className="text-[#7C7C7C] block text-[11px]">Held</span>
+                  <span className="font-mono font-bold text-[#0A0A0A]">{fmtUsdc(BigInt(acc.held))}</span>
+                </div>
+                <div>
+                  <span className="text-[#7C7C7C] block text-[11px]">Owed</span>
+                  <span className="font-mono font-bold text-[#0A0A0A]">{fmtUsdc(BigInt(acc.owed))}</span>
+                </div>
+              </div>
+              <p className="text-[12px] text-[#5A5A5A] leading-normal">{CLASS_NOTE[acc.class]}</p>
+              <div className="pt-2 border-t border-[#DCDCDC] flex items-center justify-between text-[12px]">
+                <ExplorerLink type="address" value={acc.id} />
+                <Link href={`/operator/accounts/${acc.id}`} className="font-semibold text-[#0A0A0A] underline">
+                  Account detail
+                </Link>
+              </div>
+            </Surface>
+          );
+        })}
+      </div>
+    </DesktopShell>
+  );
+
   return (
-    <AppFrame showTabBar headerTitle="Accounts" headerSubtitle={`${accounts.length} registered`}>
+    <AppFrame showTabBar headerTitle="Accounts" headerSubtitle={`${accounts.length} registered`} desktop={desktop}>
       <div className="p-4 flex-1 flex flex-col gap-5 pb-28">
         {accounts.map((acc) => {
           const locked = acc.class !== "OPERATING";

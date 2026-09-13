@@ -7,6 +7,8 @@ import { ClaySlab } from "@/components/ui/ClaySlab";
 import { ValueAndSource } from "@/components/ui/ValueAndSource";
 import { StatusChip } from "@/components/ui/StatusChip";
 import { LoadingState } from "@/components/ui/States";
+import { DesktopShell } from "@/components/desktop/DesktopShell";
+import { DesktopTopNav } from "@/components/desktop/DesktopTopNav";
 import { fmtUsdc, fmtBps, titleiseClass } from "@/lib/format";
 import { useOperatorData } from "@/lib/useOperatorData";
 
@@ -85,8 +87,84 @@ export default function OperatorCoveragePage() {
   const openCeremony = data.unlocks.find((u) => u.status === "REQUESTED");
   const block = Number(data.indexedAtBlock).toLocaleString("en-US");
 
+  const desktop = (
+    <DesktopShell nav={<DesktopTopNav />}>
+      <div className="flex items-center justify-between pb-6">
+        <div>
+          <h1 className="text-[26px] font-semibold text-[#0A0A0A]">Coverage</h1>
+          <p className="text-[13px] text-[#7C7C7C] mt-1">Block {block}</p>
+        </div>
+        <StatusChip status={overallBps >= 10000n ? "covered" : "refused"} label={`${fmtBps(overallBps)} covered`} />
+      </div>
+
+      {severeFinding && (
+        <ClayWell variant="deep" className="p-4 border-2 border-[#0A0A0A] flex items-center justify-between gap-4 mb-6">
+          <div className="flex items-center gap-4">
+            <StatusChip status="severe" label="Severe finding" />
+            <p className="text-[14px] font-semibold text-[#0A0A0A]">{severeFinding.title}</p>
+          </div>
+          <Link href="/operator/alerts" className="text-[12px] font-semibold text-[#0A0A0A] underline shrink-0">
+            Investigate in alerts
+          </Link>
+        </ClayWell>
+      )}
+
+      <ClaySlab hero className="p-6 mb-6">
+        <ValueAndSource
+          amount={fmtUsdc(totalHeld)}
+          label="Total held across all classes"
+          sourceType="block"
+          sourceValue={data.indexedAtBlock}
+          sourceLabel="indexed at block"
+          size="hero"
+        />
+      </ClaySlab>
+
+      {openCeremony && (
+        <ClaySlab className="p-4 flex items-center justify-between gap-4 border-2 border-[#0A0A0A] mb-6">
+          <div className="flex items-center gap-4">
+            <span className="w-2 h-2 rounded-full bg-[#0A0A0A]" />
+            <span className="text-[13px] font-semibold text-[#0A0A0A]">{openCeremony.account.label}</span>
+            <span className="font-mono text-[15px] font-bold text-[#0A0A0A]">{fmtUsdc(BigInt(openCeremony.amount))}</span>
+            <StatusChip status="pending" label={`${openCeremony.approvalCount}/${QUORUM_THRESHOLD} approved`} />
+          </div>
+          <Link href="/operator/approvals" className="text-[12px] font-semibold text-[#0A0A0A] underline shrink-0">
+            View ceremony
+          </Link>
+        </ClaySlab>
+      )}
+
+      <span className="text-[13px] font-medium text-[#7C7C7C]">By account class</span>
+      <div className="grid grid-cols-3 gap-4 mt-3">
+        {data.latestCoverage.map((row) => {
+          const locked = row.class !== "OPERATING";
+          const Surface = locked ? ClayWell : ClaySlab;
+          return (
+            <Surface key={row.class} className="p-5 flex flex-col gap-3 border border-[#DCDCDC]">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className={`w-2 h-2 rounded-full ${locked ? "bg-[#0A0A0A]" : "border border-[#0A0A0A]"}`} />
+                  <span className="text-[14px] font-semibold text-[#0A0A0A]">{titleiseClass(row.class)}</span>
+                </div>
+                <StatusChip status={locked ? "covered" : "pending"} label={locked ? "Locked" : "Spendable"} />
+              </div>
+              <div>
+                <span className="text-[12px] text-[#7C7C7C] block">Held</span>
+                <span className="font-mono text-[20px] font-bold text-[#0A0A0A]">{fmtUsdc(BigInt(row.held))}</span>
+              </div>
+              <div>
+                <span className="text-[12px] text-[#7C7C7C] block">Owed</span>
+                <span className="font-mono text-[15px] text-[#5A5A5A]">{fmtUsdc(BigInt(row.owed))}</span>
+              </div>
+            </Surface>
+          );
+        })}
+      </div>
+    </DesktopShell>
+  );
+
   return (
-    <AppFrame showTabBar headerTitle="Coverage" headerSubtitle={`Block ${block}`}>
+    <AppFrame showTabBar headerTitle="Coverage" headerSubtitle={`Block ${block}`} desktop={desktop}>
       <div className="p-4 flex-1 flex flex-col gap-6 pb-28">
         {severeFinding && (
           <ClayWell variant="deep" className="p-4 border-2 border-[#0A0A0A] flex flex-col gap-2">

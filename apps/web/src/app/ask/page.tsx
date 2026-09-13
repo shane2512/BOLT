@@ -7,6 +7,7 @@ import { ClaySlab } from "@/components/ui/ClaySlab";
 import { Button } from "@/components/ui/Button";
 import { InputWell } from "@/components/ui/InputWell";
 import { ExplorerLink } from "@/components/ui/ExplorerLink";
+import { DesktopShell } from "@/components/desktop/DesktopShell";
 
 interface MonitorEvidence {
   blockNumber?: string | number;
@@ -67,47 +68,10 @@ export default function AskMonitorPage() {
     }
   };
 
-  return (
-    <AppFrame headerTitle="Ask the Monitor" headerSubtitle="Live LLM-backed Solvency Monitor" showBack>
-      <div className="p-4 flex-1 flex flex-col gap-6 pb-12">
-        
-        {/* Intro Instrument Header */}
-        <ClayWell variant="standard" className="flex flex-col gap-2">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#0A0A0A]" />
-            <span className="text-[12px] font-medium text-[#5A5A5A]">
-              Reads the same indexed history the public page does
-            </span>
-          </div>
-          <p className="text-[14px] text-[#5A5A5A] leading-normal">
-            Queries indexed Arc block events to answer natural-language solvency questions. Every response cites verifiable on-chain block evidence.
-          </p>
-        </ClayWell>
-
-        {/* Question Input Form */}
-        <div className="flex flex-col gap-3">
-          <InputWell
-            label="Question for Solvency Monitor"
-            caption="Ask about account reserves, coverage ratios, past unlocks or policy events."
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            placeholder="e.g. Is client money 100% covered?"
-          />
-
-          <Button
-            variant="primary"
-            onClick={handleAsk}
-            loading={loading}
-            disabled={!question.trim()}
-          >
-            Ask Solvency Monitor
-          </Button>
-        </div>
-
-        {/* Answer Output */}
-        {result && (
-          <div className="flex flex-col gap-4">
-            
+  // Built once, placed in a right-hand column on desktop instead of below
+  // the form on mobile.
+  const answerOutput = result && (
+          <>
             {/* Degraded State 1: Monitor Unreachable (502) */}
             {degradedState === "unreachable" && (
               <ClayWell variant="deep" className="p-4 border-2 border-[#0A0A0A] flex flex-col gap-3">
@@ -188,9 +152,83 @@ export default function AskMonitorPage() {
                 </div>
               </div>
             )}
+          </>
+  );
 
+  const desktop = (
+    <DesktopShell maxWidth={1100}>
+      <h1 className="text-[26px] font-semibold text-[#0A0A0A]">Ask the Monitor</h1>
+      <p className="text-[14px] text-[#7C7C7C] mt-1 mb-8">Live LLM-backed Solvency Monitor</p>
+
+      <div className="grid grid-cols-2 gap-10">
+        <div className="flex flex-col gap-4">
+          <ClayWell variant="standard" className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#0A0A0A]" />
+              <span className="text-[12px] font-medium text-[#5A5A5A]">
+                Reads the same indexed history the public page does
+              </span>
+            </div>
+            <p className="text-[14px] text-[#5A5A5A] leading-normal">
+              Queries indexed Arc block events to answer natural-language solvency questions.
+              Every response cites verifiable on-chain block evidence.
+            </p>
+          </ClayWell>
+          <InputWell
+            label="Question for Solvency Monitor"
+            caption="Ask about account reserves, coverage ratios, past unlocks or policy events."
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            placeholder="e.g. Is client money 100% covered?"
+          />
+          <Button variant="primary" onClick={handleAsk} loading={loading} disabled={!question.trim()}>
+            Ask Solvency Monitor
+          </Button>
+        </div>
+        <div className="flex flex-col gap-4">{answerOutput}</div>
+      </div>
+    </DesktopShell>
+  );
+
+  return (
+    <AppFrame headerTitle="Ask the Monitor" headerSubtitle="Live LLM-backed Solvency Monitor" showBack desktop={desktop}>
+      <div className="p-4 flex-1 flex flex-col gap-6 pb-12">
+
+        {/* Intro Instrument Header */}
+        <ClayWell variant="standard" className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#0A0A0A]" />
+            <span className="text-[12px] font-medium text-[#5A5A5A]">
+              Reads the same indexed history the public page does
+            </span>
           </div>
-        )}
+          <p className="text-[14px] text-[#5A5A5A] leading-normal">
+            Queries indexed Arc block events to answer natural-language solvency questions. Every response cites verifiable on-chain block evidence.
+          </p>
+        </ClayWell>
+
+        {/* Question Input Form */}
+        <div className="flex flex-col gap-3">
+          <InputWell
+            label="Question for Solvency Monitor"
+            caption="Ask about account reserves, coverage ratios, past unlocks or policy events."
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            placeholder="e.g. Is client money 100% covered?"
+          />
+
+          <Button
+            variant="primary"
+            onClick={handleAsk}
+            loading={loading}
+            disabled={!question.trim()}
+          >
+            Ask Solvency Monitor
+          </Button>
+        </div>
+
+        {/* Answer Output */}
+        {answerOutput && <div className="flex flex-col gap-4">{answerOutput}</div>}
 
       </div>
     </AppFrame>

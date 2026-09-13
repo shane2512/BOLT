@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/Button";
 import { StatusChip } from "@/components/ui/StatusChip";
 import { ExplorerLink } from "@/components/ui/ExplorerLink";
 import { LoadingState } from "@/components/ui/States";
+import { DesktopShell } from "@/components/desktop/DesktopShell";
+import { DesktopTopNav } from "@/components/desktop/DesktopTopNav";
 import { fmtUsdc, shortAddress } from "@/lib/format";
 import { useOperatorData } from "@/lib/useOperatorData";
 
@@ -65,22 +67,8 @@ export default function OperatorApprovalsPage() {
   const open = data.unlocks.filter((u) => u.status === "REQUESTED");
   const past = data.unlocks.filter((u) => u.status !== "REQUESTED");
 
-  return (
-    <AppFrame showTabBar headerTitle="Approvals" headerSubtitle={`${open.length} open`}>
-      <div className="p-4 flex-1 flex flex-col gap-6 pb-28">
-        <ClayWell className="p-3.5 border border-[#0A0A0A]">
-          <p className="text-[12px] font-medium text-[#0A0A0A]">
-            Every approval appears on the public page within a minute.
-          </p>
-        </ClayWell>
-
-        {[...open, ...past].length === 0 && (
-          <ClayWell className="p-4">
-            <p className="text-[13px] text-[#5A5A5A]">No unlock ceremonies have ever been opened.</p>
-          </ClayWell>
-        )}
-
-        {[...open, ...past].map((u) => (
+  // Built once, laid out two ways below — stacked on mobile, a grid on desktop.
+  const ceremonyCards = [...open, ...past].map((u) => (
           <ClaySlab
             key={u.id}
             hero={u.status === "REQUESTED"}
@@ -126,7 +114,44 @@ export default function OperatorApprovalsPage() {
               </Link>
             )}
           </ClaySlab>
-        ))}
+  ));
+
+  const desktop = (
+    <DesktopShell nav={<DesktopTopNav />}>
+      <div className="flex items-center justify-between pb-6">
+        <h1 className="text-[26px] font-semibold text-[#0A0A0A]">Approvals</h1>
+        <span className="text-[13px] text-[#7C7C7C]">{open.length} open</span>
+      </div>
+      <ClayWell className="p-3.5 border border-[#0A0A0A] mb-6">
+        <p className="text-[12px] font-medium text-[#0A0A0A]">
+          Every approval appears on the public page within a minute.
+        </p>
+      </ClayWell>
+      {ceremonyCards.length === 0 && (
+        <ClayWell className="p-4">
+          <p className="text-[13px] text-[#5A5A5A]">No unlock ceremonies have ever been opened.</p>
+        </ClayWell>
+      )}
+      <div className="grid grid-cols-2 gap-5">{ceremonyCards}</div>
+    </DesktopShell>
+  );
+
+  return (
+    <AppFrame showTabBar headerTitle="Approvals" headerSubtitle={`${open.length} open`} desktop={desktop}>
+      <div className="p-4 flex-1 flex flex-col gap-6 pb-28">
+        <ClayWell className="p-3.5 border border-[#0A0A0A]">
+          <p className="text-[12px] font-medium text-[#0A0A0A]">
+            Every approval appears on the public page within a minute.
+          </p>
+        </ClayWell>
+
+        {ceremonyCards.length === 0 && (
+          <ClayWell className="p-4">
+            <p className="text-[13px] text-[#5A5A5A]">No unlock ceremonies have ever been opened.</p>
+          </ClayWell>
+        )}
+
+        {ceremonyCards}
       </div>
     </AppFrame>
   );

@@ -7,6 +7,8 @@ import { ClaySlab } from "@/components/ui/ClaySlab";
 import { Button } from "@/components/ui/Button";
 import { StatusChip } from "@/components/ui/StatusChip";
 import { LoadingState } from "@/components/ui/States";
+import { DesktopShell } from "@/components/desktop/DesktopShell";
+import { DesktopTopNav } from "@/components/desktop/DesktopTopNav";
 import { useOperatorData } from "@/lib/useOperatorData";
 
 interface Finding {
@@ -47,10 +49,53 @@ export default function OperatorAlertsPage() {
     );
   }
 
+  // Built once, laid out two ways below — stacked on mobile, a grid on desktop.
+  const findingCards = data.findings.map((f) => {
+    const done = investigated.has(f.fingerprint);
+    return (
+      <ClaySlab
+        key={f.fingerprint}
+        hero={!done}
+        className={`p-4 flex flex-col gap-3 ${f.severity === "SEVERE" && !done ? "border-2 border-[#0A0A0A]" : ""}`}
+      >
+        <div className="flex items-center justify-between">
+          <StatusChip
+            status={done ? "verified" : f.severity === "SEVERE" ? "severe" : "pending"}
+            label={done ? "Investigated" : f.severity === "SEVERE" ? "Severe" : f.severity === "WARNING" ? "Warning" : "Info"}
+          />
+        </div>
+        <h3 className="text-[15px] font-semibold text-[#0A0A0A]">{f.title}</h3>
+        <p className="text-[13px] text-[#5A5A5A] leading-normal">{f.message}</p>
+        {!done && (
+          <Button variant="secondary" onClick={() => setInvestigated((s) => new Set(s).add(f.fingerprint))}>
+            Mark as investigated
+          </Button>
+        )}
+      </ClaySlab>
+    );
+  });
+
+  const desktop = (
+    <DesktopShell nav={<DesktopTopNav />}>
+      <div className="flex items-center justify-between pb-6">
+        <h1 className="text-[26px] font-semibold text-[#0A0A0A]">Alerts</h1>
+        <span className="text-[13px] text-[#7C7C7C]">As of block {data.indexedAtBlock}</span>
+      </div>
+      {findingCards.length === 0 && (
+        <ClayWell className="p-4">
+          <p className="text-[13px] text-[#5A5A5A]">
+            Nothing to look at. Recomputed from indexed history on every load.
+          </p>
+        </ClayWell>
+      )}
+      <div className="grid grid-cols-2 gap-4">{findingCards}</div>
+    </DesktopShell>
+  );
+
   return (
-    <AppFrame showTabBar headerTitle="Alerts" headerSubtitle={`As of block ${data.indexedAtBlock}`}>
+    <AppFrame showTabBar headerTitle="Alerts" headerSubtitle={`As of block ${data.indexedAtBlock}`} desktop={desktop}>
       <div className="p-4 flex-1 flex flex-col gap-5 pb-28">
-        {data.findings.length === 0 && (
+        {findingCards.length === 0 && (
           <ClayWell className="p-4">
             <p className="text-[13px] text-[#5A5A5A]">
               Nothing to look at. Recomputed from indexed history on every load.
@@ -58,32 +103,7 @@ export default function OperatorAlertsPage() {
           </ClayWell>
         )}
 
-        <div className="flex flex-col gap-4">
-          {data.findings.map((f) => {
-            const done = investigated.has(f.fingerprint);
-            return (
-              <ClaySlab
-                key={f.fingerprint}
-                hero={!done}
-                className={`p-4 flex flex-col gap-3 ${f.severity === "SEVERE" && !done ? "border-2 border-[#0A0A0A]" : ""}`}
-              >
-                <div className="flex items-center justify-between">
-                  <StatusChip
-                    status={done ? "verified" : f.severity === "SEVERE" ? "severe" : "pending"}
-                    label={done ? "Investigated" : f.severity === "SEVERE" ? "Severe" : f.severity === "WARNING" ? "Warning" : "Info"}
-                  />
-                </div>
-                <h3 className="text-[15px] font-semibold text-[#0A0A0A]">{f.title}</h3>
-                <p className="text-[13px] text-[#5A5A5A] leading-normal">{f.message}</p>
-                {!done && (
-                  <Button variant="secondary" onClick={() => setInvestigated((s) => new Set(s).add(f.fingerprint))}>
-                    Mark as investigated
-                  </Button>
-                )}
-              </ClaySlab>
-            );
-          })}
-        </div>
+        <div className="flex flex-col gap-4">{findingCards}</div>
       </div>
     </AppFrame>
   );

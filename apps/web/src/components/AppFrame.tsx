@@ -17,6 +17,15 @@ interface AppFrameProps {
    * not inside the scrollable content — it must stay put while the page
    * scrolls underneath it, not travel with the content's own bottom edge. */
   showTabBar?: boolean;
+  /** Desktop (lg: 1024px+) replacement for the phone-frame body. Pages that
+   * benefit from a real wide layout (homepage, the public page, the operator
+   * dashboard, simulator, auditor, ask) pass their own desktop JSX here.
+   * Pages that don't pass this (focused single-task flows — sign-in, claim,
+   * approve, mandate, setup) get a sensible default: the same mobile
+   * `children`, centered in a wide-screen card instead of the phone chrome.
+   * Either way, mobile below 1024px is byte-for-byte what it was before this
+   * prop existed. */
+  desktop?: React.ReactNode;
 }
 
 export function AppFrame({
@@ -27,7 +36,8 @@ export function AppFrame({
   onBack,
   headerAction,
   className = "",
-  showTabBar = false
+  showTabBar = false,
+  desktop
 }: AppFrameProps) {
   const pathname = usePathname();
   // Settings and split rules carry no tab-bar entry (five primary
@@ -37,7 +47,9 @@ export function AppFrame({
   const showSettingsLink = showTabBar && !headerAction && pathname !== "/operator/settings";
 
   return (
-    <div className="min-h-screen bg-[#F6F6F6] flex flex-col items-center justify-start sm:py-6 px-0 sm:px-4 selection:bg-[#0A0A0A] selection:text-white">
+    <>
+    {/* ============ MOBILE (< 1024px) — unchanged from before the desktop pass ============ */}
+    <div className="lg:hidden min-h-screen bg-[#F6F6F6] flex flex-col items-center justify-start sm:py-6 px-0 sm:px-4 selection:bg-[#0A0A0A] selection:text-white">
       {/* 390x844 iOS-style phone frame */}
       <div className={`w-full max-w-[390px] min-h-[844px] bg-white text-[#0A0A0A] relative flex flex-col shadow-[0_20px_50px_rgba(0,0,0,0.1)] sm:rounded-[36px] overflow-hidden border border-black/5 ${className}`}>
         
@@ -113,5 +125,51 @@ export function AppFrame({
         </div>
       </div>
     </div>
+
+    {/* ============ DESKTOP (>= 1024px) ============ */}
+    <div className="hidden lg:block min-h-screen bg-[#F6F6F6] selection:bg-[#0A0A0A] selection:text-white">
+      {desktop ?? (
+        // No bespoke desktop layout was given — fall back to the same mobile
+        // content, centered as a wide-screen card instead of a phone. Right
+        // for focused single-task flows (sign-in, claim, approve, mandate,
+        // setup): one decision at a time reads fine at 560px, and a stretched
+        // full-width form would read worse, not better.
+        <div className="min-h-screen flex items-center justify-center p-8">
+          <div className="w-full max-w-[560px] bg-white text-[#0A0A0A] rounded-[28px] clay-slab-hero overflow-hidden">
+            {(headerTitle || showBack) && (
+              <header className="w-full px-6 py-5 border-b border-[#EFEFEF] flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  {showBack && (
+                    <button
+                      type="button"
+                      onClick={onBack || (() => window.history.back())}
+                      className="w-10 h-10 rounded-full bg-[#F6F6F6] border border-[#DCDCDC] flex items-center justify-center text-[#0A0A0A] clay-press"
+                      aria-label="Go back"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                  )}
+                  {headerTitle && (
+                    <div>
+                      <h1 className="text-[19px] font-semibold tracking-tight text-[#0A0A0A] leading-tight">
+                        {headerTitle}
+                      </h1>
+                      {headerSubtitle && (
+                        <p className="text-[13px] font-medium text-[#7C7C7C] leading-tight">{headerSubtitle}</p>
+                      )}
+                    </div>
+                  )}
+                </div>
+                {headerAction && <div>{headerAction}</div>}
+              </header>
+            )}
+            <div className="w-full flex flex-col">{children}</div>
+          </div>
+        </div>
+      )}
+    </div>
+    </>
   );
 }

@@ -20,3 +20,5 @@ docs/evidence/phase6-state.json
 # Local PGlite data — a dev-only stand-in for the real Postgres this sandbox
 # can't reach (DB_DRIVER=pglite in .env). Machine-local, not shared state.
 packages/db/.local-pglite/
+.vercel
+.env*

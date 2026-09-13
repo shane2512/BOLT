@@ -9,6 +9,7 @@ import { InputWell } from "@/components/ui/InputWell";
 import { ExplorerLink } from "@/components/ui/ExplorerLink";
 import { RawRefusalSpecimen } from "@/components/ui/RawRefusalSpecimen";
 import { LoadingState } from "@/components/ui/States";
+import { DesktopShell } from "@/components/desktop/DesktopShell";
 import { fmtUsdc } from "@/lib/format";
 
 interface AttackOption {
@@ -115,8 +116,105 @@ export default function SimulatorPage() {
     ? fmtUsdc(BigInt(data.balanceWei) / 1_000_000_000_000n)
     : null;
 
+  const desktop = (
+    <DesktopShell maxWidth={1100}>
+      <h1 className="text-[26px] font-semibold text-[#0A0A0A]">Breach Simulator</h1>
+      <p className="text-[14px] text-[#7C7C7C] mt-1 mb-8">Try to steal from a locked account</p>
+
+      <div className="grid grid-cols-2 gap-10">
+        <div className="flex flex-col gap-5">
+          <ClayWell variant="standard" className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[12px] font-medium text-[#7C7C7C] flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#0A0A0A]" />
+                The account you are attacking
+              </span>
+              <span className="font-mono text-[11px] text-[#7C7C7C]">Arc testnet</span>
+            </div>
+            <div className="flex flex-col gap-2 font-mono text-[12px] pt-1">
+              <div className="flex justify-between items-center">
+                <span className="text-[#7C7C7C]">Account:</span>
+                <ExplorerLink type="address" value={account?.address || "0x0000000000000000000000000000000000000000"} />
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-[#7C7C7C]">Permitted payee:</span>
+                <ExplorerLink type="address" value={permittedPayee || "0x0000000000000000000000000000000000000000"} />
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-[#7C7C7C]">Policy hash:</span>
+                <span className="font-mono text-[11px] text-[#0A0A0A] break-all">{account?.policyHash || "—"}</span>
+              </div>
+              <div className="flex justify-between items-center pt-2 border-t border-[#DCDCDC]">
+                <span className="text-[#7C7C7C] font-sans font-semibold">Live balance:</span>
+                <span className="font-bold text-[#0A0A0A] font-mono text-[13px]">
+                  {balanceUsdc ?? "unavailable — Arc RPC did not answer"}
+                </span>
+              </div>
+            </div>
+          </ClayWell>
+
+          <span className="text-[12px] font-medium text-[#7C7C7C]">Pick an attack</span>
+          <div className="flex flex-col gap-2">
+            {data?.attacks.map((attack) => {
+              const isSelected = selectedAttackId === attack.id;
+              return (
+                <button
+                  key={attack.id}
+                  type="button"
+                  onClick={() => setSelectedAttackId(attack.id)}
+                  className={`w-full text-left p-3.5 rounded-2xl transition-all duration-120 clay-press ${
+                    isSelected ? "clay-well-pressed bg-[#EFEFEF] border-2 border-[#0A0A0A]" : "clay-slab bg-white border border-[#DCDCDC]"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[14px] font-semibold text-[#0A0A0A]">{attack.label}</span>
+                    <span className={`w-3.5 h-3.5 rounded-full border ${isSelected ? "border-4 border-[#0A0A0A] bg-white" : "border-[#A0A0A0]"}`} />
+                  </div>
+                  <p className="text-[12px] font-medium text-[#7C7C7C] mt-1 leading-tight">
+                    <span className="font-bold text-[#5A5A5A]">Stopped by:</span> {attack.stoppedBy}
+                  </p>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-5">
+          <InputWell
+            label="Unpermitted Destination Address (Free-Text)"
+            caption="Passed straight to Privy enclave — no client allowlist, no sanity check."
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
+            isMono
+            placeholder="0x..."
+          />
+          <Button variant="primary" onClick={handleExecuteAttack} loading={executing} disabled={!selectedAttackId || !destination}>
+            Execute attack on enclave
+          </Button>
+          {errorMsg && (
+            <ClayWell variant="deep" className="p-3 border-2 border-[#0A0A0A]">
+              <p className="font-mono text-[12px] font-bold text-[#0A0A0A]">{errorMsg}</p>
+            </ClayWell>
+          )}
+          {Boolean(rawResult) && <RawRefusalSpecimen error={rawResult} />}
+          <ClaySlab className="p-4 flex items-center justify-between border-t border-[#DCDCDC]">
+            <div className="flex flex-col">
+              <span className="text-[11px] font-medium text-[#7C7C7C]">This session</span>
+              <span className="text-[13px] font-mono font-semibold text-[#0A0A0A]">
+                {tally.attempts} attempts · {tally.refusals} refusals · {tally.allowed} signed
+              </span>
+            </div>
+            <button type="button" onClick={fetchState} className="text-[12px] font-semibold text-[#5A5A5A] hover:text-[#0A0A0A] underline">
+              Reset
+            </button>
+          </ClaySlab>
+        </div>
+      </div>
+    </DesktopShell>
+  );
+
   return (
-    <AppFrame headerTitle="Breach Simulator" headerSubtitle="Try to steal from a locked account" showBack>
+    <AppFrame headerTitle="Breach Simulator" headerSubtitle="Try to steal from a locked account" showBack desktop={desktop}>
       <div className="p-4 flex-1 flex flex-col gap-6 pb-12">
         
         {/* Sandbox target account */}
