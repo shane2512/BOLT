@@ -227,6 +227,7 @@ p.body{font-size:24px;line-height:1.5;color:var(--s600);font-weight:400;}
 #s9 .demo-text{position:absolute;top:0;left:130px;width:600px;height:1080px;display:flex;flex-direction:column;justify-content:center;z-index:3;}
 #s9 .demo-text h2{font-size:60px;}
 #s9 .demo-text p.body{margin-top:20px;}
+#s9 .demo-route{margin-top:18px;font-family:var(--font-mono);font-size:15px;color:var(--s500);line-height:1.6;}
 #s9 .cap-stack{position:relative;height:130px;margin-top:30px;}
 #s9 .cap-line{position:absolute;left:0;top:0;right:0;font-size:23px;font-weight:600;color:var(--ink);line-height:1.4;opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .5s var(--ease);}
 #s9 .cap-line.show{opacity:1;transform:translateY(0);}
@@ -258,6 +259,15 @@ p.body{font-size:24px;line-height:1.5;color:var(--s600);font-weight:400;}
 #s10 .recap-card .t{font-size:22px;font-weight:700;display:flex;align-items:center;gap:12px;}
 #s10 .recap-card .d{font-size:17px;color:var(--s600);margin-top:12px;line-height:1.5;}
 #s10 .close-foot{margin-top:70px;font-size:20px;color:var(--s500);}
+
+/* ===========================================
+   SLIDE 11 — THANK YOU
+   =========================================== */
+#s11{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+#s11 .thanks-line{font-size:104px;font-weight:800;letter-spacing:-0.02em;color:var(--ink);}
+#s11 .thanks-sub{margin-top:30px;font-size:26px;color:var(--s600);max-width:1200px;line-height:1.5;}
+#s11 .thanks-logos{display:flex;align-items:center;gap:26px;margin-top:64px;}
+#s11 .thanks-foot{margin-top:56px;font-size:20px;color:var(--s500);}
 
 /* ===========================================
    DECK CONTROLS — pill nav, outside the stage (matches ScrollSpyPillBar language)
@@ -489,15 +499,16 @@ p.body{font-size:24px;line-height:1.5;color:var(--s600);font-weight:400;}
     <canvas class="hand3d" id="handCanvas"></canvas>
     <div class="demo-text reveal r1">
       <div class="slide-kicker" style="position:static;">06 · see it live</div>
-      <h2>Try to break it</h2>
-      <p class="body">The breach simulator hands a stranger the operator's seat on a real locked account holding real testnet USDC.</p>
+      <h2>See it end to end</h2>
+      <p class="body">One recording, two sides of the same lock — the operator who runs the account, and the beneficiary who gets paid. Every screen reads straight from the chain, not from a script.</p>
+      <div class="demo-route">Homepage → Operator dashboard → Beneficiary claim → World ID → Paid</div>
       <div class="cap-stack" id="capStack">
-        <p class="cap-line show">Pick an attack — wrong destination, native value, approve, transferFrom.</p>
-        <p class="cap-line">The enclave reads the calldata before it ever signs.</p>
-        <p class="cap-line">No policy match → no key reassembly → no signature exists.</p>
-        <p class="cap-line">Only the one permitted payee ever gets paid.</p>
+        <p class="cap-line show">A technical lock, checked before any signature is ever created.</p>
+        <p class="cap-line">Two of these accounts say Locked. Nobody flipped that switch.</p>
+        <p class="cap-line">A Selfie Check proves a real person is here — not a script.</p>
+        <p class="cap-line">Nobody had to trust the business. Nobody had to trust us.</p>
       </div>
-      <div class="demo-pill clay-slab-hero">/simulator — live on Arc testnet</div>
+      <div class="demo-pill clay-slab-hero">Full walkthrough — live on Arc testnet</div>
     </div>
     <div class="demo-stage-3d">
       <div class="demo-phone clay-slab-hero" id="demoPhone">
@@ -522,7 +533,7 @@ p.body{font-size:24px;line-height:1.5;color:var(--s600);font-weight:400;}
   ============================================================= -->
   <section class="slide" id="s10">
     <div class="slide-kicker">07 · the ask</div>
-    <div class="slide-index">10 / 10</div>
+    <div class="slide-index">10 / 11</div>
     <div class="close-line reveal r1">Three sponsors. Three jobs money<br>can't do without any one of them.</div>
     <div class="recap-row">
       <div class="recap-card clay-slab reveal r2"><div class="t"><span class="logo mark sm" id="logo-privy-close"></span>Privy — the lock</div><div class="d">Constrains where money can go. Refusal before a signature exists. Best B2B financial product · Best financial flow.</div></div>
@@ -530,6 +541,24 @@ p.body{font-size:24px;line-height:1.5;color:var(--s600);font-weight:400;}
       <div class="recap-card clay-slab reveal r4"><div class="t"><span class="logo mark sm" id="logo-world-close"></span>World — the gate</div><div class="d">Constrains who can start money moving. Selfie Check on both exits from a locked account.</div></div>
     </div>
     <div class="close-foot reveal r5">BOLT <span class="divider-bar" style="margin:0 14px;"></span> ETHOnline 2026 <span class="divider-bar" style="margin:0 14px;"></span> docs &amp; evidence in the repo</div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 11 — THANK YOU
+  ============================================================= -->
+  <section class="slide" id="s11">
+    <div class="slide-kicker">08 · thank you</div>
+    <div class="slide-index">11 / 11</div>
+    <div class="thanks-line reveal r1">Thank you.</div>
+    <p class="thanks-sub reveal r2">Every claim in this deck points at a transaction, a policy, or an address — not our word for it. Happy to open any of it up.</p>
+    <div class="thanks-logos reveal r3">
+      <span class="logo lg" id="logo-privy-thanks"></span>
+      <span class="divider-bar"></span>
+      <span class="logo dim" id="logo-arc-thanks"></span>
+      <span class="divider-bar"></span>
+      <span class="logo dim" id="logo-world-thanks"></span>
+    </div>
+    <div class="thanks-foot reveal r4">BOLT <span class="divider-bar" style="margin:0 14px;"></span> ETHOnline 2026</div>
   </section>
 
 </main>
@@ -580,6 +609,9 @@ setLogo('logo-world-head','world','full');
 setLogo('logo-privy-close','privy','mark');
 setLogo('logo-arc-close','arc','mark');
 setLogo('logo-world-close','world','mark');
+setLogo('logo-privy-thanks','privy','full');
+setLogo('logo-arc-thanks','arc','full');
+setLogo('logo-world-thanks','world','full');
 document.getElementById('icon-arrow-world').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12h16M14 6l6 6-6 6"/></svg>';
 
 /* ===========================================

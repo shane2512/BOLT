@@ -93,7 +93,16 @@ export default function ClaimPage() {
   };
 
   const handleEmailSignIn = () => {
-    if (emailInput.trim()) fetchBeneficiaryData(emailInput.trim().toLowerCase());
+    const email = emailInput.trim().toLowerCase();
+    // Validated here, at tap time, rather than via a `disabled` prop wired to
+    // live input state — some mobile keyboards/autofill update the field's
+    // visible value without firing the input event React tracks, which left
+    // the button stuck looking disabled even once something was typed.
+    if (!email) {
+      setLookupError("Enter your email first.");
+      return;
+    }
+    fetchBeneficiaryData(email);
   };
 
   const handleVerify = async (result: IDKitResult) => {
@@ -214,7 +223,7 @@ export default function ClaimPage() {
                 </ClayWell>
               )}
             </div>
-            <Button variant="primary" onClick={handleEmailSignIn} disabled={!emailInput.trim()}>
+            <Button variant="primary" onClick={handleEmailSignIn}>
               Continue
             </Button>
           </div>

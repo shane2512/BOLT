@@ -161,6 +161,9 @@ importers:
 
   packages/db:
     dependencies:
+      '@bolt/core':
+        specifier: workspace:*
+        version: link:../core
       '@electric-sql/pglite':
         specifier: ^0.2.17
         version: 0.2.17
