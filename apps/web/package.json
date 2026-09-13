@@ -23,6 +23,7 @@
     "next": "15.5.25",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "three": "0.169.0",
     "viem": "^2.21.0",
     "zod": "^3.23.0"
   },
@@ -31,9 +32,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "0.169.0",
     "dotenv": "^17.4.2",
     "tailwindcss": "^4",
-    "typescript": "^5",
-    "tsx": "^4.19.0"
+    "tsx": "^4.19.0",
+    "typescript": "^5"
   }
 }

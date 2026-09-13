@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/Button";
 import { RawRefusalSpecimen } from "@/components/ui/RawRefusalSpecimen";
 import { ScrollSpyPillBar } from "@/components/ui/ScrollSpyPillBar";
 import { DesktopShell } from "@/components/desktop/DesktopShell";
+import { HeroVaultModel } from "@/components/desktop/HeroVaultModel";
 import { queryBusinesses } from "@bolt/core";
 
 // docs/evidence/phase0-policy.json, rule "USDC transfer to permitted payee (send)".
@@ -60,7 +61,7 @@ export default async function LandingPage() {
           <div className="flex gap-3 pt-2">
             <Link href="/claim">
               <Button variant="primary" fullWidth={false} className="px-8">
-                I&apos;m owed money
+                Claim
               </Button>
             </Link>
             {firstSlug && (
@@ -77,16 +78,22 @@ export default async function LandingPage() {
             </Link>
           </div>
         </div>
-        <ClaySlab hero className="p-6 flex flex-col gap-4">
+        <div className="h-[560px]">
+          <HeroVaultModel />
+        </div>
+      </section>
+
+      <section className="flex items-center justify-between gap-6 pt-10 mt-10 border-t border-[#DCDCDC]">
+        <div className="flex flex-col gap-1">
           <h2 className="text-[18px] font-semibold text-[#0A0A0A]">Coverage through time</h2>
-          <p className="text-[14px] text-[#5A5A5A] leading-relaxed">
+          <p className="text-[14px] text-[#5A5A5A] leading-relaxed max-w-[560px]">
             A proof of reserves gives you three points across ninety days. An index gives you every
             block a balance moved.
           </p>
-          <Link href="/auditor">
-            <Button variant="secondary">Open the auditor view</Button>
-          </Link>
-        </ClaySlab>
+        </div>
+        <Link href="/auditor" className="shrink-0">
+          <Button variant="secondary" fullWidth={false} className="px-6">Open the auditor view</Button>
+        </Link>
       </section>
 
       <section className="grid grid-cols-2 gap-10 pt-16 mt-16 border-t border-[#DCDCDC]">
@@ -167,7 +174,7 @@ export default async function LandingPage() {
 
           <div className="flex flex-col gap-3 pt-2">
             <Link href="/claim" className="w-full">
-              <Button variant="primary">I&apos;m owed money</Button>
+              <Button variant="primary">Claim</Button>
             </Link>
             {firstSlug && (
               <Link href={`/${firstSlug}`} className="w-full">
