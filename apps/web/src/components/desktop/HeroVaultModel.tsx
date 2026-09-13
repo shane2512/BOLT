@@ -67,7 +67,7 @@ export function HeroVaultModel() {
       model.position.y -= 0.2;
 
       // Fixed — a partial turn toward the left, not a full profile.
-      model.rotation.y = Math.PI / 6;
+      model.rotation.y = Math.PI / 3;
 
       scene.add(model);
       renderFrame();
