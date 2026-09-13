@@ -58,15 +58,20 @@ export default async function LandingPage() {
             verify the money is there without trusting the business or BOLT.
           </p>
           <div className="flex gap-3 pt-2">
+            <Link href="/claim">
+              <Button variant="primary" fullWidth={false} className="px-8">
+                I&apos;m owed money
+              </Button>
+            </Link>
             {firstSlug && (
               <Link href={`/${firstSlug}`}>
-                <Button variant="primary" fullWidth={false} className="px-8">
+                <Button variant="secondary" fullWidth={false} className="px-8">
                   See a live business&apos;s page
                 </Button>
               </Link>
             )}
             <Link href="/simulator">
-              <Button variant={firstSlug ? "secondary" : "primary"} fullWidth={false} className="px-8">
+              <Button variant="secondary" fullWidth={false} className="px-8">
                 Try to break it
               </Button>
             </Link>
@@ -161,13 +166,16 @@ export default async function LandingPage() {
           </p>
 
           <div className="flex flex-col gap-3 pt-2">
+            <Link href="/claim" className="w-full">
+              <Button variant="primary">I&apos;m owed money</Button>
+            </Link>
             {firstSlug && (
               <Link href={`/${firstSlug}`} className="w-full">
-                <Button variant="primary">See a live business&apos;s page</Button>
+                <Button variant="secondary">See a live business&apos;s page</Button>
               </Link>
             )}
             <Link href="/simulator" className="w-full">
-              <Button variant={firstSlug ? "secondary" : "primary"}>Try to break it</Button>
+              <Button variant="secondary">Try to break it</Button>
             </Link>
           </div>
         </section>

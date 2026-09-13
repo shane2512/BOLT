@@ -1,9 +1,11 @@
 "use client";
 
 import { usePrivy } from "@privy-io/react-auth";
+import Link from "next/link";
 import { AppFrame } from "@/components/AppFrame";
 import { ClayWell } from "@/components/ui/ClayWell";
 import { ExplorerLink } from "@/components/ui/ExplorerLink";
+import { Button } from "@/components/ui/Button";
 import { DesktopShell } from "@/components/desktop/DesktopShell";
 import { DesktopTopNav } from "@/components/desktop/DesktopTopNav";
 
@@ -48,6 +50,9 @@ export default function OperatorSettingsPage() {
           </span>
         </ClayWell>
       </div>
+      <Link href="/claim" className="block mt-5">
+        <Button variant="secondary">Open beneficiary claim page</Button>
+      </Link>
       {user?.email?.address && (
         <ClayWell className="p-3.5 flex items-center justify-between border border-[#DCDCDC] mt-5">
           <div className="flex flex-col">
@@ -91,6 +96,10 @@ export default function OperatorSettingsPage() {
             </span>
           </ClayWell>
         </div>
+
+        <Link href="/claim" className="w-full">
+          <Button variant="secondary">Open beneficiary claim page</Button>
+        </Link>
 
         {user?.email?.address && (
           <ClayWell className="p-3.5 flex items-center justify-between border border-[#DCDCDC]">
