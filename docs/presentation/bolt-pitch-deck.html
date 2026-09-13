@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOLT — ETHOnline 2026</title>
+
+<!-- Three.js r134 UMD build (defines window.THREE) — used for the title-slide lock motif and the
+     hand-holding-phone demo slide. Everything else is CSS/HTML, matching the zero-dependency spirit
+     of the deck. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+
+<!-- Mermaid.js + mermaid-animator — the user-flow slide only. mermaid-animator renders the
+     flowchart via Mermaid, then overlays small glowing dots that travel along every edge
+     continuously ("ambient" mode), fully re-themed to BOLT's own monochrome palette below.
+     Load order matters: mermaid-animator's UMD build expects a global `mermaid` already present.
+     Pinned to mermaid 10.9.1, not the newer 11.x line: 11.17.2 (the version mermaid-animator
+     itself is built/tested against) has a reproducible layout bug in this static-file/file://
+     context — flowchart-v2 ignores flowchart.htmlLabels entirely and inflates the computed
+     viewBox by roughly 50-100x, rendering every node as an unreadable speck. 10.9.1 verified
+     clean: correct viewBox, real <text> labels, htmlLabels honored. -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid-animator@0.9.1/dist/mermaid-animator.umd.js"></script>
+
+<style>
+/* ===========================================
+   THEME — lifted directly from apps/web/src/app/globals.css
+   White ground, black ink, grey clay shades only. No hue anywhere.
+   Font is the same system stack the real app uses — this deck IS the
+   product's own visual language, not a generic slide theme.
+   =========================================== */
+:root{
+  --ground:#FFFFFF; --ink:#0A0A0A;
+  --s25:#FBFBFB; --s50:#F6F6F6; --s100:#EFEFEF; --s150:#E7E7E7;
+  --s200:#DCDCDC; --s300:#C4C4C4; --s400:#A0A0A0; --s500:#7C7C7C;
+  --s600:#5A5A5A; --s700:#3A3A3A;
+  --font-sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --font-mono:ui-monospace,"SF Mono",Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+  --stage-bg:#EAEAEA; --slide-bg:#FFFFFF;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{font-family:var(--font-sans);color:var(--ink);-webkit-font-smoothing:antialiased;}
+
+/* ===========================================
+   FIXED 16:9 STAGE — mandatory base (viewport-base.css, verbatim)
+   =========================================== */
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:var(--stage-bg,#000);}
+.deck-viewport{position:fixed;inset:0;overflow:hidden;background:var(--stage-bg,#000);}
+.deck-stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;transform-origin:0 0;background:var(--slide-bg,#fff);}
+.slide{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;display:block;visibility:hidden;opacity:0;pointer-events:none;background:var(--slide-bg,#fff);}
+.slide.active,.slide.visible{visibility:visible;opacity:1;pointer-events:auto;z-index:1;}
+img,video,canvas,svg{max-width:100%;max-height:100%;}
+.deck-controls{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:1000;}
+@media print{
+  html,body{width:1920px;height:auto;overflow:visible;background:#fff;}
+  .deck-viewport{position:static;overflow:visible;background:#fff;}
+  .deck-stage{position:static;width:auto;height:auto;transform:none !important;background:none;}
+  .slide{position:relative;display:block !important;visibility:visible !important;opacity:1 !important;pointer-events:auto !important;width:1920px;height:1080px;break-after:page;page-break-after:always;}
+  .slide:last-child{break-after:auto;page-break-after:auto;}
+  .deck-controls{display:none !important;}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:0.01ms !important;transition-duration:0.2s !important;}
+}
+
+/* ===========================================
+   CLAYMORPHISM SURFACES — same recipe as globals.css, scaled to the 1920 stage
+   =========================================== */
+.clay-slab{background:#fff;box-shadow:5px 5px 14px rgba(0,0,0,0.07),-5px -5px 14px rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.05);border-radius:22px;}
+.clay-slab-hero{background:#fff;box-shadow:10px 10px 28px rgba(0,0,0,0.10),-10px -10px 28px rgba(255,255,255,1);border:1px solid rgba(0,0,0,0.06);border-radius:28px;}
+.clay-well{background:var(--s100);box-shadow:inset 3px 3px 8px rgba(0,0,0,0.08),inset -3px -3px 8px rgba(255,255,255,0.8);border:1px solid var(--s200);border-radius:18px;}
+.clay-well-deep{background:var(--s150);box-shadow:inset 5px 5px 12px rgba(0,0,0,0.12),inset -3px -3px 7px rgba(255,255,255,0.6);border:1px solid var(--s300);border-radius:18px;}
+.groove{height:3px;background:var(--s200);box-shadow:inset 0 2px 3px rgba(0,0,0,0.15);border-radius:2px;}
+.num{font-variant-numeric:tabular-nums;}
+
+/* ===========================================
+   TYPOGRAPHY SCALE — authored at 1920×1080
+   =========================================== */
+.eyebrow{font-size:22px;font-weight:600;color:var(--s600);letter-spacing:0;}
+h1.display{font-size:96px;line-height:1.02;font-weight:700;letter-spacing:-0.02em;color:var(--ink);}
+h1.display.tight{font-size:80px;line-height:1.06;}
+h2.slide-title{font-size:56px;font-weight:700;letter-spacing:-0.015em;color:var(--ink);}
+p.lede{font-size:30px;line-height:1.45;color:var(--s600);font-weight:400;max-width:1180px;}
+p.body{font-size:24px;line-height:1.5;color:var(--s600);font-weight:400;}
+.tag{display:inline-flex;align-items:center;gap:10px;font-size:22px;font-weight:500;color:var(--s600);}
+.divider-bar{display:inline-block;width:1px;height:18px;background:var(--s300);}
+
+/* ===========================================
+   SLIDE CHROME — number + section label, top corner.
+   =========================================== */
+.slide-frame{position:absolute;inset:0;padding:96px 120px;display:flex;flex-direction:column;}
+.slide-kicker{position:absolute;top:64px;left:120px;font-family:var(--font-mono);font-size:18px;color:var(--s400);}
+.slide-index{position:absolute;top:64px;right:120px;font-family:var(--font-mono);font-size:18px;color:var(--s400);}
+
+/* ===========================================
+   REVEAL ANIMATION — one staggered entrance per slide, triggered by .visible
+   =========================================== */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
+.slide.visible .reveal{opacity:1;transform:translateY(0);}
+.slide.visible .r1{transition-delay:.05s;} .slide.visible .r2{transition-delay:.14s;}
+.slide.visible .r3{transition-delay:.23s;} .slide.visible .r4{transition-delay:.32s;}
+.slide.visible .r5{transition-delay:.41s;} .slide.visible .r6{transition-delay:.5s;}
+.slide.visible .r7{transition-delay:.59s;} .slide.visible .r8{transition-delay:.68s;}
+
+/* ===========================================
+   LOGO MARKS — simplified monochrome recreations of the sponsor marks,
+   transparent background (currentColor fill/stroke) so they sit directly
+   on the deck's white/grey surfaces with no logo-background mismatch.
+   Two variants per brand: "full" (mark + wordmark, for section headers and
+   the title/closing credits) and "mark" (glyph only, for compact contexts
+   like the flow diagram and recap cards).
+   =========================================== */
+.logo{height:40px;width:auto;display:inline-block;flex:none;color:var(--ink);}
+.logo svg{height:100%;width:auto;display:block;}
+.logo.dim{color:var(--s500);}
+.logo.sm{height:26px;}
+.logo.lg{height:52px;}
+
+/* ===========================================
+   STAT CHIPS
+   =========================================== */
+.chip-row{display:flex;gap:20px;flex-wrap:wrap;}
+.stat-chip{padding:22px 28px;min-width:220px;}
+.stat-chip .v{font-size:44px;font-weight:700;letter-spacing:-0.01em;}
+.stat-chip .l{font-size:18px;color:var(--s600);margin-top:4px;}
+
+/* ===========================================
+   SLIDE 1 — TITLE
+   =========================================== */
+#s1{background:var(--ground);}
+#s1 canvas.hero3d{position:absolute;inset:0;width:100%;height:100%;}
+.title-wrap{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;padding:0 150px;}
+.wordmark{font-size:220px;font-weight:800;letter-spacing:-0.03em;color:var(--ink);line-height:0.9;}
+.wordmark small{display:block;font-size:32px;font-weight:600;color:var(--s600);letter-spacing:0.01em;margin-top:26px;}
+.title-lede{margin-top:34px;font-size:30px;color:var(--s600);max-width:980px;line-height:1.5;}
+.title-foot{position:absolute;bottom:74px;left:150px;right:150px;display:flex;align-items:center;justify-content:space-between;}
+.spon-row{display:flex;align-items:center;gap:30px;}
+
+/* ===========================================
+   SLIDE 2 — PROBLEM
+   =========================================== */
+#s2 .problem-wrap{flex:1;display:flex;flex-direction:column;justify-content:center;gap:56px;}
+#s2 .flow-diagram{display:flex;align-items:center;gap:0;margin-top:8px;}
+#s2 .flow-box{padding:26px 30px;text-align:center;}
+#s2 .flow-box .amt{font-size:34px;font-weight:700;}
+#s2 .flow-box .lbl{font-size:18px;color:var(--s600);margin-top:6px;}
+#s2 .flow-arrow{width:64px;height:2px;background:var(--s300);position:relative;flex:none;margin:0 6px;}
+#s2 .flow-arrow::after{content:"";position:absolute;right:0;top:-5px;border:6px solid transparent;border-left-color:var(--s300);}
+#s2 .one-wallet{padding:40px 46px;}
+
+/* ===========================================
+   SLIDE 3 — THE LINE
+   =========================================== */
+#s3{display:flex;align-items:center;justify-content:center;}
+#s3 .quote{max-width:1500px;text-align:center;padding:0 60px;}
+#s3 .quote p{font-size:64px;font-weight:700;letter-spacing:-0.015em;line-height:1.22;color:var(--ink);}
+#s3 .quote .sub{margin-top:44px;font-size:26px;color:var(--s600);font-weight:400;}
+
+/* ===========================================
+   SLIDE 4 — MECHANISM (policy + refusal)
+   =========================================== */
+#s4 .mech-grid{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:20px;}
+#s4 .code-well{padding:34px 38px;font-family:var(--font-mono);font-size:22px;line-height:1.8;color:var(--s700);white-space:pre-wrap;}
+#s4 .code-well .kw{color:var(--ink);font-weight:600;}
+#s4 .code-well .hi{background:var(--s150);padding:2px 6px;border-radius:6px;color:var(--ink);font-weight:700;}
+#s4 .refusal-well{padding:34px 38px;}
+#s4 .refusal-well .lbl{font-size:18px;color:var(--s500);margin-bottom:16px;}
+#s4 .refusal-well pre{font-family:var(--font-mono);font-size:24px;color:var(--ink);white-space:pre-wrap;}
+#s4 .col-cap{font-size:20px;color:var(--s600);margin-top:20px;line-height:1.5;}
+
+/* ===========================================
+   SLIDE 5 — PRIVY (hero sponsor — most real estate, most detail)
+   =========================================== */
+#s5{background:var(--ground);}
+#s5 .privy-head{display:flex;align-items:center;gap:26px;}
+#s5 .privy-body{flex:1;display:flex;flex-direction:column;gap:36px;margin-top:30px;}
+#s5 .control-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+#s5 .control-card{padding:28px 26px;}
+#s5 .control-card .t{font-size:24px;font-weight:700;color:var(--ink);}
+#s5 .control-card .d{font-size:18px;color:var(--s600);margin-top:10px;line-height:1.4;}
+#s5 .evidence-row{display:flex;gap:22px;align-items:stretch;}
+#s5 .foot-line{font-size:22px;color:var(--s600);max-width:1400px;line-height:1.5;}
+
+/* ===========================================
+   SLIDE 6 — ARC
+   =========================================== */
+#s6 .arc-grid{flex:1;display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;margin-top:26px;}
+#s6 .bounty-well{padding:32px 34px;}
+#s6 .bounty-well .amt{font-size:40px;font-weight:700;}
+#s6 .bounty-well .cond{font-size:19px;color:var(--s600);margin-top:8px;}
+#s6 .looking-for{margin-top:22px;display:flex;flex-direction:column;gap:12px;}
+#s6 .looking-for .li{font-size:19px;color:var(--s700);padding-left:22px;position:relative;}
+#s6 .looking-for .li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;background:var(--ink);border-radius:2px;}
+#s6 .answer-list{display:flex;flex-direction:column;gap:18px;}
+#s6 .answer-item{padding:22px 26px;}
+#s6 .answer-item .t{font-size:20px;font-weight:700;}
+#s6 .answer-item .d{font-size:18px;color:var(--s600);margin-top:6px;line-height:1.4;}
+#s6 .status-line{margin-top:24px;font-size:19px;color:var(--s500);}
+
+/* ===========================================
+   SLIDE 7 — WORLD
+   =========================================== */
+#s7 .world-wrap{flex:1;display:flex;flex-direction:column;justify-content:center;gap:48px;}
+#s7 .gate-row{display:flex;gap:28px;align-items:center;}
+#s7 .gate-card{flex:1;padding:34px 32px;}
+#s7 .gate-card .step{font-family:var(--font-mono);font-size:18px;color:var(--s500);}
+#s7 .gate-card .t{font-size:26px;font-weight:700;margin-top:10px;}
+#s7 .gate-arrow{width:44px;height:44px;flex:none;color:var(--s400);}
+#s7 .principle{font-size:26px;color:var(--ink);font-weight:600;line-height:1.5;max-width:1500px;}
+#s7 .exception{font-size:19px;color:var(--s500);max-width:1300px;line-height:1.5;}
+
+/* ===========================================
+   SLIDE 8 — USER FLOW (Mermaid.js + mermaid-animator: real diagram, traveling-dot
+   edges, themed to the exact BOLT palette via a custom animator Theme + mermaid
+   themeVariables — see the script block near the end of the file).
+   =========================================== */
+#s8 .flow-wrap{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:14px;}
+#s8 .flow-diagram-mount{width:1720px;height:560px;}
+#s8 .flow-cap{text-align:center;font-size:20px;color:var(--s600);margin-top:4px;max-width:1500px;}
+
+/* ===========================================
+   SLIDE 9 — LIVE DEMO (hand + 3D phone showcase, narration on the left)
+   =========================================== */
+#s9{background:linear-gradient(180deg,#F2F2F2 0%,#E4E4E4 100%);}
+#s9 canvas.hand3d{position:absolute;left:960px;top:0;width:960px;height:1080px;}
+#s9 .demo-text{position:absolute;top:0;left:130px;width:600px;height:1080px;display:flex;flex-direction:column;justify-content:center;z-index:3;}
+#s9 .demo-text h2{font-size:60px;}
+#s9 .demo-text p.body{margin-top:20px;}
+#s9 .cap-stack{position:relative;height:130px;margin-top:30px;}
+#s9 .cap-line{position:absolute;left:0;top:0;right:0;font-size:23px;font-weight:600;color:var(--ink);line-height:1.4;opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .5s var(--ease);}
+#s9 .cap-line.show{opacity:1;transform:translateY(0);}
+#s9 .demo-pill{display:inline-block;margin-top:14px;padding:16px 30px;font-size:20px;font-weight:600;align-self:flex-start;}
+#s9 .demo-stage-3d{position:absolute;inset:0;perspective:2200px;z-index:2;}
+#s9 .demo-phone{
+  position:absolute; left:1210px; top:90px; width:460px; height:900px;
+  border-radius:60px; border:13px solid var(--ink); background:#fff;
+  box-shadow:0 50px 90px rgba(0,0,0,0.26), 0 8px 26px rgba(0,0,0,0.16);
+  transform-style:preserve-3d; overflow:hidden;
+  transform: rotateY(-6deg) rotateX(2deg);
+}
+#s9 .phone-screen{position:absolute;inset:0;background:#fff;padding:32px 24px;display:flex;flex-direction:column;gap:15px;}
+#s9 .phone-screen .url{font-family:var(--font-mono);font-size:12px;color:var(--s500);}
+#s9 .phone-screen h3{font-size:20px;font-weight:700;line-height:1.25;letter-spacing:-0.01em;}
+#s9 .phone-screen .p{font-size:12px;color:var(--s600);line-height:1.4;}
+#s9 .phone-screen .well{padding:15px;font-family:var(--font-mono);font-size:10.5px;color:var(--s600);line-height:1.7;}
+#s9 .phone-screen .well b{color:var(--ink);}
+#s9 .phone-screen .btn{margin-top:auto;background:var(--ink);color:#fff;text-align:center;padding:15px;border-radius:15px;font-size:14px;font-weight:600;}
+#s9 .phone-notch{position:absolute;top:13px;left:50%;transform:translateX(-50%);width:120px;height:24px;background:var(--ink);border-radius:13px;z-index:5;}
+
+/* ===========================================
+   SLIDE 10 — CLOSING
+   =========================================== */
+#s10{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+#s10 .close-line{font-size:56px;font-weight:700;letter-spacing:-0.015em;max-width:1500px;line-height:1.25;}
+#s10 .recap-row{display:flex;gap:26px;margin-top:64px;}
+#s10 .recap-card{width:420px;padding:34px 30px;text-align:left;}
+#s10 .recap-card .t{font-size:22px;font-weight:700;display:flex;align-items:center;gap:12px;}
+#s10 .recap-card .d{font-size:17px;color:var(--s600);margin-top:12px;line-height:1.5;}
+#s10 .close-foot{margin-top:70px;font-size:20px;color:var(--s500);}
+
+/* ===========================================
+   DECK CONTROLS — pill nav, outside the stage (matches ScrollSpyPillBar language)
+   =========================================== */
+.deck-controls{display:flex;align-items:center;gap:16px;background:#fff;border-radius:999px;
+  padding:12px 18px;box-shadow:6px 6px 16px rgba(0,0,0,0.10),-6px -6px 16px rgba(255,255,255,0.9);
+  border:1px solid rgba(0,0,0,0.06);font-family:var(--font-mono);}
+.nav-btn{width:34px;height:34px;border-radius:50%;border:none;background:var(--s100);color:var(--ink);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:transform .15s var(--ease),background .15s;}
+.nav-btn:hover{background:var(--s150);}
+.nav-btn:active{transform:scale(0.92);}
+.dots{display:flex;gap:8px;}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--s300);cursor:pointer;transition:background .2s,transform .2s;}
+.dot.on{background:var(--ink);transform:scale(1.3);}
+.counter{font-size:13px;color:var(--s500);min-width:52px;text-align:center;}
+</style>
+</head>
+<body>
+
+<div class="deck-viewport">
+<main class="deck-stage" id="deckStage">
+
+  <!-- ============================================================
+       SLIDE 1 — TITLE
+  ============================================================= -->
+  <section class="slide active" id="s1">
+    <canvas class="hero3d" id="heroCanvas"></canvas>
+    <div class="title-wrap">
+      <div class="wordmark reveal r1">BOLT<small>Beneficiary-Only Ledger Transfers</small></div>
+      <p class="title-lede reveal r2">Customer money in accounts the business is physically unable to spend from — and a page anyone can check, without trusting the business or us.</p>
+    </div>
+    <div class="title-foot reveal r3">
+      <div class="spon-row">
+        <span class="logo lg" id="logo-privy-title"></span>
+        <span class="divider-bar"></span>
+        <span class="logo dim" id="logo-arc-title"></span>
+        <span class="divider-bar"></span>
+        <span class="logo dim" id="logo-world-title"></span>
+      </div>
+      <div class="tag">ETHOnline 2026</div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 2 — THE PROBLEM
+  ============================================================= -->
+  <section class="slide" id="s2">
+    <div class="slide-kicker">01 · the problem</div>
+    <div class="slide-index">02 / 10</div>
+    <div class="slide-frame">
+      <div class="problem-wrap">
+        <h1 class="display tight reveal r1">Nothing in the software<br>could say no.</h1>
+        <p class="lede reveal r2">A marketplace collects $400,000 in a month. It all lands in one wallet — and a founder with the ordinary company keys can spend any of it, indistinguishable from every other transaction.</p>
+        <div class="reveal r3">
+          <div class="flow-diagram">
+            <div class="flow-box clay-well"><div class="amt num">$340,000</div><div class="lbl">owed to sellers</div></div>
+            <div class="flow-arrow"></div>
+            <div class="flow-box clay-well"><div class="amt num">$28,000</div><div class="lbl">owed in sales tax</div></div>
+            <div class="flow-arrow"></div>
+            <div class="flow-box clay-well"><div class="amt num">$32,000</div><div class="lbl">the company's own cut</div></div>
+            <div class="flow-arrow"></div>
+            <div class="one-wallet clay-well-deep"><div class="amt num">1 wallet</div><div class="lbl">any of it, anytime</div></div>
+          </div>
+        </div>
+        <p class="body reveal r4" style="max-width:1300px;">Proof of reserves confirms the money existed on one particular day. It says nothing about the next day, and it stops nothing from leaving.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 3 — THE LINE
+  ============================================================= -->
+  <section class="slide" id="s3">
+    <div class="slide-kicker">02 · the idea</div>
+    <div class="slide-index">03 / 10</div>
+    <div class="quote">
+      <p class="reveal r1">We didn't prove the money is safe.<br>We removed the ability to move it,<br>and put the proof on a page anyone can check.</p>
+      <div class="sub reveal r2">Enforcement is a policy evaluated inside a secure enclave — before a signing key is ever reassembled. Refuse, and no signature exists.</div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 4 — MECHANISM
+  ============================================================= -->
+  <section class="slide" id="s4">
+    <div class="slide-kicker">03 · the mechanism</div>
+    <div class="slide-index">04 / 10</div>
+    <div class="slide-frame">
+      <h2 class="slide-title reveal r1">The rule that does the work</h2>
+      <div class="mech-grid">
+        <div class="reveal r2">
+          <div class="code-well clay-well-deep">
+<span class="kw">ALLOW</span>  eth_sendTransaction
+  WHERE  ethereum_transaction.to&nbsp; &nbsp; &nbsp; == USDC_CONTRACT
+    AND  ethereum_calldata.function_name == "transfer"
+    AND  <span class="hi">ethereum_calldata.transfer._to  == 0xPAYEE</span>
+    AND  ethereum_transaction.value&nbsp; &nbsp; &nbsp;== 0
+          </div>
+          <p class="col-cap">A USDC transfer's <code style="font-family:var(--font-mono)">transaction.to</code> is the token contract — not the payee. The policy decodes the calldata and constrains the recipient inside it.</p>
+        </div>
+        <div class="reveal r3">
+          <div class="refusal-well clay-well">
+            <div class="lbl">Not our error page. The enclave's own words, verbatim:</div>
+            <pre>{
+  "error": "RPC request denied due to policy violation",
+  "code": "policy_violation"
+}</pre>
+          </div>
+          <p class="col-cap">Wrong destination, native-value smuggling, <code style="font-family:var(--font-mono)">approve</code>, <code style="font-family:var(--font-mono)">transferFrom</code>, dirty address padding, a batcher wrapper — every attack refused, before a signature could exist.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 5 — PRIVY (hero sponsor)
+  ============================================================= -->
+  <section class="slide" id="s5">
+    <div class="slide-kicker">04 · the sponsors</div>
+    <div class="slide-index">05 / 10</div>
+    <div class="slide-frame">
+      <div class="privy-head reveal r1">
+        <span class="logo lg" id="logo-privy-head"></span>
+        <div>
+          <h2 class="slide-title">— the lock</h2>
+          <div class="tag" style="margin-top:6px;">Primary integration · Best B2B financial product and Best financial flow</div>
+        </div>
+      </div>
+      <div class="privy-body">
+        <div class="control-grid reveal r2">
+          <div class="control-card clay-slab"><div class="t">Policies</div><div class="d">ABI-decoded calldata conditions — the enclave reads inside the transfer, not just the transaction.</div></div>
+          <div class="control-card clay-slab"><div class="t">Session signers</div><div class="d">The splitter's own key is boxed to intra-business transfers. A compromised splitter still can't pay an outsider.</div></div>
+          <div class="control-card clay-slab"><div class="t">Key quorums</div><div class="d">3-of-5 approval on every policy change. No admin override, no dev-mode skip.</div></div>
+          <div class="control-card clay-slab"><div class="t">Intents</div><div class="d">Every early-unlock approval is a quorum intent — typed reason, 24-hour timer, permanent record.</div></div>
+        </div>
+        <div class="evidence-row reveal r3">
+          <div class="stat-chip clay-well-deep"><div class="v num">10 / 10</div><div class="l">attacks refused, Phase 0 spike</div></div>
+          <div class="stat-chip clay-well-deep"><div class="v num">9 / 9</div><div class="l">attacks refused, public simulator</div></div>
+          <div class="stat-chip clay-well-deep"><div class="v num">18.7s</div><div class="l">deposit → three-way split, live on Arc</div></div>
+        </div>
+        <p class="foot-line reveal r4">Widening a lock is as hard as spending from it. Remove Privy, and this is a spreadsheet with good intentions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 6 — ARC
+  ============================================================= -->
+  <section class="slide" id="s6">
+    <div class="slide-kicker">04 · the sponsors</div>
+    <div class="slide-index">06 / 10</div>
+    <div class="slide-frame">
+      <div class="privy-head reveal r1">
+        <span class="logo lg" id="logo-arc-head"></span>
+        <div>
+          <h2 class="slide-title">— the rail</h2>
+          <div class="tag" style="margin-top:6px;">Best DeFi / Onchain Finance Application</div>
+        </div>
+      </div>
+      <div class="arc-grid">
+        <div class="reveal r2">
+          <div class="bounty-well clay-well-deep">
+            <div class="amt num">$3,500</div>
+            <div class="cond">$2,500 of it releases only on an Arc Mainnet deploy by September 30.</div>
+            <div class="looking-for">
+              <div class="li">Meaningful use of Arc and USDC</div>
+              <div class="li">Conditional payments, automation, multi-step settlement</div>
+              <div class="li">Why stablecoin-native infrastructure changes what's possible</div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal r3">
+          <div class="answer-list">
+            <div class="answer-item clay-slab"><div class="t">USDC is Arc's native gas token</div><div class="d">Every policy adds <code style="font-family:var(--font-mono)">value == 0</code> because of it — a transfer() call could otherwise carry native value moving the same balance.</div></div>
+            <div class="answer-item clay-slab"><div class="t">Automated, multi-step settlement</div><div class="d">Deposits split themselves on arrival, no human in the path — receipt → split → obligation → release, each step an on-chain event.</div></div>
+            <div class="answer-item clay-slab"><div class="t">CCTP bridge — complete</div><div class="d">Arc → Base Sepolia: approve, burn, real Circle attestation, mint. Verified by an independent balance read, not just our own report.</div></div>
+          </div>
+          <div class="status-line">Live on Arc testnet today. Mainnet path rehearsed end-to-end, not claimed — Arc's public mainnet isn't live yet.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 7 — WORLD
+  ============================================================= -->
+  <section class="slide" id="s7">
+    <div class="slide-kicker">04 · the sponsors</div>
+    <div class="slide-index">07 / 10</div>
+    <div class="slide-frame">
+      <div class="privy-head reveal r1">
+        <span class="logo lg" id="logo-world-head"></span>
+        <div>
+          <h2 class="slide-title">— the gate</h2>
+          <div class="tag" style="margin-top:6px;">Selfie Check</div>
+        </div>
+      </div>
+      <div class="world-wrap">
+        <div class="gate-row reveal r2">
+          <div class="gate-card clay-slab"><div class="step">exit one</div><div class="t">Early unlock approval</div></div>
+          <div class="gate-arrow" id="icon-arrow-world"></div>
+          <div class="gate-card clay-slab"><div class="step">exit two</div><div class="t">Beneficiary's first claim</div></div>
+        </div>
+        <p class="principle reveal r3">Money leaves a locked account exactly two ways — and Selfie Check gates a live human before Privy is ever asked to sign either one.</p>
+        <p class="exception reveal r4">A verified human still can't send to an unpermitted address. A permitted address still can't be paid by a script. Repeat withdrawals to an address the beneficiary already verified skip the check on purpose.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 8 — USER FLOW (animated, sponsor tech inline)
+  ============================================================= -->
+  <section class="slide" id="s8">
+    <div class="slide-kicker">05 · how it fits together</div>
+    <div class="slide-index">08 / 10</div>
+    <div class="slide-frame">
+      <h2 class="slide-title reveal r1">One deposit, one proof</h2>
+      <div class="flow-wrap">
+        <div class="flow-diagram-mount reveal r2" id="flowMount"></div>
+        <p class="flow-cap reveal r4">Postgres holds workflow state. The chain holds the record — every number on the public page traces to an event or a balance, click-through to the explorer.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 9 — LIVE DEMO (hand + 3D phone, narrated)
+  ============================================================= -->
+  <section class="slide" id="s9">
+    <canvas class="hand3d" id="handCanvas"></canvas>
+    <div class="demo-text reveal r1">
+      <div class="slide-kicker" style="position:static;">06 · see it live</div>
+      <h2>Try to break it</h2>
+      <p class="body">The breach simulator hands a stranger the operator's seat on a real locked account holding real testnet USDC.</p>
+      <div class="cap-stack" id="capStack">
+        <p class="cap-line show">Pick an attack — wrong destination, native value, approve, transferFrom.</p>
+        <p class="cap-line">The enclave reads the calldata before it ever signs.</p>
+        <p class="cap-line">No policy match → no key reassembly → no signature exists.</p>
+        <p class="cap-line">Only the one permitted payee ever gets paid.</p>
+      </div>
+      <div class="demo-pill clay-slab-hero">/simulator — live on Arc testnet</div>
+    </div>
+    <div class="demo-stage-3d">
+      <div class="demo-phone clay-slab-hero" id="demoPhone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="url">bolt.app/acme</div>
+          <h3>Customer money in an account the business is physically unable to spend from.</h3>
+          <div class="well clay-well">
+            <b>ALLOW</b> eth_sendTransaction<br>
+            &nbsp;WHERE transfer._to == 0x6341…<br>
+            &nbsp;AND&nbsp;&nbsp;value == 0
+          </div>
+          <div class="p">Refused: <b>RPC request denied due to policy violation</b></div>
+          <div class="btn">Do it yourself</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 10 — CLOSING
+  ============================================================= -->
+  <section class="slide" id="s10">
+    <div class="slide-kicker">07 · the ask</div>
+    <div class="slide-index">10 / 10</div>
+    <div class="close-line reveal r1">Three sponsors. Three jobs money<br>can't do without any one of them.</div>
+    <div class="recap-row">
+      <div class="recap-card clay-slab reveal r2"><div class="t"><span class="logo mark sm" id="logo-privy-close"></span>Privy — the lock</div><div class="d">Constrains where money can go. Refusal before a signature exists. Best B2B financial product · Best financial flow.</div></div>
+      <div class="recap-card clay-slab reveal r3"><div class="t"><span class="logo mark sm" id="logo-arc-close"></span>Arc — the rail</div><div class="d">Every balance, split, reserve and payout is USDC on Arc. Best DeFi / Onchain Finance Application.</div></div>
+      <div class="recap-card clay-slab reveal r4"><div class="t"><span class="logo mark sm" id="logo-world-close"></span>World — the gate</div><div class="d">Constrains who can start money moving. Selfie Check on both exits from a locked account.</div></div>
+    </div>
+    <div class="close-foot reveal r5">BOLT <span class="divider-bar" style="margin:0 14px;"></span> ETHOnline 2026 <span class="divider-bar" style="margin:0 14px;"></span> docs &amp; evidence in the repo</div>
+  </section>
+
+</main>
+</div>
+
+<!-- Deck controls: outside the 1920 stage, per Fixed Stage Rules -->
+<div class="deck-controls">
+  <button class="nav-btn" id="prevBtn" aria-label="Previous slide">‹</button>
+  <div class="dots" id="dots"></div>
+  <button class="nav-btn" id="nextBtn" aria-label="Next slide">›</button>
+  <span class="counter num" id="counter"></span>
+</div>
+
+<script>
+/* ===========================================
+   LOGO MARKS — simplified, monochrome, transparent-background recreations
+   of each sponsor's mark. "full" = glyph + wordmark (section headers, title,
+   closing credits). "mark" = glyph only (compact contexts: flow diagram,
+   recap cards). All render in currentColor so they inherit --ink / --s500.
+   =========================================== */
+const LOGO = {
+  privy: {
+    mark: '<svg viewBox="0 0 34 44" fill="currentColor"><circle cx="17" cy="15" r="13"/><ellipse cx="17" cy="39" rx="15" ry="4.6"/></svg>',
+    full: '<svg viewBox="0 0 172 44" fill="currentColor"><circle cx="17" cy="15" r="13"/><ellipse cx="17" cy="39" rx="15" ry="4.6"/><text x="46" y="33" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="32" font-weight="800" letter-spacing="-1">privy</text></svg>'
+  },
+  arc: {
+    mark: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="5.2" stroke-linecap="round"><path d="M7 34 C7 14 33 14 33 34"/></svg>',
+    full: '<svg viewBox="0 0 150 40" fill="none"><path d="M7 34 C7 14 33 14 33 34" stroke="currentColor" stroke-width="5.2" stroke-linecap="round" fill="none"/><text x="46" y="32" fill="currentColor" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="30" font-weight="800" letter-spacing="-1">Arc</text></svg>'
+  },
+  world: {
+    mark: '<svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="18" cy="18" r="14"/><line x1="5" y1="14.5" x2="26" y2="14.5"/><line x1="5" y1="21.5" x2="26" y2="21.5"/></svg>',
+    full: '<svg viewBox="0 0 178 36" fill="none"><circle cx="18" cy="18" r="14" stroke="currentColor" stroke-width="2.3"/><line x1="5" y1="14.5" x2="26" y2="14.5" stroke="currentColor" stroke-width="2.3"/><line x1="5" y1="21.5" x2="26" y2="21.5" stroke="currentColor" stroke-width="2.3"/><text x="42" y="27" fill="currentColor" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="27" font-weight="700" letter-spacing="-0.5">world</text></svg>'
+  },
+  graph: {
+    mark: '<svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="8.5"/><circle cx="21" cy="6" r="1.6" fill="currentColor" stroke="none"/><line x1="7" y1="17" x2="4" y2="21" stroke-linecap="round"/></svg>'
+  }
+};
+function setLogo(id, key, variant){
+  const el = document.getElementById(id);
+  if(el){ el.innerHTML = LOGO[key][variant || 'full']; }
+}
+setLogo('logo-privy-title','privy','full');
+setLogo('logo-arc-title','arc','full');
+setLogo('logo-world-title','world','full');
+setLogo('logo-privy-head','privy','full');
+setLogo('logo-arc-head','arc','full');
+setLogo('logo-world-head','world','full');
+setLogo('logo-privy-close','privy','mark');
+setLogo('logo-arc-close','arc','mark');
+setLogo('logo-world-close','world','mark');
+document.getElementById('icon-arrow-world').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12h16M14 6l6 6-6 6"/></svg>';
+
+/* ===========================================
+   SLIDE PRESENTATION CONTROLLER
+   Fixed 16:9 stage scaling + keyboard/wheel/touch nav + dot rail.
+   =========================================== */
+class SlidePresentation{
+  constructor(){
+    this.slides = Array.from(document.querySelectorAll('.slide'));
+    this.current = 0;
+    this.stage = document.getElementById('deckStage');
+    this.dotsEl = document.getElementById('dots');
+    this.counterEl = document.getElementById('counter');
+    this.buildDots();
+    this.setupStageScale();
+    this.setupKeyboardNav();
+    this.setupTouchNav();
+    this.setupWheelNav();
+    document.getElementById('prevBtn').addEventListener('click',()=>this.go(this.current-1));
+    document.getElementById('nextBtn').addEventListener('click',()=>this.go(this.current+1));
+    this.show(0);
+  }
+  buildDots(){
+    this.slides.forEach((_,i)=>{
+      const d=document.createElement('div');
+      d.className='dot'; d.addEventListener('click',()=>this.go(i));
+      this.dotsEl.appendChild(d);
+    });
+  }
+  setupStageScale(){
+    const scale=()=>{
+      const f = Math.min(window.innerWidth/1920, window.innerHeight/1080);
+      const x = (window.innerWidth - 1920*f)/2;
+      const y = (window.innerHeight - 1080*f)/2;
+      this.stage.style.transform = `translate(${x}px, ${y}px) scale(${f})`;
+    };
+    scale(); window.addEventListener('resize', scale);
+  }
+  setupKeyboardNav(){
+    document.addEventListener('keydown',(e)=>{
+      if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){ e.preventDefault(); this.go(this.current+1); }
+      else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); this.go(this.current-1); }
+      else if(e.key==='Home'){ this.go(0); }
+      else if(e.key==='End'){ this.go(this.slides.length-1); }
+    });
+  }
+  setupTouchNav(){
+    let sx=0, sy=0;
+    window.addEventListener('touchstart',(e)=>{ sx=e.touches[0].clientX; sy=e.touches[0].clientY; },{passive:true});
+    window.addEventListener('touchend',(e)=>{
+      const dx = e.changedTouches[0].clientX - sx;
+      const dy = e.changedTouches[0].clientY - sy;
+      if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)){ this.go(this.current + (dx<0?1:-1)); }
+    },{passive:true});
+  }
+  setupWheelNav(){
+    let locked=false;
+    window.addEventListener('wheel',(e)=>{
+      if(locked) return;
+      if(Math.abs(e.deltaY) < 24) return;
+      locked = true;
+      this.go(this.current + (e.deltaY>0?1:-1));
+      setTimeout(()=>locked=false, 650);
+    },{passive:true});
+  }
+  go(i){ this.show(Math.max(0, Math.min(i, this.slides.length-1))); }
+  show(i){
+    this.current = i;
+    this.slides.forEach((s,idx)=>{
+      const on = idx===i;
+      s.classList.toggle('active', on);
+      s.classList.toggle('visible', on);
+    });
+    Array.from(this.dotsEl.children).forEach((d,idx)=>d.classList.toggle('on', idx===i));
+    this.counterEl.textContent = String(i+1).padStart(2,'0') + ' / ' + this.slides.length;
+    document.dispatchEvent(new CustomEvent('slidechange',{detail:{index:i}}));
+  }
+}
+const deck = new SlidePresentation();
+const DEMO_INDEX = Array.from(document.querySelectorAll('.slide')).findIndex(s=>s.id==='s9');
+
+/* ===========================================
+   NARRATION CAPTION CYCLE — the "typography edit" on the demo slide.
+   One line visible at a time, crossfading on an interval, only while the
+   demo slide is active and the viewer hasn't asked for reduced motion.
+   =========================================== */
+(function captionCycle(){
+  const lines = Array.from(document.querySelectorAll('#capStack .cap-line'));
+  if(!lines.length) return;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let i = 0, timer = null;
+  function next(){
+    lines[i].classList.remove('show');
+    i = (i+1) % lines.length;
+    lines[i].classList.add('show');
+  }
+  function start(){ if(!timer && !reduced) timer = setInterval(next, 3200); }
+  function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+  document.addEventListener('slidechange',(e)=>{ if(e.detail.index === DEMO_INDEX) start(); else stop(); });
+  document.addEventListener('visibilitychange',()=>{ if(document.hidden) stop(); });
+})();
+
+/* ===========================================
+   POINTER DAMPING HELPER — shared math for both 3D scenes.
+   Records normalized pointer intent, dampens it per-frame at a fixed
+   feel independent of refresh rate. Pattern: add-mouse-driven-orbit skill.
+   =========================================== */
+function makePointer(){
+  const p = { target:{x:0,y:0}, smooth:{x:0,y:0} };
+  function record(e){
+    if(e.pointerType === 'touch') return;
+    p.target.x = (e.clientX / window.innerWidth) * 2 - 1;
+    p.target.y = (e.clientY / window.innerHeight) * 2 - 1;
+  }
+  window.addEventListener('pointermove', record);
+  window.addEventListener('pointerleave', ()=>{ p.target.x=0; p.target.y=0; });
+  p.step = (dt)=>{
+    const alpha = 1 - Math.pow(1 - 0.055, dt*60);
+    p.smooth.x += (p.target.x - p.smooth.x) * alpha;
+    p.smooth.y += (p.target.y - p.smooth.y) * alpha;
+  };
+  return p;
+}
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ===========================================
+   SCENE 1 — TITLE SLIDE: an abstracted padlock, built from primitives,
+   matte clay-white material, slow autorotation + pointer parallax.
+   Runs only while slide 1 is active.
+   =========================================== */
+(function heroScene(){
+  const canvas = document.getElementById('heroCanvas');
+  const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+  camera.position.set(0,0,14);
+
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xd8d8d8, 1.0));
+  const key = new THREE.DirectionalLight(0xffffff, 0.9);
+  key.position.set(4,6,8); scene.add(key);
+
+  const mat = new THREE.MeshStandardMaterial({color:0xf1f1f1, roughness:0.85, metalness:0.02});
+  const matDark = new THREE.MeshStandardMaterial({color:0xd6d6d6, roughness:0.9, metalness:0.02});
+
+  const lockGroup = new THREE.Group();
+  const body = new THREE.Mesh(new THREE.BoxGeometry(3.4,2.6,1.4), mat);
+  body.position.y = -0.9;
+  lockGroup.add(body);
+
+  const shackle = new THREE.Mesh(new THREE.TorusGeometry(1.35,0.34,24,48,Math.PI), matDark);
+  shackle.position.y = 0.6;
+  lockGroup.add(shackle);
+
+  const keyhole = new THREE.Mesh(new THREE.CylinderGeometry(0.26,0.26,1.5,20), matDark);
+  keyhole.rotation.x = Math.PI/2; keyhole.position.set(0,-0.7,0.71);
+  lockGroup.add(keyhole);
+
+  lockGroup.scale.setScalar(1.15);
+  scene.add(lockGroup);
+
+  const farRing = new THREE.Mesh(new THREE.TorusGeometry(4.4,0.02,8,80), new THREE.MeshBasicMaterial({color:0xcfcfcf, transparent:true, opacity:0.5}));
+  farRing.rotation.x = Math.PI/2.3; scene.add(farRing);
+
+  const pointer = makePointer();
+  let last = performance.now();
+  function resize(){
+    const r = canvas.getBoundingClientRect();
+    if(r.width<2||r.height<2) return;
+    renderer.setSize(r.width, r.height, false);
+    camera.aspect = r.width/r.height; camera.updateProjectionMatrix();
+  }
+  const ro = new ResizeObserver(resize); ro.observe(canvas);
+  resize();
+
+  let active = true;
+  document.addEventListener('slidechange', (e)=>{ active = (e.detail.index === 0); });
+
+  function tick(now){
+    requestAnimationFrame(tick);
+    if(!active) return;
+    const dt = Math.min((now-last)/1000, 1/30); last = now;
+    if(!REDUCED_MOTION){
+      pointer.step(dt);
+      lockGroup.rotation.y = 0.35 * Math.sin(now*0.00018) + pointer.smooth.x*0.35;
+      lockGroup.rotation.x = pointer.smooth.y*0.18;
+      farRing.rotation.z += dt*0.05;
+      camera.position.x = -pointer.smooth.x*1.6;
+      camera.position.y =  pointer.smooth.y*1.0;
+      camera.lookAt(0,0,0);
+    }
+    renderer.render(scene, camera);
+  }
+  requestAnimationFrame(tick);
+})();
+
+/* ===========================================
+   SCENE 2 — DEMO SLIDE: a stylized clay hand cradling the CSS phone.
+   Only the fingertips + thumb are modeled (the classic product-shot
+   trick) — anatomically implied, not fully rigged. The canvas is sized
+   and positioned to exactly the phone's half of the stage (960..1920,
+   0..1080) so the Three.js camera's own center lines up with the phone's
+   center with no manual offset math. Same pointer-damping pattern drives
+   both the Three.js camera/hand group AND the CSS phone's own
+   rotateX/Y, at a smaller coefficient, so the two layers read as one
+   composition instead of two independently animated things.
+   =========================================== */
+(function handScene(){
+  const canvas = document.getElementById('handCanvas');
+  const phone = document.getElementById('demoPhone');
+  const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+  camera.position.set(0,0,15);
+
+  // Three-point lighting instead of one flat hemisphere: a key light that casts the real
+  // shadows below, a soft fill from the opposite side so the shadow side never goes flat
+  // black, and a rim light from behind to catch the edge of each knuckle — the combination
+  // that reads as "molded form" rather than "flat grey shape".
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xd2d2d2, 0.55));
+  const key = new THREE.DirectionalLight(0xffffff, 1.0);
+  key.position.set(3,7,9);
+  key.castShadow = true;
+  key.shadow.mapSize.set(1024,1024);
+  key.shadow.camera.left = -5; key.shadow.camera.right = 5;
+  key.shadow.camera.top = 5; key.shadow.camera.bottom = -5;
+  key.shadow.camera.near = 1; key.shadow.camera.far = 20;
+  key.shadow.radius = 4;
+  scene.add(key);
+  const fill = new THREE.DirectionalLight(0xffffff, 0.35);
+  fill.position.set(-5,-1,6); scene.add(fill);
+  const rim = new THREE.DirectionalLight(0xffffff, 0.5);
+  rim.position.set(-2,3,-6); scene.add(rim);
+
+  // Skin tones: duller proximal, glossier distal (real fingertips catch a tighter, brighter
+  // specular highlight), a darker crease tone for the joint creases, and a pale glossy tone
+  // for nails — four materials instead of two is what starts to read as "modeled", not "grey".
+  const skin = new THREE.MeshStandardMaterial({color:0xdcdcdc, roughness:0.82, metalness:0.0});
+  const skinTip = new THREE.MeshStandardMaterial({color:0xe8e8e8, roughness:0.5, metalness:0.02});
+  const skinShade = new THREE.MeshStandardMaterial({color:0xc4c4c4, roughness:0.88, metalness:0.0});
+  const crease = new THREE.MeshStandardMaterial({color:0xb6b6b6, roughness:0.95, metalness:0.0});
+  const nailMat = new THREE.MeshStandardMaterial({color:0xf0f0f0, roughness:0.28, metalness:0.05});
+
+  function capsule(len, rad, mat){
+    const g = new THREE.Group();
+    const cyl = new THREE.Mesh(new THREE.CylinderGeometry(rad, rad*0.9, len, 24), mat);
+    cyl.position.y = len/2; g.add(cyl);
+    const tip = new THREE.Mesh(new THREE.SphereGeometry(rad*0.9,22,22), mat);
+    tip.position.y = len; g.add(tip);
+    const base = new THREE.Mesh(new THREE.SphereGeometry(rad,22,22), mat);
+    g.add(base);
+    g.traverse(o=>{ if(o.isMesh){ o.castShadow = true; o.receiveShadow = true; } });
+    return g;
+  }
+
+  // A pinched ring right at a joint — the crease that tells the eye "this is where it bends",
+  // the single detail that separates a jointed capsule chain from an obviously modeled finger.
+  function creaseRing(rad){
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(rad*0.94, rad*0.13, 10, 20), crease);
+    ring.rotation.x = Math.PI/2;
+    ring.castShadow = true; ring.receiveShadow = true;
+    return ring;
+  }
+
+  // A small flattened highlight near a fingertip's far end — just enough of a nail cue to read
+  // as a finger rather than a plain rounded rod, without needing a real UV-mapped texture.
+  function nail(rad, len){
+    const n = new THREE.Mesh(new THREE.SphereGeometry(rad*0.72,14,10), nailMat);
+    n.scale.set(0.85,1.15,0.32);
+    n.position.set(0, len*0.86, rad*0.82);
+    n.castShadow = false; n.receiveShadow = true;
+    return n;
+  }
+
+  // A jointed limb built as a real skeletal chain: each segment is a capsule, and the next
+  // segment's pivot sits at the tip of the (already-bent) previous one. `curls` bends each
+  // joint forward (wrapping the phone edge); `twists` adds a small sideways lean per joint so
+  // the limb reads as organic rather than perfectly planar. A crease ring marks every interior
+  // joint, and the final segment gets a nail.
+  function jointedLimb(segments, curls, twists){
+    const root = new THREE.Group();
+    let parent = root;
+    segments.forEach((s,i)=>{
+      const seg = new THREE.Group();
+      seg.rotation.x = curls[i] || 0;
+      seg.rotation.y = (twists && twists[i]) || 0;
+      seg.add(capsule(s.len, s.rad, s.mat));
+      if(i === segments.length-1){ seg.add(nail(s.rad, s.len)); }
+      const next = new THREE.Group();
+      next.position.y = s.len;
+      if(i < segments.length-1){ next.add(creaseRing(s.rad*0.94)); }
+      seg.add(next);
+      parent.add(seg);
+      parent = next;
+    });
+    return root;
+  }
+
+  const handGroup = new THREE.Group();
+
+  // Palm as three masses instead of one sphere: a back-of-hand mound, a wrist taper narrowing
+  // off-canvas, and a low knuckle ridge across the top where the fingers actually attach —
+  // the ridge is what stops the fingers from looking like they sprout from a featureless ball.
+  // Positions are authored directly in world units (the frustum at z=0 spans roughly
+  // x:±3.6 y:±4.0 for this camera) — no group-level scale, so what's written here is what's
+  // on screen, not compressed by an extra multiplier.
+  const palmGroup = new THREE.Group();
+  const palmMound = new THREE.Mesh(new THREE.SphereGeometry(1.5,28,28), skinShade);
+  palmMound.scale.set(1.1, 0.85, 0.7);
+  palmMound.position.set(0.15, -2.75, 0.2);
+  palmGroup.add(palmMound);
+  const wrist = new THREE.Mesh(new THREE.CylinderGeometry(1.05,0.85,2.4,20), skinShade);
+  wrist.position.set(0.05, -4.6, -0.05);
+  wrist.rotation.z = 0.06;
+  palmGroup.add(wrist);
+  const knuckleRidge = new THREE.Mesh(new THREE.SphereGeometry(1.35,24,16), skin);
+  knuckleRidge.scale.set(1.05, 0.32, 0.42);
+  knuckleRidge.position.set(0.25, -1.75, 0.42);
+  palmGroup.add(knuckleRidge);
+  palmGroup.traverse(o=>{ if(o.isMesh){ o.castShadow = true; o.receiveShadow = true; } });
+  handGroup.add(palmGroup);
+
+  // Thumb: two phalanges, visible past the phone's lower-left edge — the single most legible
+  // "holding" cue. Its x sits outside the phone's own screen-space footprint (computed from
+  // the canvas's world-to-CSS-pixel mapping) so it reads as gripping the case, not floating
+  // behind the glass. The base joint barely bends; the tip joint curls in harder, like a real
+  // thumb pressing against a case, with a slight sideways twist since a thumb never bends in
+  // one flat plane.
+  const thumb = jointedLimb(
+    [{len:0.85, rad:0.42, mat:skin}, {len:0.6, rad:0.33, mat:skinTip}],
+    [0.15, 0.7],
+    [0.08, -0.18]
+  );
+  thumb.rotation.z = -1.0; thumb.rotation.x = 0.22;
+  thumb.position.set(-2.15, -1.5, 0.55);
+  handGroup.add(thumb);
+
+  // Four two-bone fingers wrapping past the right edge, as if curling around the back of the
+  // phone — index, middle, ring and pinky, with middle the longest and pinky the shortest and
+  // thinnest, matching real finger proportions. Each finger gets its own curl and splay instead
+  // of four identical, perfectly parallel rods — a real hand's fingers never bend by the exact
+  // same amount, and that small asymmetry is what avoids the "uncanny toy hand" look.
+  const fingerDefs = [
+    {x:2.05,y:-0.55,rotZ:2.62,twist:-0.10,segs:[{len:0.58,rad:0.30},{len:0.42,rad:0.24}],curls:[0.10,0.78]},
+    {x:2.3, y:-1.25,rotZ:2.55,twist: 0.0, segs:[{len:0.66,rad:0.33},{len:0.48,rad:0.26}],curls:[0.14,0.86]},
+    {x:2.2, y:-1.95,rotZ:2.49,twist: 0.08,segs:[{len:0.58,rad:0.29},{len:0.42,rad:0.23}],curls:[0.17,0.92]},
+    {x:1.95,y:-2.55,rotZ:2.40,twist: 0.16,segs:[{len:0.42,rad:0.22},{len:0.30,rad:0.17}],curls:[0.22,1.0]}
+  ];
+  fingerDefs.forEach(f=>{
+    const segs = [
+      {len:f.segs[0].len, rad:f.segs[0].rad, mat:skin},
+      {len:f.segs[1].len, rad:f.segs[1].rad, mat:skinTip}
+    ];
+    const finger = jointedLimb(segs, f.curls, [0, f.twist]);
+    finger.rotation.z = f.rotZ;
+    finger.position.set(f.x, f.y, 0.5);
+    handGroup.add(finger);
+  });
+
+  handGroup.position.set(0,0,0);
+  scene.add(handGroup);
+
+  // Real shadow-catcher plane behind the hand, instead of a hand-drawn blurred ellipse — the
+  // key light above now casts genuine soft contact shadows from each finger onto it.
+  const catcher = new THREE.Mesh(
+    new THREE.PlaneGeometry(12,12),
+    new THREE.ShadowMaterial({opacity:0.24})
+  );
+  catcher.position.z = -1.3;
+  catcher.receiveShadow = true;
+  scene.add(catcher);
+
+  const pointer = makePointer();
+  let last = performance.now();
+  function resize(){
+    const r = canvas.getBoundingClientRect();
+    if(r.width<2||r.height<2) return;
+    renderer.setSize(r.width, r.height, false);
+    camera.aspect = r.width/r.height; camera.updateProjectionMatrix();
+  }
+  const ro = new ResizeObserver(resize); ro.observe(canvas);
+  resize();
+
+  let active = false;
+  document.addEventListener('slidechange', (e)=>{ active = (e.detail.index === DEMO_INDEX); });
+
+  function tick(now){
+    requestAnimationFrame(tick);
+    if(!active) return;
+    const dt = Math.min((now-last)/1000, 1/30); last = now;
+    if(!REDUCED_MOTION){
+      pointer.step(dt);
+      // Three.js layer — camera arc + opposing hand rotation (skill's split-motion pattern).
+      camera.position.x = -pointer.smooth.x*1.1;
+      camera.position.y =  pointer.smooth.y*0.7;
+      camera.lookAt(camera.position.x*0.42, camera.position.y*0.42, 0);
+      handGroup.rotation.y = pointer.smooth.x*0.08;
+      handGroup.rotation.x = pointer.smooth.y*0.04;
+      // CSS layer — smaller depth coefficient than the 3D form, kept subtle so the phone stays "straight".
+      const ry = -6 + pointer.smooth.x*3;
+      const rx =  2 - pointer.smooth.y*2;
+      phone.style.transform = `rotateY(${ry}deg) rotateX(${rx}deg)`;
+    }
+    renderer.render(scene, camera);
+  }
+  requestAnimationFrame(tick);
+})();
+
+/* ===========================================
+   SLIDE 8 — USER FLOW: Mermaid.js diagram + mermaid-animator's traveling-dot edges.
+   The animator's Theme object controls every color it draws on top of (or in place of)
+   Mermaid's own render, so the diagram uses BOLT's exact palette instead of Mermaid's
+   default blue/purple/pink edge cycling — no chromatic hue anywhere, matching every
+   other slide in the deck. Runs once; the SVG stays correct while its slide is hidden
+   because slides use visibility/opacity, never display:none (Fixed Stage Rules above).
+   =========================================== */
+(function userFlowDiagram(){
+  const mount = document.getElementById('flowMount');
+  if(!mount || typeof MermaidAnimatorLib === 'undefined') return;
+  const { MermaidAnimator } = MermaidAnimatorLib;
+
+  // Single-line labels, plain SVG text (htmlLabels:false below) — no foreignObject/CSS
+  // interaction to fight with. Robust beats fancy for a zero-build static file.
+  // Round-rect shape `("...")` instead of the full stadium pill `(["..."])` — bigger, softer
+  // corners that read as a card, not a fully-rounded chip.
+  //
+  // Z1/Z2 are invisible "phantom" nodes: a real dagre layout trick, not a post-render hack.
+  // A plain A-->B-->C chain has nothing to disambiguate its vertical position, so dagre lines
+  // every node up on one dead-straight row. Tethering B and E to an invisible anchor gives
+  // dagre something to balance against, and it settles into a natural staircase instead — a
+  // one-pass layout choice mermaid-animator then reads correctly, unlike moving nodes/edges
+  // after the fact (tried first; it visibly breaks the animator's cached edge-length dot
+  // tracking, freezing every dot in place — see git history if revisiting this).
+  const graph = `
+flowchart LR
+  A("Buyer pays")
+  B("Privy - policy splits, inside its own enclave")
+  C("Arc - locked accounts, USDC held")
+  D("BoltRegistry emits events")
+  E("The Graph - subgraph indexes")
+  F("Public page + Monitor read it")
+  G("World - Selfie Check gates every exit")
+  Z1(" "):::phantom
+  Z2(" "):::phantom
+  A --> B --> C --> D --> E --> F
+  C -.-> G
+  B -.- Z1
+  E -.- Z2
+  classDef phantom fill:none,stroke:none,color:transparent
+  linkStyle 6,7 stroke:none
+  `.trim();
+
+  // One ink color for every edge and every flow/state slot — Mermaid-animator normally
+  // cycles a ten-color rainbow per edge; BOLT has exactly one accent color, so every slot
+  // in its palette collapses to the same grayscale value on purpose. Border and fill pulled
+  // in line with the deck's own .clay-well recipe (light grey fill, light grey border, no
+  // heavy black outline) instead of Mermaid's default crisp black box.
+  const boltTheme = {
+    name: 'bolt',
+    background: '#FFFFFF',
+    mermaidTheme: 'base',
+    edgeColors: ['#0A0A0A'],
+    flowColors: { amber:'#0A0A0A', red:'#0A0A0A', green:'#0A0A0A', blue:'#0A0A0A', cyan:'#0A0A0A', purple:'#0A0A0A', pink:'#0A0A0A', yellow:'#0A0A0A' },
+    dimOpacity: 0.18,
+    states: { error:{stroke:'#0A0A0A',fill:'#0A0A0A'}, ok:{stroke:'#5A5A5A',fill:'#5A5A5A'}, busy:{stroke:'#7C7C7C',fill:'#7C7C7C'} },
+    dotGlowOpacity: 0.16,
+    nodeStrokeWidth: 1,
+    nodeFillOpacity: 0.08,
+    nodeBorderDefault: '#DCDCDC',
+    clusterStrokeWidth: 1.5,
+    clusterFillOpacity: 0.05,
+    clusterBorderOpacity: 0.6,
+    popoverBackground: '#FFFFFF',
+    popoverText: '#0A0A0A',
+    popoverBorder: '#DCDCDC',
+    popoverIdColor: '#0A0A0A',
+    popoverSecondaryText: '#7C7C7C'
+  };
+
+  // Called directly on the global `mermaid` API rather than trusting it to be forwarded
+  // correctly through mermaid-animator's own `mermaid` option — verified during development
+  // that the direct call is the reliable path; the nested option below is kept only as a
+  // harmless belt-and-suspenders in case a future animator version does read it.
+  const mermaidConfig = {
+    startOnLoad: false,
+    theme: 'base',
+    securityLevel: 'strict',
+    flowchart: { htmlLabels: false, curve: 'basis', padding: 26, nodeSpacing: 70, rankSpacing: 120 },
+    themeVariables: {
+      fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+      fontSize: '22px',
+      primaryColor: '#F6F6F6',
+      primaryBorderColor: '#0A0A0A',
+      primaryTextColor: '#0A0A0A',
+      lineColor: '#A0A0A0',
+      secondaryColor: '#EFEFEF',
+      tertiaryColor: '#FFFFFF',
+      clusterBkg: '#F6F6F6',
+      clusterBorder: '#DCDCDC',
+      edgeLabelBackground: '#FFFFFF'
+    }
+  };
+  mermaid.initialize(mermaidConfig);
+
+  MermaidAnimator.create(mount, graph, {
+    theme: boltTheme,
+    pan: false, zoom: false, inspect: false,        // static and presentation-safe — no accidental drag/zoom mid-pitch
+    dotsPerEdge: REDUCED_MOTION ? 0 : 2,
+    dotSpeed: REDUCED_MOTION ? 0 : 0.006,
+    dotRadius: 3,
+    mermaid: mermaidConfig
+  }).then(()=>{
+    // Mermaid's raw <svg> carries a viewBox but no width/height attribute, so with pan/zoom
+    // off (no fit-to-container step runs) the browser falls back to the SVG default intrinsic
+    // box instead of filling the mount div. Force it to fill its container explicitly — the
+    // viewBox + default `xMidYMid meet` then does the actual scale-to-fit correctly.
+    const svg = mount.querySelector('svg');
+    if(!svg) return;
+    svg.setAttribute('width','100%'); svg.setAttribute('height','100%');
+    svg.style.width='100%'; svg.style.height='100%'; svg.style.maxWidth='100%';
+    // Mermaid's own computed viewBox on this particular graph shape (a branch that leaves
+    // and never rejoins the main chain) undershoots the real content width — the last node
+    // lands past the viewBox's right edge and is invisibly clipped. Recompute the viewBox
+    // from the actual rendered bounding box instead of trusting mermaid's own attribute.
+    const pad = 24;
+
+    // Soft clay drop-shadow on every node box, instead of Mermaid's flat default — the
+    // same "small offset, soft blur" recipe as the deck's own .clay-slab CSS.
+    const defs = svg.querySelector('defs') || svg.insertBefore(document.createElementNS('http://www.w3.org/2000/svg','defs'), svg.firstChild);
+    const filter = document.createElementNS('http://www.w3.org/2000/svg','filter');
+    filter.setAttribute('id','nodeSoftShadow');
+    filter.setAttribute('x','-40%'); filter.setAttribute('y','-40%');
+    filter.setAttribute('width','180%'); filter.setAttribute('height','180%');
+    filter.innerHTML = '<feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.12"/>';
+    defs.appendChild(filter);
+    // Set fill/stroke directly rather than trusting the animator Theme's nodeFillOpacity —
+    // in testing it composited a dark base color at that opacity instead of the intended
+    // light clay tint. Deterministic beats guessing at an undocumented color source.
+    svg.querySelectorAll('.node path, .node rect').forEach(shape=>{
+      shape.style.filter = 'url(#nodeSoftShadow)';
+      shape.setAttribute('fill', '#F6F6F6');
+      shape.setAttribute('stroke', '#DCDCDC');
+      shape.setAttribute('stroke-width', '1.2');
+    });
+
+    // Hide the two phantom-node edges (and their traveling dots) — mermaid-animator repaints
+    // every edge with the theme's edgeColors regardless of the graph's own `linkStyle
+    // stroke:none`, so the edges themselves need hiding here instead. Edges/dots are created
+    // in graph-declaration order, and the phantoms are declared last (B-.-Z1, E-.-Z2), so the
+    // last two dot groups belong to them.
+    svg.querySelectorAll('.LS-B.LE-Z1, .LS-E.LE-Z2').forEach(p=>{ p.style.display = 'none'; });
+    svg.querySelectorAll('[id^="flowchart-Z1-"], [id^="flowchart-Z2-"]').forEach(n=>{ n.style.display = 'none'; });
+    // The ambient dot animation spins up its own circles on a later frame than the promise
+    // above resolves on — querying for them synchronously here finds none yet. Two rAFs is
+    // enough slack for that setup to land before we hide the phantom edges' dots. All dots
+    // live as flat circle triplets (glow r12, glow r7.5, solid r3) inside ONE shared layer
+    // group, not one group per dot — closest('g') on any of them returns that same shared
+    // group, so hiding must target the specific circles, not a (nonexistent) per-dot wrapper.
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      const dotsLayer = svg.querySelector('g > circle[r="3"]')?.closest('g');
+      if(!dotsLayer) return;
+      const circles = Array.from(dotsLayer.children).filter(el=>el.tagName==='circle');
+      const perDot = 3;
+      const totalDots = circles.length / perDot;
+      [totalDots-2, totalDots-1].forEach(dotIndex=>{
+        for(let k=0;k<perDot;k++){ const c = circles[dotIndex*perDot+k]; if(c) c.style.display='none'; }
+      });
+    }));
+
+    const bbox = svg.getBBox();
+    svg.setAttribute('viewBox', `${bbox.x-pad} ${bbox.y-pad} ${bbox.width+pad*2} ${bbox.height+pad*2}`);
+  }).catch(err=>console.error('mermaid-animator failed to init', err));
+})();
+</script>
+</body>
+</html>

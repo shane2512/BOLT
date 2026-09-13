@@ -99,12 +99,25 @@ export async function pregenerateBeneficiaryWallet(
     .getByEmailAddress({ address: email })
     .catch(() => null);
 
-  const user =
+  let user =
     existing ??
     (await privy.users().create({
       linked_accounts: [{ type: "email", address: email }],
       wallets: [{ chain_type: "ethereum" }]
     }));
+
+  // An existing user can genuinely have no wallet yet — e.g. this project's
+  // own operator login creates a Privy user from an email-only Selfie-free
+  // sign-in, with nothing else attached. That is not the failure case below;
+  // it is the documented "add a wallet to an existing user" path
+  // (privy-docs /recipes/pregenerate-wallets.mdx, "Creating wallets for
+  // existing users" — `users().pregenerateWallets(user_id, { wallets })`,
+  // confirmed against the installed @privy-io/node@0.34.0 client.d.ts).
+  if (!ethereumWalletAddress(user)) {
+    user = await privy.users().pregenerateWallets(user.id, {
+      wallets: [{ chain_type: "ethereum" }]
+    });
+  }
 
   const address = ethereumWalletAddress(user);
   if (!address) {

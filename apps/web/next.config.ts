@@ -7,6 +7,9 @@ import type { NextConfig } from "next";
 config({ path: "../../.env" });
 
 const nextConfig: NextConfig = {
+  // The dev badge sits bottom-left, exactly on top of the first tab in the
+  // bottom bar. On a phone viewport that hides a primary navigation target.
+  devIndicators: false,
   // The workspace packages ship TypeScript source rather than a build step,
   // so Next has to compile them alongside the app.
   transpilePackages: ["@bolt/core", "@bolt/db", "@bolt/privy"],

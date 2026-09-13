@@ -1,117 +1,239 @@
-/**
- * FR-9 — the public breach simulator.
- *
- * Unauthenticated, and it hands the visitor the operator's seat: the sandbox
- * business's locked client-money account, real USDC on Arc, and every attack
- * shape Phase 0 used on day one. Nothing here is a simulation in the sense of
- * being fake — the only thing "sandbox" means is that the money is ours and the
- * key quorum is not a real business's.
- *
- * Every number on this page comes from Arc (the balance, the addresses) or from
- * the enclave (the refusals). The one exception is the tally, which counts
- * requests this server has handled and says so.
- */
-import { arcTestnet } from "@bolt/core";
-import SimulatorConsole from "./SimulatorConsole";
-import sandbox from "./sandbox.json";
+"use client";
 
-export const dynamic = "force-dynamic";
+import React, { useEffect, useState } from "react";
+import { AppFrame } from "@/components/AppFrame";
+import { ClayWell } from "@/components/ui/ClayWell";
+import { ClaySlab } from "@/components/ui/ClaySlab";
+import { Button } from "@/components/ui/Button";
+import { InputWell } from "@/components/ui/InputWell";
+import { ExplorerLink } from "@/components/ui/ExplorerLink";
+import { RawRefusalSpecimen } from "@/components/ui/RawRefusalSpecimen";
+import { LoadingState } from "@/components/ui/States";
+import { fmtUsdc } from "@/lib/format";
 
-const EXPLORER = arcTestnet.blockExplorers.default.url;
+interface AttackOption {
+  id: string;
+  label: string;
+  expect: string;
+  stoppedBy: string;
+  usesDestination?: boolean;
+}
 
-export const metadata = {
-  title: "BOLT — breach simulator",
-  description:
-    "Take the operator's seat on a real, locked BOLT account and try to steal the money."
-};
+interface SandboxAccount {
+  name: string;
+  address: string;
+  permittedPayee: string;
+  policyHash: string;
+  policyId: string;
+}
+
+interface SimulatorState {
+  sandbox: { account: SandboxAccount; usdcAddress: string; permittedPayee: string };
+  attacks: AttackOption[];
+  tally: { attempts: number; refusals: number; allowed: number };
+  balanceWei: string | null;
+}
 
 export default function SimulatorPage() {
+  const [data, setData] = useState<SimulatorState | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [selectedAttackId, setSelectedAttackId] = useState<string>("");
+  const [destination, setDestination] = useState<string>("0x3C44CdD05aB50714653641C061C3f07a7E663B2e");
+  const [executing, setExecuting] = useState(false);
+  const [rawResult, setRawResult] = useState<unknown | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const fetchState = async () => {
+    try {
+      const res = await fetch("/api/simulator");
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+      setData(json);
+      if (json.attacks && json.attacks.length > 0 && !selectedAttackId) {
+        setSelectedAttackId(json.attacks[0].id);
+      }
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchState();
+  }, []);
+
+  const handleExecuteAttack = async () => {
+    if (!selectedAttackId) return;
+    setExecuting(true);
+    setErrorMsg(null);
+    setRawResult(null);
+
+    try {
+      const res = await fetch("/api/simulator", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          attackId: selectedAttackId,
+          destination
+        })
+      });
+
+      const json = await res.json();
+      if (!res.ok && !json.rawError) {
+        setErrorMsg(json.error || `HTTP ${res.status}`);
+      } else {
+        setRawResult(json.rawError || json);
+        if (json.tally && data) {
+          setData({ ...data, tally: json.tally });
+        }
+      }
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : String(err));
+    } finally {
+      setExecuting(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <AppFrame headerTitle="Breach Simulator" showBack>
+        <div className="p-4 flex-1 flex items-center justify-center">
+          <LoadingState title="Connecting to sandbox enclave" detail="Reading live account policy & balance..." />
+        </div>
+      </AppFrame>
+    );
+  }
+
+  const account = data?.sandbox?.account;
+  const permittedPayee = data?.sandbox?.permittedPayee;
+  const tally = data?.tally || { attempts: 0, refusals: 0, allowed: 0 };
+  // Arc's native USDC balance reads in 18-decimal wei; USDC itself is 6
+  // decimals, so shift by the 12-decimal difference before formatting —
+  // otherwise a real ~0.24 USDC balance renders as ~236 billion.
+  const balanceUsdc = data?.balanceWei
+    ? fmtUsdc(BigInt(data.balanceWei) / 1_000_000_000_000n)
+    : null;
+
   return (
-    <main className="max-w-4xl mx-auto p-6 space-y-8 text-sm">
-      <header>
-        <h1 className="text-2xl font-semibold">Breach simulator</h1>
-        <p className="text-gray-600 mt-2 max-w-2xl">
-          You are the operator. This is a real Privy organization holding real USDC on Arc
-          testnet, in a real locked account, behind a real policy. No login, no approval, no
-          rate of trust — you have the same powers the business itself has.
-        </p>
-        <p className="text-gray-600 mt-2 max-w-2xl">
-          Pick a destination and try to move the money to it. The server does not check where
-          you are sending it. It builds exactly what you asked for, hands it to Privy, and
-          shows you whatever comes back — the enclave&apos;s own error, verbatim.
-        </p>
-      </header>
+    <AppFrame headerTitle="Breach Simulator" headerSubtitle="Try to steal from a locked account" showBack>
+      <div className="p-4 flex-1 flex flex-col gap-6 pb-12">
+        
+        {/* Sandbox target account */}
+        <ClayWell variant="standard" className="flex flex-col gap-3">
+          <div className="flex items-center justify-between">
+            <span className="text-[12px] font-medium text-[#7C7C7C] flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#0A0A0A]" />
+              The account you are attacking
+            </span>
+            <span className="font-mono text-[11px] text-[#7C7C7C]">Arc testnet</span>
+          </div>
 
-      <section className="border rounded p-4 bg-gray-50">
-        <h2 className="font-medium">The account you are attacking</h2>
-        <dl className="grid sm:grid-cols-2 gap-x-6 gap-y-2 mt-3 text-xs">
-          <div>
-            <dt className="uppercase tracking-wide text-gray-500">Locked account</dt>
-            <dd className="font-mono break-all">
-              <a
-                href={`${EXPLORER}/address/${sandbox.account.address}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline"
-              >
-                {sandbox.account.address}
-              </a>
-            </dd>
+          <div className="flex flex-col gap-2 font-mono text-[12px] pt-1">
+            <div className="flex justify-between items-center">
+              <span className="text-[#7C7C7C]">Account:</span>
+              <ExplorerLink type="address" value={account?.address || "0x0000000000000000000000000000000000000000"} />
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-[#7C7C7C]">Permitted payee:</span>
+              <ExplorerLink type="address" value={permittedPayee || "0x0000000000000000000000000000000000000000"} />
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-[#7C7C7C]">Policy hash:</span>
+              <span className="font-mono text-[11px] text-[#0A0A0A] break-all">
+                {account?.policyHash || "—"}
+              </span>
+            </div>
+            <div className="flex justify-between items-center pt-2 border-t border-[#DCDCDC]">
+              <span className="text-[#7C7C7C] font-sans font-semibold">Live balance:</span>
+              <span className="font-bold text-[#0A0A0A] font-mono text-[13px]">
+                {balanceUsdc ?? "unavailable — Arc RPC did not answer"}
+              </span>
+            </div>
           </div>
-          <div>
-            <dt className="uppercase tracking-wide text-gray-500">Class</dt>
-            <dd className="font-mono">{sandbox.account.accountClass}</dd>
-          </div>
-          <div>
-            <dt className="uppercase tracking-wide text-gray-500">
-              The one address its policy permits
-            </dt>
-            <dd className="font-mono break-all">
-              <a
-                href={`${EXPLORER}/address/${sandbox.permittedPayee}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline"
-              >
-                {sandbox.permittedPayee}
-              </a>
-            </dd>
-          </div>
-          <div>
-            <dt className="uppercase tracking-wide text-gray-500">Privy policy</dt>
-            <dd className="font-mono break-all">{sandbox.account.policyId}</dd>
-          </div>
-          <div>
-            <dt className="uppercase tracking-wide text-gray-500">Key quorum</dt>
-            <dd className="font-mono break-all">{sandbox.keyQuorumId}</dd>
-          </div>
-          <div>
-            <dt className="uppercase tracking-wide text-gray-500">USDC on Arc</dt>
-            <dd className="font-mono break-all">{sandbox.usdcAddress}</dd>
-          </div>
-        </dl>
-      </section>
+        </ClayWell>
 
-      <SimulatorConsole />
+        {/* Free-Text Destination Input */}
+        <div className="flex flex-col gap-1">
+          <InputWell
+            label="Unpermitted Destination Address (Free-Text)"
+            caption="Passed straight to Privy enclave — no client allowlist, no sanity check."
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
+            isMono
+            placeholder="0x..."
+          />
+        </div>
 
-      <section className="border rounded p-4 text-xs text-gray-600 space-y-2">
-        <h2 className="font-medium text-sm text-gray-900">Why this cannot touch a real business</h2>
-        <p>
-          The sandbox is its own Privy organization ({sandbox.organizationId}) under its own key
-          quorum ({sandbox.keyQuorumId}). The credential this page&apos;s server holds belongs to
-          that quorum and to nothing else. Every real BOLT business&apos;s wallets and policies are
-          owned by a different quorum, so a request from here against one of them is not
-          declined by this app — Privy refuses it, because this key is not their owner. That was
-          attempted rather than assumed; the transcript is in{" "}
-          <code>docs/evidence/phase9-simulator-isolation.json</code>.
-        </p>
-        <p>
-          Requests are signed, not broadcast. Privy does not broadcast on Arc, so every BOLT
-          transfer is signed inside the enclave and sent on by us. A refusal means no signature
-          was ever produced — there is nothing to broadcast. If an attack below ever returns a
-          signed transaction, you are holding spendable money and the lock is broken.
-        </p>
-      </section>
-    </main>
+        {/* Attack Vector List */}
+        <div className="flex flex-col gap-3">
+          <span className="text-[12px] font-medium text-[#7C7C7C] px-1">Pick an attack</span>
+
+          <div className="flex flex-col gap-2">
+            {data?.attacks.map((attack) => {
+              const isSelected = selectedAttackId === attack.id;
+              return (
+                <button
+                  key={attack.id}
+                  type="button"
+                  onClick={() => setSelectedAttackId(attack.id)}
+                  className={`w-full text-left p-3.5 rounded-2xl transition-all duration-120 clay-press ${
+                    isSelected
+                      ? "clay-well-pressed bg-[#EFEFEF] border-2 border-[#0A0A0A]"
+                      : "clay-slab bg-white border border-[#DCDCDC]"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[14px] font-semibold text-[#0A0A0A]">{attack.label}</span>
+                    <span className={`w-3.5 h-3.5 rounded-full border ${isSelected ? "border-4 border-[#0A0A0A] bg-white" : "border-[#A0A0A0]"}`} />
+                  </div>
+                  <p className="text-[12px] font-medium text-[#7C7C7C] mt-1 leading-tight">
+                    <span className="font-bold text-[#5A5A5A]">Stopped by:</span> {attack.stoppedBy}
+                  </p>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Execute Attack Button */}
+        <Button
+          variant="primary"
+          onClick={handleExecuteAttack}
+          loading={executing}
+          disabled={!selectedAttackId || !destination}
+        >
+          Execute attack on enclave
+        </Button>
+
+        {/* Error message fallback */}
+        {errorMsg && (
+          <ClayWell variant="deep" className="p-3 border-2 border-[#0A0A0A]">
+            <p className="font-mono text-[12px] font-bold text-[#0A0A0A]">{errorMsg}</p>
+          </ClayWell>
+        )}
+
+        {/* Verbatim Enclave Refusal Specimen - The visual centerpiece */}
+        {Boolean(rawResult) && <RawRefusalSpecimen error={rawResult} />}
+
+        {/* Running tally */}
+        <ClaySlab className="p-4 flex items-center justify-between border-t border-[#DCDCDC]">
+          <div className="flex flex-col">
+            <span className="text-[11px] font-medium text-[#7C7C7C]">This session</span>
+            <span className="text-[13px] font-mono font-semibold text-[#0A0A0A]">
+              {tally.attempts} attempts · {tally.refusals} refusals · {tally.allowed} signed
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={fetchState}
+            className="text-[12px] font-semibold text-[#5A5A5A] hover:text-[#0A0A0A] underline"
+          >
+            Reset
+          </button>
+        </ClaySlab>
+
+      </div>
+    </AppFrame>
   );
 }

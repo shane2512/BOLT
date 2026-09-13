@@ -325,6 +325,98 @@ export async function queryBusinessBySlug(url: string, slug: string): Promise<Bu
   return rows[0] ?? null;
 }
 
+const businessSummarySchema = z.object({
+  id: z.string(),
+  slug: z.string(),
+  registeredAtTimestamp: bigIntString,
+  depositCount: bigIntString,
+  totalDeposited: bigIntString
+});
+
+export type BusinessSummaryResult = z.infer<typeof businessSummarySchema>;
+
+const BUSINESSES_QUERY = /* GraphQL */ `
+  query Businesses($first: Int!) {
+    businesses(first: $first, orderBy: registeredAtBlock, orderDirection: asc) {
+      id
+      slug
+      registeredAtTimestamp
+      depositCount
+      totalDeposited
+    }
+  }
+`;
+
+/**
+ * Every business the subgraph has indexed — the directory behind the public
+ * landing page and the auditor entry point. Summary only: the landing page
+ * lists who exists, and `/[slug]` is where the figures get proved.
+ */
+export async function queryBusinesses(url: string, first = 50): Promise<BusinessSummaryResult[]> {
+  return querySubgraph(
+    url,
+    BUSINESSES_QUERY,
+    { first },
+    z.object({ businesses: z.array(businessSummarySchema) }).transform((d) => d.businesses)
+  );
+}
+
+const policyRotationSchema = z.object({
+  id: z.string(),
+  account: z.object({ id: z.string(), label: z.string(), class: z.enum(COVERAGE_CLASSES) }),
+  oldPolicyHash: z.string(),
+  newPolicyHash: z.string(),
+  quorumRef: z.string(),
+  blockNumber: bigIntString,
+  timestamp: bigIntString,
+  txHash: z.string()
+});
+
+export type PolicyRotationResult = z.infer<typeof policyRotationSchema>;
+
+const POLICY_ROTATIONS_QUERY = /* GraphQL */ `
+  query PolicyRotations($businessId: Bytes!) {
+    policyRotations(
+      where: { business: $businessId }
+      orderBy: blockNumber
+      orderDirection: desc
+      first: 100
+    ) {
+      id
+      account {
+        id
+        label
+        class
+      }
+      oldPolicyHash
+      newPolicyHash
+      quorumRef
+      blockNumber
+      timestamp
+      txHash
+    }
+  }
+`;
+
+/**
+ * Every time a locked account's policy was replaced — the auditor's central
+ * question, because widening a lock is the one change that can make a
+ * previously impossible payment possible. Each row carries the quorum
+ * reference that authorised it, so "who agreed to this" is answerable from the
+ * chain rather than from us (FR-10).
+ */
+export async function queryPolicyRotations(
+  url: string,
+  businessId: string
+): Promise<PolicyRotationResult[]> {
+  return querySubgraph(
+    url,
+    POLICY_ROTATIONS_QUERY,
+    { businessId },
+    z.object({ policyRotations: z.array(policyRotationSchema) }).transform((d) => d.policyRotations)
+  );
+}
+
 const approvalSchema = z.object({
   approver: z.string(),
   humanProofRef: z.string(),

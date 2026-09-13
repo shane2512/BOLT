@@ -39,7 +39,15 @@ import {
   selfieCheckRequirement,
   type SelfieCheckReason
 } from "@bolt/privy";
-import { createDb, accounts, beneficiaries, businesses, obligations, type BoltDb } from "@bolt/db";
+import {
+  createDb,
+  accounts,
+  beneficiaries,
+  beneficiaryVerifications,
+  businesses,
+  obligations,
+  type BoltDb
+} from "@bolt/db";
 import { hashSignal } from "@worldcoin/idkit-core/hashing";
 
 export const runtime = "nodejs";
@@ -176,6 +184,35 @@ async function handleVerify(body: z.infer<typeof verifySchema>): Promise<Respons
   if (!loaded) return Response.json({ error: "unknown beneficiary" }, { status: 404 });
   const { db, beneficiary } = loaded;
 
+  // FR-8.8 — a repeat verification for the same (beneficiary, address,
+  // device) needs no fresh check. Checked up front, not just relied on
+  // client-side: the same real person always produces the same World
+  // nullifier for this app+action, so re-submitting one here would otherwise
+  // hit the anti-replay unique index below and crash instead of succeeding —
+  // and re-submission is a real scenario (a page reload, a double click),
+  // not just a client bug to prevent.
+  const gate = await selfieCheckRequirement(db, {
+    beneficiaryId: beneficiary.id,
+    address: body.address,
+    deviceId: body.deviceId ?? null
+  });
+  if (!gate.required) {
+    const [existing] = await db
+      .select()
+      .from(beneficiaryVerifications)
+      .where(
+        and(
+          eq(beneficiaryVerifications.beneficiaryId, beneficiary.id),
+          eq(beneficiaryVerifications.address, body.address.toLowerCase())
+        )
+      );
+    return Response.json({
+      verified: true,
+      humanProofRef: existing?.humanProofRef ?? null,
+      alreadyVerified: true
+    });
+  }
+
   const world: SelfieCheckConfig = {
     rpId: need("WORLD_RP_ID"),
     action: worldAction(),
@@ -208,7 +245,14 @@ async function handleVerify(body: z.infer<typeof verifySchema>): Promise<Respons
         { status: 403 }
       );
     }
-    throw error;
+    // Anything else (a DB error, a bug) still gets a real JSON body — the
+    // caller is a browser fetch, and an unhandled throw here previously
+    // closed the connection with no body at all ("Unexpected end of JSON
+    // input" client-side), which is a worse failure than an honest 500.
+    return Response.json(
+      { verified: false, error: error instanceof Error ? error.message : String(error) },
+      { status: 500 }
+    );
   }
 }
 
