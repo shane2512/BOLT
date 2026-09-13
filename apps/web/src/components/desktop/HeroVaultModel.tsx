@@ -61,13 +61,13 @@ export function HeroVaultModel() {
       const box = new THREE.Box3().setFromObject(model);
       const size = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
-      const scale = 2.3 / Math.max(size.x, size.y, size.z);
+      const scale = 2.5 / Math.max(size.x, size.y, size.z);
       model.scale.setScalar(scale);
       model.position.sub(center.multiplyScalar(scale));
       model.position.y -= 0.2;
 
       // Fixed — a partial turn toward the left, not a full profile.
-      model.rotation.y = Math.PI / 3;
+      model.rotation.y = -Math.PI / 4;
 
       scene.add(model);
       renderFrame();
